@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ git curl wget
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl bcmath
 RUN set -xe \
- && composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader \
+ && composer install \
  && composer require predis/predis
 # RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
 CMD ["php-fpm", "--nodaemonize"]
