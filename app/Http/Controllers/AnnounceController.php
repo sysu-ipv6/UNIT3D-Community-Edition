@@ -209,7 +209,7 @@ class AnnounceController extends Controller
         $torrent = Cache::get("torrent.{$info_hash}") ?? Torrent::select(['id', 'status', 'free', 'doubleup', 'times_completed', 'seeders', 'leechers'])->withAnyStatus()->where('info_hash', '=', $info_hash)->first();
 
         // If Torrent Doesnt Exsist Return Error to Client
-        if ($torrent === null) {
+        if (!$torrent) {
             //info('Client Attempted To Connect To Announce But The Torrent Doesn't Exist Using Hash '  . $info_hash);
             return response(Bencode::bencode(['failure reason' => 'Torrent not found']))->withHeaders(['Content-Type' => 'text/plain']);
         }
@@ -232,13 +232,11 @@ class AnnounceController extends Controller
             return response(Bencode::bencode(['failure reason' => 'Torrent has been postponed']))->withHeaders(['Content-Type' => 'text/plain']);
         }
 
-        // Get Torrents Peers
-        $peers = Peer::where('torrent_id', '=', $torrent->id)->take(50)->get()->toArray();
+        // Get Torrents Eager Loaded Peers
+        $peers = $torrent->peers->where('info_hash', '=', $info_hash)->take(100)->toArray();
 
         // Pull Count On Users Peers Per Torrent For Rate Limiting
-        $connections = Cache::remember("user_connections.{$torrent->id}", 1800, function () use ($torrent, $user) {
-            return Peer::where('torrent_id', '=', $torrent->id)->where('user_id', '=', $user->id)->count();
-        });
+        $connections = $torrent->peers->where('user_id', '=', $user->id)->count();
 
         // If Users Peer Count On A Single Torrent Is Greater Than X Return Error to Client
         if ($connections > config('announce.rate_limit')) {
@@ -247,15 +245,15 @@ class AnnounceController extends Controller
         }
 
         // Get The Current Peer
-        $peer = Peer::where('torrent_id', '=', $torrent->id)->where('md5_peer_id', $md5_peer_id)->where('user_id', '=', $user->id)->first();
+        $peer = $torrent->peers->where('md5_peer_id', $md5_peer_id)->where('user_id', '=', $user->id)->first();
 
         // Flag is tripped if new session is created but client reports up/down > 0
         $ghost = false;
 
         // Creates a new peer if not existing
-        if ($peer === null && $event == 'completed') {
+        if (!$peer && $event == 'completed') {
             return response(Bencode::bencode(['failure reason' => 'Torrent is complete but no record found.']))->withHeaders(['Content-Type' => 'text/plain']);
-        } elseif ($peer === null) {
+        } elseif (!$peer) {
             if ($uploaded > 0 || $downloaded > 0) {
                 $ghost = true;
                 $event = 'started';
@@ -267,7 +265,7 @@ class AnnounceController extends Controller
         $history = History::where('info_hash', '=', $info_hash)->where('user_id', '=', $user->id)->first();
 
         // If no History record found then create one
-        if ($history === null) {
+        if (!$history) {
             $history = new History();
             $history->user_id = $user->id;
             $history->info_hash = $info_hash;
@@ -325,9 +323,10 @@ class AnnounceController extends Controller
             $history->actual_downloaded += 0;
             $history->client_downloaded = $real_downloaded;
             $history->save();
-        // End History Update
+            // End History Update
 
             // Never push stats to users account on start event
+
         } elseif ($event == 'completed') {
             // Peer Update
             $peer->peer_id = $peer_id;
@@ -362,8 +361,8 @@ class AnnounceController extends Controller
                 $new_update = $peer->updated_at->timestamp;
                 $diff = $new_update - $old_update;
                 $history->seedtime += $diff;
+                $history->save();
             }
-            $history->save();
             // End History Update
 
             // User Update
@@ -374,7 +373,8 @@ class AnnounceController extends Controller
 
             // Torrent Completed Update
             $torrent->times_completed++;
-        // End Torrent Completed Update
+            // End Torrent Completed Update
+
         } elseif ($event == 'stopped') {
             //Peer Update
             $peer->peer_id = $peer_id;
@@ -412,15 +412,13 @@ class AnnounceController extends Controller
             $history->save();
             // End History Update
 
-            // Peer Delete (Now that history is updated)
-            $peer->delete();
-            // End Peer Delete
-
             // User Update
             $user->uploaded += $mod_uploaded;
             $user->downloaded += $mod_downloaded;
             $user->save();
-        // End User Update
+            // End User Update
+
+            $peer->delete();
         } else {
             // Peer Update
             $peer->peer_id = $peer_id;
