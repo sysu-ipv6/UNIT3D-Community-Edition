@@ -7,7 +7,7 @@ FROM php:7.4-fpm
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --from=node /app /app
 WORKDIR /app
-RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++
+RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ git curl wget zip unzip build-essential
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl bcmath
 RUN set -xe \
