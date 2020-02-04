@@ -12,6 +12,6 @@ RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl bcmath
 RUN set -xe \
  && composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader \
- && composer require predis/predis \
- && composer dump-autoload --no-dev --optimize --classmap-authoritative
+ && composer require predis/predis
+# RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
 CMD ["php-fpm", "--nodaemonize"]
