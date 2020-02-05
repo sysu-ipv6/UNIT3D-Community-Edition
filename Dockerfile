@@ -5,7 +5,7 @@ RUN npm install && npm install --save-dev socket.io-client && npm run prod && rm
 FROM composer:1.9 as composer
 FROM php:7.4-fpm
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-WORKDIR /app
+
 RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ git curl wget zip unzip build-essential libpcre3 libpcre3-dev openssl libssl-dev apt-utils 
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl bcmath pdo pdo_mysql
@@ -22,7 +22,8 @@ RUN cd /usr/src/nginx/nginx-1.17.3 \
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/php/*.conf /usr/local/etc/php-fpm.d/
 
-COPY --from=node /app/* /app/
+COPY --from=node /app /app
+WORKDIR /app
 RUN set -xe \
  && composer install \
  && composer require predis/predis
