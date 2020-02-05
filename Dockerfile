@@ -24,6 +24,7 @@ COPY ./docker/php/*.conf /usr/local/etc/php-fpm.d/
 
 COPY --from=node /app /app
 WORKDIR /app
+RUN chown -R www-data: storage bootstrap public config && sudo find . -type d -exec chmod 0755 '{}' + -or -type f -exec chmod 0644 '{}' +
 RUN set -xe \
  && composer install \
  && composer require predis/predis
