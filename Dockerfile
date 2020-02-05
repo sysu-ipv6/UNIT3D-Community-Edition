@@ -28,5 +28,5 @@ RUN set -xe \
  && composer install \
  && composer require predis/predis
 # RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
-COPY --from=node /app /app
+COPY --from=node /app/* /app
 CMD ["/bin/sh", "-c", "nginx && php-fpm"]
