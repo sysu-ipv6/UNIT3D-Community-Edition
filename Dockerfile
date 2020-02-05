@@ -1,7 +1,7 @@
 FROM node:13 as node
 COPY . /app
 WORKDIR /app
-RUN npm install && npm install --save-dev socket.io-client && npm run prod
+RUN npm install && npm install --save-dev socket.io-client && npm run prod && rm -rf node_modules
 FROM composer:1.9 as composer
 FROM php:7.4-fpm
 COPY --from=composer /usr/bin/composer /usr/bin/composer
