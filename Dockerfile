@@ -5,15 +5,11 @@ RUN npm install && npm install --save-dev socket.io-client && npm run prod
 FROM composer:1.9 as composer
 FROM php:7.4-fpm
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-COPY --from=node /app /app
 WORKDIR /app
 RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ git curl wget zip unzip build-essential libpcre3 libpcre3-dev openssl libssl-dev apt-utils 
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl bcmath
-RUN set -xe \
- && composer install \
- && composer require predis/predis
-# RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
+
 COPY ./docker/php/*.conf /usr/local/etc/php-fpm.d/
 
 # Build nginx
@@ -26,4 +22,10 @@ RUN cd /usr/src/nginx/nginx-1.17.3 \
     && make -j$(nproc) && make install
 
 COPY ./docker/nginx/default.conf /etc/nginx/nginx.conf
+
+COPY --from=node /app /app
+RUN set -xe \
+ && composer install \
+ && composer require predis/predis
+# RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
 CMD ["/bin/sh", "-c", "nginx && php-fpm"]
