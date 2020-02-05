@@ -10,8 +10,6 @@ RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ git curl wget
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl bcmath pdo pdo_mysql
 
-COPY ./docker/php/*.conf /usr/local/etc/php-fpm.d/
-
 # Build nginx
 RUN mkdir -p /usr/src/nginx \
     && mkdir -p /var/lib/nginx \
@@ -22,6 +20,7 @@ RUN cd /usr/src/nginx/nginx-1.17.3 \
     && make -j$(nproc) && make install
 
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./docker/php/*.conf /usr/local/etc/php-fpm.d/
 
 COPY --from=node /app/composer.* /app
 RUN set -xe \
