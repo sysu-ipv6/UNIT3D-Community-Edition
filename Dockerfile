@@ -8,7 +8,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ git curl wget zip unzip build-essential libpcre3 libpcre3-dev openssl libssl-dev apt-utils 
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install intl bcmath
+RUN docker-php-ext-install intl bcmath pdo pdo_mysql
 
 COPY ./docker/php/*.conf /usr/local/etc/php-fpm.d/
 
