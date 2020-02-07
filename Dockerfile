@@ -19,14 +19,21 @@ RUN cd /usr/src/nginx/nginx-1.17.3 \
     && ./configure --prefix=/usr/share/nginx  --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/run/nginx.pid --lock-path=/var/lock/nginx.lock --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --user=www-data --group=www-data --with-http_realip_module  --with-http_ssl_module --with-http_v2_module --with-http_auth_request_module \
     && make -j$(nproc) && make install
 
+RUN apt-get clean \
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/php/*.conf /usr/local/etc/php-fpm.d/
 
-COPY --from=node /app /app
 WORKDIR /app
+COPY --from=node /app/composer.* /app/
+RUN composer install --no-autoloader --no-scripts
+COPY --from=node /app /app
 RUN chown -R www-data: storage bootstrap public config && find . -type d -exec chmod 0755 '{}' + -or -type f -exec chmod 0644 '{}' +
 RUN set -xe \
- && composer install \
- && composer require predis/predis
+ && composer install --no-dev \
+ && composer require predis/predis \
+
 # RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
 CMD ["/bin/sh", "-c", "nginx && php-fpm"]
