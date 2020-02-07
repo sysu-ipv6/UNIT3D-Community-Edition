@@ -2,9 +2,9 @@
 name: Localization
 about: Report an localization issue for UNIT3D Community Edition
 title: "[Localization]"
-labels: Help Wanted, Translation
+labels: help wanted, translation
 assignees: ''
-
+projects: "SYSPT 2"
 ---
 
 **Describe the multilingual issue**
