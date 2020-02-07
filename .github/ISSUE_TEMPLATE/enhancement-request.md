@@ -2,8 +2,9 @@
 name: Enhancement Request
 about: Suggest an enhancement for UNIT3D Community Edition
 title: "[Enhancement]"
-labels: enhancement
+labels: enhancement, todo
 assignees: ''
+projects: SYSPT 2
 
 ---
 
