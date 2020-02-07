@@ -8,7 +8,7 @@ ENV NGINX_VERSION 1.17.6
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN set -xe \
     && apk add --update \
-        icu openssl-dev pcre-dev zlib-dev wget curl zip unzip git \
+        icu openssl-dev pcre-dev wget curl zip unzip git \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         zlib-dev \
@@ -35,10 +35,11 @@ WORKDIR /app
 COPY --from=node /app/composer.* /app/
 RUN composer install --no-autoloader --no-scripts --no-dev
 COPY --from=node /app /app
-RUN chown -R www-data: storage bootstrap public config && find . -type d -exec chmod 0755 '{}' + -or -type f -exec chmod 0644 '{}' +
+
 RUN set -xe \
- && composer install --no-dev \
- && composer require predis/predis \
- && rm -rf /usr/bin/composer
+    && chown -R www-data: storage bootstrap public config && find . -type d -exec chmod 0755 '{}' + -or -type f -exec chmod 0644 '{}' +
+    && composer install --no-dev \
+    && composer require predis/predis \
+    && rm -rf /usr/bin/composer
 
 CMD ["/bin/sh", "-c", "nginx && php-fpm"]
