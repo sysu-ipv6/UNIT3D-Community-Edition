@@ -19,7 +19,7 @@ RUN mkdir -p /usr/src/nginx \
 RUN cd /usr/src/nginx/nginx-1.17.3 \
     && ./configure --prefix=/usr/share/nginx  --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/run/nginx.pid --lock-path=/var/lock/nginx.lock --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --user=www-data --group=www-data --with-http_realip_module  --with-http_ssl_module --with-http_v2_module --with-http_auth_request_module \
     && make -j$(nproc) && make install \
-    && apt-get remove build-essetial -y \
+    && apt-get remove build-essential -y \
     && apt-get autoremove \
     && apt-get clean \
     && apt-get autoclean \
