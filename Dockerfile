@@ -28,7 +28,7 @@ COPY ./docker/php/*.conf /usr/local/etc/php-fpm.d/
 
 WORKDIR /app
 COPY --from=node /app/composer.* /app/
-RUN composer install --no-autoloader --no-scripts
+RUN composer install --no-autoloader --no-scripts --no-dev
 COPY --from=node /app /app
 RUN chown -R www-data: storage bootstrap public config && find . -type d -exec chmod 0755 '{}' + -or -type f -exec chmod 0644 '{}' +
 RUN set -xe \
