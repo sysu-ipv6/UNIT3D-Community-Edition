@@ -2,8 +2,9 @@
 name: Bug Report
 about: Create a report to help us improve UNIT3D Community Edition
 title: "[Bug]"
-labels: bug
+labels: bug, todo
 assignees: ''
+projects: SYSPT 2
 
 ---
 
