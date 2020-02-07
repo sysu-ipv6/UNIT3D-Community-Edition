@@ -33,7 +33,7 @@ COPY --from=node /app /app
 RUN chown -R www-data: storage bootstrap public config && find . -type d -exec chmod 0755 '{}' + -or -type f -exec chmod 0644 '{}' +
 RUN set -xe \
  && composer install --no-dev \
- && composer require predis/predis \
+ && composer require predis/predis
 
 # RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
 CMD ["/bin/sh", "-c", "nginx && php-fpm"]
