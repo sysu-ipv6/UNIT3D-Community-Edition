@@ -24,8 +24,13 @@
 2. [Some Features](#features)
 3. [Requirements](#requirements)
 4. [Installation](#installation)
+
 4.1 [Automated-Installer](#auto-install)
+
 4.2 [Manual Install](#manual-install)
+
+4.3 [Docker Install](#docker-install)
+
 5. [Updating](#updating)
 6. [Packages](#packages)
 7. [Version Support Information](#versions)
@@ -113,6 +118,9 @@ https://www.youtube.com/watch?v=f2tiMWZ3KbA
 
 ### <a name="manual-install"></a> Manual Install
 If you rather setup UNIT3D manually you can follow the instructions here: https://hdinnovations.github.io/UNIT3D-Docs/manual_install.html
+
+### <a name="docker-install"></a> Docker Install
+You can spin up the site in under 5 minutes with `docker-compose` using: https://github.com/sysu-ipv6/UNIT3D-Deploy
 
 ## <a name="updating"></a> 📖 Documentation
 Repo - https://github.com/HDInnovations/UNIT3D-Docs
