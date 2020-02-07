@@ -2,7 +2,7 @@
 name: Feature Request
 about: Suggest an feature for UNIT3D Community Edition
 title: "[Feature]"
-labels: Feature
+labels: feature
 assignees: ''
 
 ---

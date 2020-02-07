@@ -2,8 +2,8 @@
 name: Bug Report
 about: Create a report to help us improve UNIT3D Community Edition
 title: "[Bug]"
-labels: Bug
-assignees: HDVinnie
+labels: bug
+assignees: ''
 
 ---
 
