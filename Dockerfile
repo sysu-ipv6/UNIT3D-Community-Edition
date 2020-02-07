@@ -37,7 +37,7 @@ RUN composer install --no-autoloader --no-scripts --no-dev
 COPY --from=node /app /app
 
 RUN set -xe \
-    && chown -R www-data: storage bootstrap public config && find . -type d -exec chmod 0755 '{}' + -or -type f -exec chmod 0644 '{}' +
+    && chown -R www-data: storage bootstrap public config && find . -type d -exec chmod 0755 '{}' + -or -type f -exec chmod 0644 '{}' + \
     && composer install --no-dev \
     && composer require predis/predis \
     && rm -rf /usr/bin/composer
