@@ -3,10 +3,11 @@ COPY . /app
 WORKDIR /app
 RUN npm install && npm install --save-dev socket.io-client && npm run prod && rm -rf node_modules
 FROM composer:1.9 as composer
-FROM php:7.4-fpm-alpine
+FROM php:7.4-fpm
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ git curl wget zip unzip build-essential libpcre3 libpcre3-dev openssl libssl-dev apt-utils \
+RUN apt-get update \
+    && apt-get install -y zlib1g-dev libicu-dev g++ git curl wget zip unzip build-essential libpcre3 libpcre3-dev openssl libssl-dev apt-utils \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl bcmath pdo pdo_mysql
 
