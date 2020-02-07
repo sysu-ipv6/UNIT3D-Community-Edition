@@ -6,9 +6,9 @@ FROM composer:1.9 as composer
 FROM php:7.4-fpm
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ git curl wget zip unzip build-essential libpcre3 libpcre3-dev openssl libssl-dev apt-utils 
-RUN docker-php-ext-configure intl
-RUN docker-php-ext-install intl bcmath pdo pdo_mysql
+RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ git curl wget zip unzip build-essential libpcre3 libpcre3-dev openssl libssl-dev apt-utils \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl bcmath pdo pdo_mysql
 
 # Build nginx
 RUN mkdir -p /usr/src/nginx \
@@ -17,9 +17,8 @@ RUN mkdir -p /usr/src/nginx \
     | tar -xzC /usr/src/nginx
 RUN cd /usr/src/nginx/nginx-1.17.3 \
     && ./configure --prefix=/usr/share/nginx  --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/run/nginx.pid --lock-path=/var/lock/nginx.lock --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --user=www-data --group=www-data --with-http_realip_module  --with-http_ssl_module --with-http_v2_module --with-http_auth_request_module \
-    && make -j$(nproc) && make install
-
-RUN apt-get clean \
+    && make -j$(nproc) && make install \
+    && apt-get clean \
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
