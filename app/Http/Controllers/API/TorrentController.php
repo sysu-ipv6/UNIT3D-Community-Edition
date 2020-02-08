@@ -127,7 +127,7 @@ class TorrentController extends BaseController
             'imdb'        => 'numeric',
             'tvdb'        => 'numeric',
             'tmdb'        => 'numeric',
-            'mal'         => 'required|numeric',
+            'mal'         => 'numeric',
             'igdb'        => 'numeric',
             'type'        => 'required',
             'anon'        => 'required',
@@ -403,6 +403,10 @@ class TorrentController extends BaseController
 
         if ($request->has('dead') && $request->input('dead') != null) {
             $torrent->where('torrents.seeders', '=', $dead);
+        }
+
+        if ($request->has('reseed') && $request->input('reseed') != null) {
+            $torrent->where('torrents.seeders', '=', 0)->where('torrents.leechers', '>=', 1);
         }
 
         if (!empty($torrent)) {
