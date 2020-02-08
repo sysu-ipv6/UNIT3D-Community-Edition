@@ -99,37 +99,37 @@
                     </div>
         
                     <div class="form-group">
-                        <label for="name">IMDB ID <b>(@lang('request.required'))</b></label>
+                        <label for="name">IMDB ID <b>(@lang('torrent.optional'))</b></label>
                         <label>
-                            <input type="number" name="imdb" class="form-control" value="{{ old('imdb') ?? $imdb }}" required>
+                            <input type="number" name="imdb" class="form-control" value="{{ old('imdb') ?? $imdb }}">
                         </label>
                     </div>
         
                     <div class="form-group">
-                        <label for="name">TMDB ID <b>(@lang('request.required'))</b></label>
+                        <label for="name">TMDB ID <b>(@lang('torrent.optional'))</b></label>
                         <label>
-                            <input type="number" name="tmdb" class="form-control" value="{{ old('tmdb') ?? $tmdb }}" required>
+                            <input type="number" name="tmdb" class="form-control" value="{{ old('tmdb') ?? $tmdb }}">
                         </label>
                     </div>
         
                     <div class="form-group">
                         <label for="name">TVDB ID (@lang('torrent.optional'))</label>
                         <label>
-                            <input type="number" name="tvdb" value="{{ old('tvdb') ?? '0' }}" class="form-control" required>
+                            <input type="number" name="tvdb" value="{{ old('tvdb') ?? '0' }}" class="form-control">
                         </label>
                     </div>
         
                     <div class="form-group">
                         <label for="name">MAL ID (@lang('torrent.optional'))</label>
                         <label>
-                            <input type="number" name="mal" value="{{ old('mal') ?? '0' }}" class="form-control" required>
+                            <input type="number" name="mal" value="{{ old('mal') ?? '0' }}" class="form-control">
                         </label>
                     </div>
         
                     <div class="form-group">
-                        <label for="name">IGDB ID <b>(@lang('request.required'))</b></label>
+                        <label for="name">IGDB ID <b>(@lang('torrent.optional'))</b></label>
                         <label>
-                            <input type="number" name="igdb" value="{{ old('igdb') ?? '0' }}" class="form-control" required>
+                            <input type="number" name="igdb" value="{{ old('igdb') ?? '0' }}" class="form-control">
                         </label>
                     </div>
         

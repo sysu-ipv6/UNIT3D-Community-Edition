@@ -1074,7 +1074,7 @@ class TorrentController extends Controller
             'imdb'         => 'numeric',
             'tvdb'         => 'numeric',
             'tmdb'         => 'numeric',
-            'mal'          => 'required|numeric',
+            'mal'          => 'numeric',
             'igdb'         => 'numeric',
             'type'         => 'required',
             'anon'         => 'required',
