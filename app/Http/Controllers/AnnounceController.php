@@ -244,9 +244,7 @@ class AnnounceController extends Controller
         }
 
         // Get Torrents Peers
-        $peers = Cache::remember("peers.{$torrent->id}", 1800, function () use ($torrent) {
-            return Peer::where('torrent_id', '=', $torrent->id)->take(50)->get()->toArray();
-        });
+        $peers = Peer::where('torrent_id', '=', $torrent->id)->take(50)->get()->toArray();
 
         // Pull Count On Users Peers Per Torrent For Rate Limiting
         $connections = Cache::remember("user_connections.{$torrent->id}", 1800, function () use ($torrent, $user) {
