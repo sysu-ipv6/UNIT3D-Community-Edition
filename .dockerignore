@@ -10,3 +10,4 @@ composer-setup.sh
 .whitesource
 .all-contributorsrc
 .github
+.sonarcloud.properties
