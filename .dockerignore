@@ -1,0 +1,10 @@
+Dockerfile
+.dockerignore
+_ide_helper.php
+LICENSE
+*.yml
+*.md
+tests
+.phpstorm.meta.php
+composer-setup.sh
+.whitesource
