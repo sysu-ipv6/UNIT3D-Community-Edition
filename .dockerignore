@@ -8,3 +8,5 @@ tests
 .phpstorm.meta.php
 composer-setup.sh
 .whitesource
+.all-contributorsrc
+.github
