@@ -233,6 +233,13 @@
                         </td>
                     </tr>
 
+                    <tr>
+                        <td class="col-sm-2">
+                            <strong>@lang('torrent.subhead')</strong>
+                        </td>
+                        <td>{{ $torrent->subhead }} </td>
+                    </tr>
+
                     @if (auth()->user()->group->is_modo)
                         <tr>
                             <td class="col-sm-2">

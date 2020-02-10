@@ -168,6 +168,7 @@ return [
     'stats'                    => '統計數據',
     'sticky'                   => '釘記',
     'stream-optimized'         => '串流優化',
+    'subhead'                  => '副標題',
     'subtitle'                 => '字幕',
     'team-player'              => 'Team player',
     'thank'                    => '謝',

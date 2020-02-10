@@ -73,6 +73,12 @@
                         <label for="title"></label><input type="text" name="name" id="title" class="form-control"
                             value="{{ old('name') ?? $title }}" required>
                     </div>
+
+                    <div class="form-group">
+                        <label for="name">@lang('torrent.subhead')</label>
+                        <label for="title"></label><input type="text" name="subhead" id="subhead" class="form-control"
+                           value="{{ $subhead ?? '' }}">
+                    </div>
         
                     <div class="form-group">
                         <label for="category_id">@lang('torrent.category')</label>
