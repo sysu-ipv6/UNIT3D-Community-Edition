@@ -31,6 +31,7 @@ use voku\helper\AntiXSS;
  * @property int $id
  * @property string $name
  * @property string $slug
+ * @property string|null $subhead
  * @property string $description
  * @property string|null $mediainfo
  * @property string $info_hash
@@ -116,6 +117,7 @@ use voku\helper\AntiXSS;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Torrent whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Torrent whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Torrent whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Torrent whereSubhead($value)
  * @mixin \Eloquent
  *
  * @property string $igdb
@@ -361,6 +363,28 @@ class Torrent extends Model
         $linkify = new Linkify();
 
         return $bbcode->parse($linkify->linky($this->description), true);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSubhead(): ?string
+    {
+        return $this->attributes['subhead'];
+    }
+
+    /**
+     * Set the torrent's subhead after its been purified(?)
+     *
+     * @param string|null $subhead
+     *
+     * @return void
+     */
+    public function setSubheadAttribute(?string $subhead): void
+    {
+        $antiXss = new AntiXSS();
+
+        $this->attributes['subhead'] = $antiXss->xss_clean($subhead);
     }
 
     /**
