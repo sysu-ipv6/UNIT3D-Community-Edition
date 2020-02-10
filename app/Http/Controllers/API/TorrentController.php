@@ -265,7 +265,7 @@ class TorrentController extends BaseController
      */
     public function filter(Request $request, Torrent $torrent)
     {
-        $search = $request->input('');
+        $search = $request->input('name');
         $description = $request->input('description');
         $uploader = $request->input('uploader');
         $imdb = $request->input('imdb');
