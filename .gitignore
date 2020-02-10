@@ -11,11 +11,10 @@
 /public/storage
 /public/css
 /public/js
-/public/mix-*.json
+/public/mix-manifest.json
 /public/tmp
-/public/fonts
+/public/fonts/fa-*
 /public/img/emojione
-/public/img/joypixels
 /public/images
 /storage/backups
 /storage/gitupdate
@@ -26,7 +25,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
-laravel-echo-server.*
+laravel-echo-server.json
 
 # OS X
 .DS_store

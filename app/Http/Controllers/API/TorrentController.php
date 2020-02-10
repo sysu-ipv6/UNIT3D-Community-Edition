@@ -89,7 +89,6 @@ class TorrentController extends BaseController
         $torrent = new Torrent();
         $torrent->name = $request->input('name');
         $torrent->slug = Str::slug($torrent->name);
-        $torrent->subhead = $request->input('subhead');
         $torrent->description = $request->input('description');
         $torrent->mediainfo = self::anonymizeMediainfo($request->input('mediainfo'));
         $torrent->info_hash = $infohash;
@@ -265,7 +264,7 @@ class TorrentController extends BaseController
      */
     public function filter(Request $request, Torrent $torrent)
     {
-        $search = $request->input('');
+        $search = $request->input('name');
         $description = $request->input('description');
         $uploader = $request->input('uploader');
         $imdb = $request->input('imdb');
@@ -311,7 +310,7 @@ class TorrentController extends BaseController
 
         if ($request->has('name') && $request->input('name') != null) {
             $torrent->where(function ($query) use ($search) {
-                $query->where('torrents.name', 'like', $search)->orWhere('torrents.subhead', 'like', $search);
+                $query->where('torrents.name', 'like', $search);
             });
         }
 
