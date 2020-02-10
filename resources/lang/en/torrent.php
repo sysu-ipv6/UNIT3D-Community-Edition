@@ -170,6 +170,7 @@ return [
     'stats'                    => 'Stats',
     'sticky'                   => 'Sticky',
     'stream-optimized'         => 'Stream Optimized',
+    'subhead'                  => 'Short Description',
     'subtitle'                 => 'Subtitle',
     'team-player'              => 'Team Player',
     'thank'                    => 'Thank',
