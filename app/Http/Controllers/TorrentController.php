@@ -600,7 +600,7 @@ class TorrentController extends Controller
         if ($collection != 1) {
             if ($request->has('search') && $request->input('search') != null) {
                 $torrent->where(function ($query) use ($search) {
-                    $query->where('torrents.name', 'like', $search);
+                    $query->where('torrents.name', 'like', $search)->orWhere('torrents.subhead', 'like', $search);
                 });
             }
 
