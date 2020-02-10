@@ -21,6 +21,13 @@
                             <input type="text" class="form-control" name="name" value="{{ $torrent->name }}" required>
                         </label>
                     </div>
+
+                    <div class="form-group">
+                        <label for="title">@lang('torrent.subhead')</label>
+                        <label>
+                            <input type="text" class="form-control" name="subhead" value="{{ $torrent->subhead ?? '' }}" >
+                        </label>
+                    </div>
     
                     <div class="form-group">
                         <label for="name">IMDB ID <b>(@lang('common.required'))</b></label>
