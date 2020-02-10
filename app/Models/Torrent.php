@@ -368,9 +368,9 @@ class Torrent extends Model
     /**
      * @return string|null
      */
-    public function getSubheadAttribute(): ?string
+    public function getSubhead(): ?string
     {
-        return $this->subhead;
+        return $this->attributes['subhead'];
     }
 
     /**
@@ -384,7 +384,7 @@ class Torrent extends Model
     {
         $antiXss = new AntiXSS();
 
-        $this->attributes['description'] = $antiXss->xss_clean($subhead);
+        $this->attributes['subhead'] = $antiXss->xss_clean($subhead);
     }
 
     /**
