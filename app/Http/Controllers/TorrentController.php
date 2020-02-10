@@ -1308,6 +1308,7 @@ class TorrentController extends Controller
         // Create the torrent (DB)
         $torrent = new Torrent();
         $torrent->name = $request->input('name');
+        $torrent->subhead = $request->input('subhead');
         $torrent->slug = Str::slug($torrent->name);
         $torrent->description = $request->input('description');
         $torrent->mediainfo = self::anonymizeMediainfo($request->input('mediainfo'));
