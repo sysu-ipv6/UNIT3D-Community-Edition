@@ -4,12 +4,12 @@ return [
     // Chat
     'chatbox'          => '聊天室',
     'click'            => '点击',
-    'to-enable-editor' => '啓用编辑器',
+    'to-enable-editor' => '启用编辑器',
 
     // Featured Torrents
     'featured-by'             => '精选',
     'featured-torrents'       => '精选资源',
-    'featured-torrents-intro' => '有本领就来取吧!',
+    'featured-torrents-intro' => '有本领就来取吧！',
     'featured-until'          => '精选资源有效至',
 
     // Latest Torrents

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'about' => '关於',
+    'about' => '关于',
     'bot'             => '机器人',
     'bots'            => '机器人',
     'color' => '颜色',
