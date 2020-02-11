@@ -39,6 +39,8 @@
         "voku/anti-xss": "^4.1"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "v3.2.8",
+        "barryvdh/laravel-ide-helper": "v2.6.6",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
         "matt-allan/laravel-code-style": "^0.4.0",
