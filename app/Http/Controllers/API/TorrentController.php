@@ -89,6 +89,7 @@ class TorrentController extends BaseController
         $torrent = new Torrent();
         $torrent->name = $request->input('name');
         $torrent->slug = Str::slug($torrent->name);
+        $torrent->subhead = $request->input('subhead');
         $torrent->description = $request->input('description');
         $torrent->mediainfo = self::anonymizeMediainfo($request->input('mediainfo'));
         $torrent->info_hash = $infohash;
@@ -127,7 +128,7 @@ class TorrentController extends BaseController
             'imdb'        => 'numeric',
             'tvdb'        => 'numeric',
             'tmdb'        => 'numeric',
-            'mal'         => 'required|numeric',
+            'mal'         => 'numeric',
             'igdb'        => 'numeric',
             'type'        => 'required',
             'anon'        => 'required',
@@ -310,7 +311,7 @@ class TorrentController extends BaseController
 
         if ($request->has('name') && $request->input('name') != null) {
             $torrent->where(function ($query) use ($search) {
-                $query->where('torrents.name', 'like', $search);
+                $query->where('torrents.name', 'like', $search)->orWhere('torrents.subhead', 'like', $search);
             });
         }
 
@@ -403,6 +404,10 @@ class TorrentController extends BaseController
 
         if ($request->has('dead') && $request->input('dead') != null) {
             $torrent->where('torrents.seeders', '=', $dead);
+        }
+
+        if ($request->has('reseed') && $request->input('reseed') != null) {
+            $torrent->where('torrents.seeders', '=', 0)->where('torrents.leechers', '>=', 1);
         }
 
         if (!empty($torrent)) {

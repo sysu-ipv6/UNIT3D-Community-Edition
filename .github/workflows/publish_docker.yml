@@ -14,7 +14,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: sysuipv6/syspt
+        name: ${{ secrets.DOCKERHUB_IMAGENAME }}
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         cache: ${{ github.event_name != 'schedule' }}
