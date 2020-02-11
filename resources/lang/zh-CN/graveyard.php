@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'current-seedtime'   => '目前续种',
+    'current-seedtime'   => '目前做种时间',
     'dead'               => '死种',
     'graveyard'          => '坟场',
     'guidelines'         => '指引',

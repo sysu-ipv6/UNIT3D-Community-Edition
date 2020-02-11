@@ -9,7 +9,7 @@ return [
     // Featured Torrents
     'featured-by'             => '精选',
     'featured-torrents'       => '精选资源',
-    'featured-torrents-intro' => '欢迎下载!',
+    'featured-torrents-intro' => '欢迎下载！',
     'featured-until'          => '精选资源有效至',
 
     // Latest Torrents
@@ -19,10 +19,10 @@ return [
     'latest-posts' => '最近的帖子',
 
     // Latest Topics
-    'latest-topics' => '最近的标题',
+    'latest-topics' => '最近的主题',
 
     // Users Online
-    'active-in-last' => '最近活跃',
+    'active-in-last' => '最近活跃于',
     'users-online'   => '在线用户',
 
     // News/Articles
