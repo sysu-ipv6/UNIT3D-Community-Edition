@@ -12,7 +12,6 @@
         "appstract/laravel-opcache": "^3.0",
         "arcanedev/log-viewer": "^5.0",
         "bandwidth-throttle/token-bucket": "^2.0",
-        "barryvdh/laravel-ide-helper": "v2.6.6",
         "bepsvpt/secure-headers": "^5.3",
         "christofferok/laravel-emojione": "^4.0",
         "doctrine/dbal": "^2.9",
@@ -40,6 +39,8 @@
         "voku/anti-xss": "^4.1"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "v3.2.8",
+        "barryvdh/laravel-ide-helper": "v2.6.6",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
         "matt-allan/laravel-code-style": "^0.4.0",
