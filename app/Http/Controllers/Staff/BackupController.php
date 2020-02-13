@@ -2,13 +2,13 @@
 /**
  * NOTICE OF LICENSE.
  *
- * UNIT3D is open-sourced software licensed under the GNU Affero General Public License v3.0
+ * UNIT3D Community Edition is open-sourced software licensed under the GNU Affero General Public License v3.0
  * The details is bundled with this project in the file LICENSE.txt.
  *
- * @project    UNIT3D
+ * @project    UNIT3D Community Edition
  *
+ * @author     HDVinnie <hdinnovations@protonmail.com>
  * @license    https://www.gnu.org/licenses/agpl-3.0.en.html/ GNU Affero General Public License v3.0
- * @author     HDVinnie
  */
 
 namespace App\Http\Controllers\Staff;
@@ -176,9 +176,9 @@ class BackupController extends Controller
 
             if ($disk->exists($file_name)) {
                 return response()->download($storage_path.$file_name);
-            } else {
-                return abort(404, trans('backup.backup_doesnt_exist'));
             }
+
+            return abort(404, trans('backup.backup_doesnt_exist'));
         }
 
         return abort(404, trans('backup.only_local_downloads_supported'));
@@ -205,9 +205,9 @@ class BackupController extends Controller
                 $disk->delete($file_name);
 
                 return 'success';
-            } else {
-                return abort(404, trans('backup.backup_doesnt_exist'));
             }
+
+            return abort(404, trans('backup.backup_doesnt_exist'));
         }
 
         return abort(404, trans('backup.backup_doesnt_exist'));
