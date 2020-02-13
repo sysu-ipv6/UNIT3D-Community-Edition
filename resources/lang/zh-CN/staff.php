@@ -1,7 +1,23 @@
 <?php
+/**
+ * NOTICE OF LICENSE.
+ *
+ * UNIT3D Community Edition is open-sourced software licensed under the GNU Affero General Public License v3.0
+ * The details is bundled with this project in the file LICENSE.txt.
+ *
+ * @project    UNIT3D Community Edition
+ *
+ * @author     HDVinnie <hdinnovations@protonmail.com>
+ * @license    https://www.gnu.org/licenses/agpl-3.0.en.html/ GNU Affero General Public License v3.0
+ */
 
 return [
+    'application'            => '入站申请',
     'applications'            => '入站申请',
+    'application-type'        => '申请类型',
+    'application-image-proofs'=> '图片证明',
+    'application-referrer'    => '申请书',
+    'articles'                => '公告',
     'article-content'         => '公告内容',
     'audit-log'               => '活动日志',
     'bans-log'                => '封禁日志',
@@ -12,7 +28,7 @@ return [
     'chat-tools'              => '聊天工具',
     'config-manager'          => '系统设定',
     'dashboard'               => '仪表板',
-    'failed-login-log'        => '登号失败日志',
+    'failed-login-log'        => '登录失败日志',
     'flush-chat'              => '清空聊天室',
     'flush-ghost-peers'       => '清空幽灵Peers',
     'forums'                  => '论坛',
@@ -21,16 +37,19 @@ return [
     'groups'                  => '组别',
     'invites-log'             => '邀请日志',
     'laravel-log'             => 'Laravel日志',
-    'links'                   => '连接',
+    'link'                    => '链接',
+    'links'                   => '链接',
     'logs'                    => '日志',
     'mass-pm'                 => '批量发送私信',
     'mass-validate-users'     => '批量验证用户',
     'moderation'              => '审批',
+    'moderation-since'        => '提交时间',
+    'page'                    => '规则页',
     'pages'                   => '站内规则',
     'please-moderate'         => '请审批此资源！',
     'polls'                   => '投票',
     'possible-leech-cheaters' => '作弊嫌疑者',
-    'reports-log'             => '报告日志',
+    'reports-log'             => '举报日志',
     'rooms'                   => '聊天室',
     'rss'                     => 'RSS',
     'seedboxes'               => '登记盒子',
