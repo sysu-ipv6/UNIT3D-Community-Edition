@@ -2,13 +2,13 @@
 /**
  * NOTICE OF LICENSE.
  *
- * UNIT3D is open-sourced software licensed under the GNU Affero General Public License v3.0
+ * UNIT3D Community Edition is open-sourced software licensed under the GNU Affero General Public License v3.0
  * The details is bundled with this project in the file LICENSE.txt.
  *
- * @project    UNIT3D
+ * @project    UNIT3D Community Edition
  *
+ * @author     HDVinnie <hdinnovations@protonmail.com>
  * @license    https://www.gnu.org/licenses/agpl-3.0.en.html/ GNU Affero General Public License v3.0
- * @author     HDVinnie
  */
 
 namespace App\Services\Clients;
@@ -354,15 +354,13 @@ class TmdbClient extends Client implements MovieTvInterface
             return $path.$item['file_path'];
         }, $images);
 
-        $images = array_filter($images, function ($item) use ($path, $image) {
+        return array_filter($images, function ($item) use ($path, $image) {
             if ($item == $path.$image) {
                 return false;
             }
 
             return true;
         });
-
-        return $images;
     }
 
     private function formatCasts($credits, $role)
