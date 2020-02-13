@@ -407,9 +407,8 @@ class Torrent extends Model
     public function getMediaInfo()
     {
         $parser = new MediaInfo();
-        $parsed = $parser->parse($this->mediaInfo);
 
-        return $parsed;
+        return $parser->parse($this->mediaInfo);
     }
 
     /**
