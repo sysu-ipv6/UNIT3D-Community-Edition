@@ -364,7 +364,7 @@ class Torrent extends Model
     }
 
     /**
-     * Set the torrent's subhead after its been purified(?)
+     * Set the torrent's subhead after its been purified(?).
      *
      * @param string|null $subhead
      *
