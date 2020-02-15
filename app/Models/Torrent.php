@@ -206,16 +206,6 @@ class Torrent extends Model
     }
 
     /**
-     * Belongs To A Resolution.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function resolution()
-    {
-        return $this->belongsTo(Resolution::class);
-    }
-
-    /**
      * Torrent Has Been Moderated By.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -374,7 +364,7 @@ class Torrent extends Model
     }
 
     /**
-     * Set the torrent's subhead after its been purified(?)
+     * Set the torrent's subhead after its been purified(?).
      *
      * @param string|null $subhead
      *
@@ -431,9 +421,9 @@ class Torrent extends Model
      */
     public function bookmarked()
     {
-        return Bookmark::where('user_id', '=', auth()->user()->id)
+        return (bool) Bookmark::where('user_id', '=', auth()->user()->id)
             ->where('torrent_id', '=', $this->id)
-            ->first() ? true : false;
+            ->first();
     }
 
     /**
