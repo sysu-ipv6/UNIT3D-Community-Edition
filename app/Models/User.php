@@ -739,7 +739,7 @@ class User extends Authenticatable
     public function acceptsNotification(self $sender, self $target, $group = 'follower', $type = false)
     {
         $target_group = 'json_'.$group.'_groups';
-        if ($sender->id == $target->id) {
+        if ($sender->id === $target->id) {
             return false;
         }
         if ($sender->group->is_modo || $sender->group->is_admin) {
@@ -753,11 +753,7 @@ class User extends Authenticatable
         }
         if ($target->notification && $target->notification->$target_group && is_array($target->notification->$target_group['default_groups'])) {
             if (array_key_exists($sender->group->id, $target->notification->$target_group['default_groups'])) {
-                if ($target->notification->$target_group['default_groups'][$sender->group->id] == 1) {
-                    return true;
-                }
-
-                return false;
+                return $target->notification->$target_group['default_groups'][$sender->group->id] == 1;
             }
 
             return true;
@@ -793,11 +789,7 @@ class User extends Authenticatable
         }
         if ($target->privacy && $target->privacy->$target_group && is_array($target->privacy->$target_group['default_groups'])) {
             if (array_key_exists($sender->group->id, $target->privacy->$target_group['default_groups'])) {
-                if ($target->privacy->$target_group['default_groups'][$sender->group->id] == 1) {
-                    return true;
-                }
-
-                return false;
+                return $target->privacy->$target_group['default_groups'][$sender->group->id] == 1;
             }
 
             return true;
@@ -833,11 +825,7 @@ class User extends Authenticatable
         }
         if ($target->privacy && $target->privacy->$target_group && is_array($target->privacy->$target_group['default_groups'])) {
             if (array_key_exists($sender->group->id, $target->privacy->$target_group['default_groups'])) {
-                if ($target->privacy->$target_group['default_groups'][$sender->group->id] == 1) {
-                    return true;
-                }
-
-                return false;
+                return $target->privacy->$target_group['default_groups'][$sender->group->id] == 1;
             }
 
             return true;
@@ -856,7 +844,7 @@ class User extends Authenticatable
      */
     public function isSubscribed(string $type, $topic_id)
     {
-        if ($type == 'topic') {
+        if ($type === 'topic') {
             return (bool) $this->subscriptions()->where('topic_id', '=', $topic_id)->first(['id']);
         }
 
@@ -918,7 +906,7 @@ class User extends Authenticatable
      */
     public function getRatio()
     {
-        if ($this->downloaded == 0) {
+        if ($this->downloaded === 0) {
             return INF;
         }
 
