@@ -67,11 +67,11 @@ class TorrentController extends BaseController
     {
         $user = $request->user();
         $requestFile = $request->file('torrent');
-        if ($request->hasFile('torrent') == false) {
+        if ($request->hasFile('torrent') === false) {
             return $this->sendError('Validation Error.', 'You Must Provide A Torrent File For Upload!');
         }
 
-        if ($requestFile->getError() != 0 && $requestFile->getClientOriginalExtension() != 'torrent') {
+        if ($requestFile->getError() !== 0 && $requestFile->getClientOriginalExtension() !== 'torrent') {
             return $this->sendError('Validation Error.', 'You Must Provide A Valid Torrent File For Upload!');
         }
 
@@ -194,11 +194,11 @@ class TorrentController extends BaseController
             // Announce To Shoutbox
             if ($anon == 0) {
                 $this->chat->systemMessage(
-                    "User [url={$appurl}/users/".$username.']'.$username."[/url] has uploaded [url={$appurl}/torrents/".$torrent->id.']'.$torrent->name.'[/url] grab it now! :slight_smile:'
+                    sprintf('User [url=%s/users/', $appurl).$username.']'.$username.sprintf('[/url] has uploaded [url=%s/torrents/', $appurl).$torrent->id.']'.$torrent->name.'[/url] grab it now! :slight_smile:'
                 );
             } else {
                 $this->chat->systemMessage(
-                    "An anonymous user has uploaded [url={$appurl}/torrents/".$torrent->id.']'.$torrent->name.'[/url] grab it now! :slight_smile:'
+                    sprintf('An anonymous user has uploaded [url=%s/torrents/', $appurl).$torrent->id.']'.$torrent->name.'[/url] grab it now! :slight_smile:'
                 );
             }
 

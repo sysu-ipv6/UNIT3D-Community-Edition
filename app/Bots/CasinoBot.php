@@ -94,7 +94,7 @@ class CasinoBot
         $output = implode(' ', $note);
         $v = validator(['bot_id' => $this->bot->id, 'amount'=> $amount, 'note'=> $output], [
             'bot_id'   => 'required|exists:bots,id|max:999',
-            'amount'   => "required|numeric|min:1|max:{$this->target->seedbonus}",
+            'amount'   => sprintf('required|numeric|min:1|max:%s', $this->target->seedbonus),
             'note'     => 'required|string',
         ]);
         if ($v->passes()) {
@@ -178,7 +178,7 @@ class CasinoBot
             $z = 3;
         }
 
-        if ($message == '') {
+        if ($message === '') {
             $log = '';
         } else {
             $log = 'All '.$this->bot->name.' commands must be a private message or begin with /'.$this->bot->command.' or !'.$this->bot->command.'. Need help? Type /'.$this->bot->command.' help and you shall be helped.';

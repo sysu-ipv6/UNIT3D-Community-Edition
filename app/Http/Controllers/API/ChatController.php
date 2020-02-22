@@ -132,7 +132,9 @@ class ChatController extends Controller
 
     public function createMessage(Request $request)
     {
-        $user_id = (int) $request->input('user_id');
+        $user = $this->auth->user();
+
+        $user_id = $user->id;
         $receiver_id = $request->input('receiver_id');
         $room_id = $request->input('chatroom_id');
         $bot_id = $request->input('bot_id');
@@ -140,11 +142,7 @@ class ChatController extends Controller
         $targeted = $request->input('targeted');
         $save = $request->get('save');
 
-        if ($this->auth->user()->id !== $user_id) {
-            return response('error', 401);
-        }
-
-        if ($this->auth->user()->can_chat === 0) {
+        if ($user->can_chat === 0) {
             return response('error', 401);
         }
 
@@ -169,7 +167,7 @@ class ChatController extends Controller
         $target = null;
         $runbot = null;
         $trip = 'msg';
-        if ($message && substr($message, 0, 1 + (strlen($trip))) == '/'.$trip) {
+        if ($message && substr($message, 0, 1 + (strlen($trip))) === '/'.$trip) {
             $which = 'skip';
             $command = @explode(' ', $message);
             if (array_key_exists(1, $command)) {
@@ -184,7 +182,7 @@ class ChatController extends Controller
         }
 
         $trip = 'gift';
-        if ($message && substr($message, 0, 1 + (strlen($trip))) == '/'.$trip) {
+        if ($message && substr($message, 0, 1 + (strlen($trip))) === '/'.$trip) {
             $which = 'echo';
             $target = 'system';
             $message = '/bot gift'.substr($message, strlen($trip) + 1, strlen($message));
@@ -194,21 +192,21 @@ class ChatController extends Controller
         }
         if ($which == null) {
             foreach ($bots as $bot) {
-                if ($message && substr($message, 0, 1 + (strlen($bot->command))) == '/'.$bot->command) {
+                if ($message && substr($message, 0, 1 + (strlen($bot->command))) === '/'.$bot->command) {
                     $which = 'echo';
-                } elseif ($message && substr($message, 0, 1 + (strlen($bot->command))) == '!'.$bot->command) {
+                } elseif ($message && substr($message, 0, 1 + (strlen($bot->command))) === '!'.$bot->command) {
                     $which = 'public';
-                } elseif ($message && substr($message, 0, 1 + (strlen($bot->command))) == '@'.$bot->command) {
+                } elseif ($message && substr($message, 0, 1 + (strlen($bot->command))) === '@'.$bot->command) {
                     $message = substr($message, 1 + strlen($bot->command), strlen($message));
                     $which = 'private';
                 } elseif ($message && $receiver_id == 1 && $bot->id == $bot_id) {
-                    if ($message && substr($message, 0, 1 + (strlen($bot->command))) == '/'.$bot->command) {
+                    if ($message && substr($message, 0, 1 + (strlen($bot->command))) === '/'.$bot->command) {
                         $message = substr($message, 1 + strlen($bot->command), strlen($message));
                     }
-                    if ($message && substr($message, 0, 1 + (strlen($bot->command))) == '!'.$bot->command) {
+                    if ($message && substr($message, 0, 1 + (strlen($bot->command))) === '!'.$bot->command) {
                         $message = substr($message, 1 + strlen($bot->command), strlen($message));
                     }
-                    if ($message && substr($message, 0, 1 + (strlen($bot->command))) == '@'.$bot->command) {
+                    if ($message && substr($message, 0, 1 + (strlen($bot->command))) === '@'.$bot->command) {
                         $message = substr($message, 1 + strlen($bot->command), strlen($message));
                     }
                     $which = 'message';
@@ -349,7 +347,7 @@ class ChatController extends Controller
             $message->delete();
         }
 
-        if ($save && $echo != false) {
+        if ($save && $echo !== false) {
             return new ChatMessageResource($message);
         }
 

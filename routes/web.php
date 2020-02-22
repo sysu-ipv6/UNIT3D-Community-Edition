@@ -387,9 +387,9 @@ Route::group(['middleware' => 'language'], function () {
         // Poll System
         Route::group(['prefix' => 'polls'], function () {
             Route::get('/', 'PollController@index')->name('polls');
-            Route::post('/vote', 'PollController@vote')->middleware('check_ip');
-            Route::get('/{slug}', 'PollController@show')->name('poll');
-            Route::get('/{slug}/result', 'PollController@result')->name('poll_results');
+            Route::post('/vote', 'PollController@vote');
+            Route::get('/{id}', 'PollController@show')->where('id', '[0-9]+')->name('poll');
+            Route::get('/{id}/result', 'PollController@result')->name('poll_results');
         });
 
         // Graveyard System
@@ -751,6 +751,9 @@ Route::group(['middleware' => 'language'], function () {
                 Route::get('/{id}', 'PollController@show')->where('id', '[0-9]+')->name('show');
                 Route::get('/create', 'PollController@create')->name('create');
                 Route::post('/store', 'PollController@store')->name('store');
+                Route::get('/{id}/edit', 'PollController@edit')->name('edit');
+                Route::post('/{id}/update', 'PollController@update')->name('update');
+                Route::delete('/{id}/destroy', 'PollController@destroy')->name('destroy');
             });
         });
 

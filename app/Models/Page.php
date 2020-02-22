@@ -13,7 +13,8 @@
 
 namespace App\Models;
 
-use App\Helpers\Bbcode;
+use App\Helpers\BBCodeConverter;
+use App\Helpers\Markdown;
 use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -49,18 +50,21 @@ class Page extends Model
      */
     public function setContentAttribute($value)
     {
-        $this->attributes['content'] = htmlspecialchars($value);
+        $this->attributes['content'] = $value;
     }
 
     /**
      * Parse Content And Return Valid HTML.
      *
-     * @return string Parsed BBCODE To HTML
+     * @return string Convert BBCODE and Parse Markdown To HTML
      */
     public function getContentHtml()
     {
-        $bbcode = new Bbcode();
+        $converter = new BBCodeConverter($this->content);
+        $content = $converter->toMarkdown();
 
-        return $bbcode->parse($this->content, true);
+        $parser = new Markdown();
+
+        return $parser->text($content);
     }
 }
