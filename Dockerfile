@@ -38,8 +38,5 @@ RUN set -xe \
     && php artisan vendor:publish --tag=laravel-swoole \
     && rm -rf /usr/bin/composer
 
-RUN php artisan optimize \
-    && chown -R www-data: storage bootstrap public config && find . -type d -exec chmod 0775 '{}' + -or -type f -exec chmod 0644 '{}' +
-
 USER www-data
 CMD ["/bin/sh", "-c", "php artisan swoole:http start"]
