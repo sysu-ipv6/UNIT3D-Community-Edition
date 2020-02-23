@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\NexusPhpHash;
+namespace App\Helpers;
 
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Hashing\AbstractHasher;
@@ -15,7 +15,7 @@ class NexusPhpHasher extends AbstractHasher implements HasherContract
 
     protected function makeRandomSecret($secretLength = 20)
     {
-        $secret = "";
+        $secret = '';
         for ($i = 0; $i < $secretLength; $i++) {
             $secret .= chr(mt_rand(100, 120));
         }
@@ -25,16 +25,16 @@ class NexusPhpHasher extends AbstractHasher implements HasherContract
     public function make($value, array $options = [])
     {
         $secret = $options['secret'] ?? $this->makeRandomSecret();
-        $hash = md5($secret . $value . $secret);
+        $hash = md5($secret.$value.$secret);
         if ($hash === false) {
             throw new RuntimeException('md5 hashing not supported.');
         }
-        return '$nexus$' . $secret . '$' . $hash;
+        return '$nexus$'.$secret .'$'.$hash;
     }
 
     public function check($value, $hashedValue, array $options = [])
     {
-        list(, $identifier, $secret,) = explode('$', $hashedValue);
+        list(, $identifier, $secret) = explode('$', $hashedValue);
         if ($identifier !== 'nexus') {
             throw new RuntimeException('not nexusphp password hash');
         }
