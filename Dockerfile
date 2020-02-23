@@ -28,7 +28,7 @@ COPY ./docker/php/*.conf /usr/local/etc/php-fpm.d/
 
 WORKDIR /app
 COPY --from=node /app/composer.* /app/
-RUN composer install --prefer-dist --no-autoloader --no-scripts --no-dev --quiet && composer require --prefer-dist --no-autoloader --no-scripts --quiet swooletw/laravel-swoole 
+RUN composer install --prefer-dist --no-autoloader --no-scripts --no-dev --quiet && composer require --prefer-dist --no-scripts --quiet swooletw/laravel-swoole 
 COPY --from=node /app /app
 
 RUN set -xe \
