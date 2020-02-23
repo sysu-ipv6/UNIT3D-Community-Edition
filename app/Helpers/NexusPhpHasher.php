@@ -8,7 +8,6 @@ use RuntimeException;
 
 class NexusPhpHasher extends AbstractHasher implements HasherContract
 {
-
     public function __construct(array $options = [])
     {
     }
@@ -19,6 +18,7 @@ class NexusPhpHasher extends AbstractHasher implements HasherContract
         for ($i = 0; $i < $secretLength; $i++) {
             $secret .= chr(mt_rand(100, 120));
         }
+
         return $secret;
     }
 
@@ -29,6 +29,7 @@ class NexusPhpHasher extends AbstractHasher implements HasherContract
         if ($hash === false) {
             throw new RuntimeException('md5 hashing not supported.');
         }
+
         return '$nexus$'.$secret.'$'.$hash;
     }
 
@@ -38,6 +39,7 @@ class NexusPhpHasher extends AbstractHasher implements HasherContract
         if ($identifier !== 'nexus') {
             throw new RuntimeException('not nexusphp password hash');
         }
+        
         return $this->make($value, ['secret' => $secret]) === $hashedValue;
     }
 
