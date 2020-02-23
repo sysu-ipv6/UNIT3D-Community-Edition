@@ -28,12 +28,12 @@ COPY ./docker/php/*.conf /usr/local/etc/php-fpm.d/
 
 WORKDIR /app
 COPY --from=node /app/composer.* /app/
-RUN composer install --prefer-dist --no-autoloader --no-scripts --no-dev
+RUN composer install --prefer-dist --no-autoloader --no-scripts --no-dev --quiet
 COPY --from=node /app /app
 
 RUN set -xe \
     && chown -R www-data: storage bootstrap public config && find . -type d -exec chmod 0775 '{}' + -or -type f -exec chmod 0644 '{}' + \
-    && composer install --prefer-dist --optimize-autoloader --no-dev \
+    && composer install --prefer-dist --optimize-autoloader --no-dev --quiet \
     && composer require swooletw/laravel-swoole \
     && php artisan vendor:publish --tag=laravel-swoole \
     && rm -rf /usr/bin/composer
