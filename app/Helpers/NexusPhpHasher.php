@@ -39,7 +39,7 @@ class NexusPhpHasher extends AbstractHasher implements HasherContract
         if ($identifier !== 'nexus') {
             throw new RuntimeException('not nexusphp password hash');
         }
-        
+
         return $this->make($value, ['secret' => $secret]) === $hashedValue;
     }
 
