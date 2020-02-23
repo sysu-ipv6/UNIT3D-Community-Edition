@@ -29,7 +29,7 @@ class NexusPhpHasher extends AbstractHasher implements HasherContract
         if ($hash === false) {
             throw new RuntimeException('md5 hashing not supported.');
         }
-        return '$nexus$'.$secret .'$'.$hash;
+        return '$nexus$'.$secret.'$'.$hash;
     }
 
     public function check($value, $hashedValue, array $options = [])
