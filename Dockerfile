@@ -5,7 +5,7 @@ RUN npm install && npm install --save-dev socket.io-client && npm run prod && rm
 
 FROM composer:1.9 as composer
 FROM php:7.4-fpm-alpine
-
+ENV COMPOSER_MEMORY_LIMIT=-1
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN set -xe \
     && apk add --update \
