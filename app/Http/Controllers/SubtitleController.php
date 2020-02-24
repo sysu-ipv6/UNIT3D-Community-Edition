@@ -40,5 +40,4 @@ class SubtitleController
 
         return response()->download($filePath, $subtitle->file_name);
     }
-
 }
