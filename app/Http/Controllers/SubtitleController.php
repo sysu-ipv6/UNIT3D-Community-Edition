@@ -27,7 +27,8 @@ class SubtitleController
      *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download(Request $request, $id) {
+    public function download(Request $request, $id)
+    {
         $subtitle = Subtitle::withAnyStatus()->findOrFail($id);
         $subtitle->increment('hits', 1);
 
@@ -40,4 +41,5 @@ class SubtitleController
 
         return response()->download($filePath, $subtitle->file_name);
     }
+
 }
