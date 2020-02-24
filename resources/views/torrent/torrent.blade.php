@@ -240,6 +240,17 @@
                         <td>{{ $torrent->subhead }} </td>
                     </tr>
 
+                    <tr>
+                        <td class="col-sm-2">
+                            <strong>@lang('torrent.subtitle')</strong>
+                        </td>
+                        <td>
+                            @foreach ($torrent->subtitles as $subtitle)
+                                <a href="/subtitles/download/{{ $subtitle->id }}">{{ $subtitle->title }}</a>
+                            @endforeach
+                        </td>
+                    </tr>
+
                     @if (auth()->user()->group->is_modo)
                         <tr>
                             <td class="col-sm-2">

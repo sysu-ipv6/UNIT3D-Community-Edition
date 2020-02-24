@@ -252,6 +252,10 @@ Route::group(['middleware' => 'language'], function () {
             Route::post('/', 'TorrentController@upload')->name('upload');
         });
 
+        Route::group(['prefix' => 'subtitles'], function () {
+            Route::get('/download/{id}', 'SubtitleController@download')->name('download');
+        });
+
         Route::group(['prefix' => 'torrents'], function () {
             Route::get('/feedizeTorrents/{type}', 'TorrentController@feedize')->name('feedizeTorrents')->middleware('modo');
             Route::get('/filter', 'TorrentController@faceted');
