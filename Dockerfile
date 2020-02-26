@@ -9,18 +9,18 @@ ENV COMPOSER_MEMORY_LIMIT=-1
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN set -xe \
     && apk add --update \
-        icu openssl-dev pcre-dev curl zip unzip git freetype libpng libjpeg-turbo \
+        icu openssl pcre mysql-client curl zip unzip git freetype libpng libjpeg-turbo \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
-        zlib-dev freetype-dev libpng-dev libjpeg-turbo-dev \
+        zlib-dev freetype-dev libpng-dev libjpeg-turbo-dev libzip-dev openssl-dev pcre-dev \
         icu-dev \
         build-base \
     && pecl install swoole \
     && docker-php-ext-configure intl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
-        intl bcmath pdo pdo_mysql gd \
-    && docker-php-ext-enable intl bcmath pdo pdo_mysql swoole gd \
+        intl bcmath pdo pdo_mysql gd zip \
+    && docker-php-ext-enable intl bcmath pdo pdo_mysql swoole gd zip \
     && { find /usr/local/lib -type f -print0 | xargs -0r strip --strip-all -p 2>/dev/null || true; } \
     && apk del .build-deps \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/* /usr/src/nginx/*
