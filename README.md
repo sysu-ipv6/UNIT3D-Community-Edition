@@ -21,6 +21,8 @@
 
 ## 📝 Table of Contents
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bcccce9356c84549856aed619acb4d1f)](https://app.codacy.com/gh/sysu-ipv6/UNIT3D-Community-Edition?utm_source=github.com&utm_medium=referral&utm_content=sysu-ipv6/UNIT3D-Community-Edition&utm_campaign=Badge_Grade_Dashboard)
+
 1. [Introduction](#introduction)
 2. [Some Features](#features)
 3. [Requirements](#requirements)
