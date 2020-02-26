@@ -8,7 +8,7 @@ FROM php:7.4-cli-alpine
 ENV COMPOSER_MEMORY_LIMIT=-1
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN set -xe \
-    && apk add --update \
+    && apk add --no-cache --update \
         icu openssl pcre mysql-client curl zip unzip libzip-dev git freetype libpng libjpeg-turbo \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
