@@ -19,8 +19,8 @@ RUN set -xe \
     && docker-php-ext-configure intl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
-        intl bcmath pdo pdo_mysql gd zip \
-    && docker-php-ext-enable intl bcmath pdo pdo_mysql swoole gd zip \
+        intl bcmath pdo pdo_mysql gd zip curl \
+    && docker-php-ext-enable intl bcmath pdo pdo_mysql swoole gd zip curl \
     && { find /usr/local/lib -type f -print0 | xargs -0r strip --strip-all -p 2>/dev/null || true; } \
     && apk del .build-deps \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/* /usr/src/nginx/*
