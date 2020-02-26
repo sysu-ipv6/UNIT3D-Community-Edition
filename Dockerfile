@@ -9,10 +9,10 @@ ENV COMPOSER_MEMORY_LIMIT=-1
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN set -xe \
     && apk add --update \
-        icu openssl pcre mysql-client curl zip unzip libzip git freetype libpng libjpeg-turbo \
+        icu openssl pcre mysql-client curl zip unzip libzip-dev git freetype libpng libjpeg-turbo \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
-        zlib-dev freetype-dev libpng-dev libjpeg-turbo-dev libzip-dev openssl-dev pcre-dev \
+        zlib-dev freetype-dev libpng-dev libjpeg-turbo-dev openssl-dev pcre-dev \
         icu-dev \
         build-base \
     && pecl install swoole \
