@@ -13,6 +13,7 @@
 <a href="https://github.styleci.io/repos/238207183"><img src="https://github.styleci.io/repos/238207183/shield?branch=master" alt="StyleCI"></a>
 <a href="https://travis-ci.org/sysu-ipv6/UNIT3D-Community-Edition"><img src="https://api.travis-ci.org/sysu-ipv6/UNIT3D-Community-Edition.svg?branch=master" alt="TravisCI"></a>
 <a class="badge-align" href="https://app.codacy.com/gh/sysu-ipv6/UNIT3D-Community-Edition?utm_source=github.com&utm_medium=referral&utm_content=sysu-ipv6/UNIT3D-Community-Edition&utm_campaign=Badge_Grade_Dashboard"><img src="https://api.codacy.com/project/badge/Grade/bcccce9356c84549856aed619acb4d1f"/></a>
+<a href='https://coveralls.io/github/sysu-ipv6/UNIT3D-Community-Edition?branch=master'><img src='https://coveralls.io/repos/github/sysu-ipv6/UNIT3D-Community-Edition/badge.svg?branch=master' alt='Coverage Status' /></a>
 <a href="https://discord.gg/ntnPxzG"><img alt="Discord chat" src="https://img.shields.io/badge/discord-Chat%20Now-a29bfe.svg?style=flat-square" /></a>
 <a href="https://observatory.mozilla.org/analyze/unit3d.site"><img src="https://img.shields.io/badge/A+-Mozilla%20Observatory-blueviolet.svg?style=flat-square"></a>
 <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"></a>
