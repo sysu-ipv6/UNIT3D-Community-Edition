@@ -40,10 +40,11 @@
 9. [Contributing](#contributing)
 10. [License](#license)
 11. [Demo](#demo)
-12. [Sponsoring](#sponsor)
-13. [Collaborators](#collaborators)
-14. [Special Thanks](#thanks)
-15. [Sponsors](#sponsors)
+12. [Support/Chat](#chat)
+13. [Sponsoring](#sponsor)
+14. [Collaborators](#collaborators)
+15. [Special Thanks](#thanks)
+16. [Sponsors](#sponsors)
 
 
 ## <a name="introduction"></a> 🧐 Introduction
@@ -194,6 +195,10 @@ Password: UNIT3D
 
 Demo is reset every 48 hours!
 
+## <a name="chat"></a>  💬 Chat With Us
+
+URL: https://discord.gg/ntnPxzG
+
 ## <a name="sponsor"></a> ✨ Sponsor UNIT3D (HDInnovations / HDVinnie)
 
 https://github.com/sponsors/HDVinnie
@@ -282,6 +287,7 @@ Thanks goes to these wonderful people who have contributed alot of code:
     <td align="center"><a href="https://github.com/VerioPL"><img src="https://avatars1.githubusercontent.com/u/24521644?v=4" width="100px;" alt=""/><br /><sub><b>VerioPL</b></sub></a><br /><a href="#translation-VerioPL" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/pbodq2"><img src="https://avatars0.githubusercontent.com/u/25418300?v=4" width="100px;" alt=""/><br /><sub><b>Morgan Wong</b></sub></a><br /><a href="#translation-pbodq2" title="Translation">🌍</a></td>
     <td align="center"><a href="https://nyamori.moe"><img src="https://avatars1.githubusercontent.com/u/5460071?v=4" width="100px;" alt=""/><br /><sub><b>Gyakkun</b></sub></a><br /><a href="#translation-gyakkun" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://indiehd.com"><img src="https://avatars2.githubusercontent.com/u/1236883?v=4" width="100px;" alt=""/><br /><sub><b>Ben Johnson</b></sub></a><br /><a href="https://github.com/HDInnovations/UNIT3D-Community-Edition/commits?author=cbj4074" title="Tests">⚠️</a> <a href="https://github.com/HDInnovations/UNIT3D-Community-Edition/commits?author=cbj4074" title="Code">💻</a></td>
   </tr>
 </table>
 

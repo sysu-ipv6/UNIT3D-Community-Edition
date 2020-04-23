@@ -27,14 +27,14 @@ class BackupController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
         $user = $request->user();
         abort_unless($user->group->is_owner, 403);
 
-        if (!(is_countable(config('backup.backup.destination.disks')) ? count(config('backup.backup.destination.disks')) : 0)) {
+        if (! (is_countable(config('backup.backup.destination.disks')) ? count(config('backup.backup.destination.disks')) : 0)) {
             dd(trans('backup.no_disks_configured'));
         }
 
@@ -160,7 +160,7 @@ class BackupController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|void
      */
     public function download(Request $request)
     {

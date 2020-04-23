@@ -54,6 +54,9 @@ Route::group(['middleware' => 'language'], function () {
         // Registration
         Route::get('/register/{code?}', 'Auth\RegisterController@registrationForm')->name('registrationForm');
         Route::post('/register/{code?}', 'Auth\RegisterController@register')->name('register');
+
+        // Public email white/blacklists
+        Route::get('emaildomains', 'Auth\RegisterController@publicEmailList')->name('public.email');
     });
 
     /*
@@ -222,6 +225,7 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('/outbox', 'PrivateMessageController@getPrivateMessagesSent')->name('outbox');
             Route::get('/create', 'PrivateMessageController@makePrivateMessage')->name('create');
             Route::get('/mark-all-read', 'PrivateMessageController@markAllAsRead')->name('mark-all-read');
+            Route::get('/empty-inbox', 'PrivateMessageController@emptyInbox')->name('empty-inbox');
             Route::post('/send', 'PrivateMessageController@sendPrivateMessage')->name('send-pm');
             Route::post('/{id}/reply', 'PrivateMessageController@replyPrivateMessage')->name('reply-pm');
             Route::post('/{id}/destroy', 'PrivateMessageController@deletePrivateMessage')->name('delete-pm');
@@ -443,6 +447,18 @@ Route::group(['middleware' => 'language'], function () {
                 Route::delete('/{id}/detach', 'PlaylistTorrentController@destroy')->name('detach');
             });
         });
+
+        // Subtitles System
+        Route::group(['prefix' => 'subtitles'], function () {
+            Route::name('subtitles.')->group(function () {
+                Route::get('/', 'SubtitleController@index')->name('index');
+                Route::get('/create/{torrent_id}', 'SubtitleController@create')->where('id', '[0-9]+')->name('create');
+                Route::post('/store', 'SubtitleController@store')->name('store');
+                Route::post('/{id}/update', 'SubtitleController@update')->name('update');
+                Route::delete('/{id}/delete', 'SubtitleController@destroy')->name('destroy');
+                Route::get('/{id}/download', 'SubtitleController@download')->name('download');
+            });
+        });
     });
 
     /*
@@ -489,7 +505,6 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/subscriptions', 'ForumController@subscriptions')->name('forum_subscriptions');
         Route::get('/latest/topics', 'ForumController@latestTopics')->name('forum_latest_topics');
         Route::get('/latest/posts', 'ForumController@latestPosts')->name('forum_latest_posts');
-        Route::get('/search', 'ForumController@search')->name('forum_search');
         Route::get('/search', 'ForumController@search')->name('forum_search_form');
 
         Route::group(['prefix' => 'topics'], function () {
@@ -503,7 +518,7 @@ Route::group(['middleware' => 'language'], function () {
             // Open Topic
             Route::get('/{id}/open', 'TopicController@openTopic')->name('forum_open');
             //
-            Route::post('/posts/{id}/tip_poster', 'BonusController@tipPoster')->name('tip_poster');
+            Route::post('/posts/tip_poster', 'BonusController@tipPoster')->name('tip_poster');
 
             // Edit Topic
             Route::get('/{id}/edit', 'TopicController@editForm')->name('forum_edit_topic_form');
@@ -724,6 +739,18 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('/validate-users', 'MassActionController@update')->name('staff.mass-actions.validate');
             Route::get('/mass-pm', 'MassActionController@create')->name('staff.mass-pm.create');
             Route::post('/mass-pm/store', 'MassActionController@store')->name('staff.mass-pm.store');
+        });
+
+        // Media Lanuages (Languages Used To Populate Language Dropdowns For Subtitles / Audios / Etc.)
+        Route::group(['prefix' => 'media-languages'], function () {
+            Route::name('staff.media_languages.')->group(function () {
+                Route::get('/', 'MediaLanguageController@index')->name('index');
+                Route::get('/create', 'MediaLanguageController@create')->name('create');
+                Route::post('/store', 'MediaLanguageController@store')->name('store');
+                Route::get('/{id}/edit', 'MediaLanguageController@edit')->name('edit');
+                Route::post('/{id}/update', 'MediaLanguageController@update')->name('update');
+                Route::delete('/{id}/delete', 'MediaLanguageController@destroy')->name('destroy');
+            });
         });
 
         // Moderation System

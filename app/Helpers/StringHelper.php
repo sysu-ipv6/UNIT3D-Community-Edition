@@ -15,22 +15,31 @@ namespace App\Helpers;
 
 class StringHelper
 {
-    const KIB = 1024;
+    const KIB = 1_024;
 
-    const MIB = 1024 * 1024;
+    const MIB = 1_024 * 1_024;
 
-    const GIB = 1024 * 1024 * 1024;
+    const GIB = 1_024 * 1_024 * 1_024;
 
-    const TIB = 1024 * 1024 * 1024 * 1024;
+    const TIB = 1_024 * 1_024 * 1_024 * 1_024;
 
-    const PIB = 1024 * 1024 * 1024 * 1024 * 1024;
+    const PIB = 1_024 * 1_024 * 1_024 * 1_024 * 1_024;
+
+    /**
+     * @var string
+     */
+    private const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
+
+    /**
+     * @var string[]
+     */
+    private const ENDS = ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'];
 
     public static function generateRandomString($length = 20)
     {
-        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
         $string = '';
         for ($i = 0; $i < $length; $i++) {
-            $string .= $characters[rand(0, strlen($characters) - 1)];
+            $string .= self::CHARACTERS[rand(0, strlen(self::CHARACTERS) - 1)];
         }
 
         return $string;
@@ -82,25 +91,25 @@ class StringHelper
         if ($seconds == 0) {
             return 'N/A';
         }
-        while ($seconds >= 31536000) {
+        while ($seconds >= 31_536_000) {
             $years++;
-            $seconds -= 31536000;
+            $seconds -= 31_536_000;
         }
-        while ($seconds >= 2592000) {
+        while ($seconds >= 2_592_000) {
             $months++;
-            $seconds -= 2592000;
+            $seconds -= 2_592_000;
         }
-        while ($seconds >= 604800) {
+        while ($seconds >= 604_800) {
             $weeks++;
-            $seconds -= 604800;
+            $seconds -= 604_800;
         }
-        while ($seconds >= 86400) {
+        while ($seconds >= 86_400) {
             $days++;
-            $seconds -= 86400;
+            $seconds -= 86_400;
         }
-        while ($seconds >= 3600) {
+        while ($seconds >= 3_600) {
             $hours++;
-            $seconds -= 3600;
+            $seconds -= 3_600;
         }
         while ($seconds >= 60) {
             $minutes++;
@@ -136,25 +145,25 @@ class StringHelper
         if ($seconds == 0) {
             return 'N/A';
         }
-        while ($seconds >= 31536000) {
+        while ($seconds >= 31_536_000) {
             $years++;
-            $seconds -= 31536000;
+            $seconds -= 31_536_000;
         }
-        while ($seconds >= 2592000) {
+        while ($seconds >= 2_592_000) {
             $months++;
-            $seconds -= 2592000;
+            $seconds -= 2_592_000;
         }
-        while ($seconds >= 604800) {
+        while ($seconds >= 604_800) {
             $weeks++;
-            $seconds -= 604800;
+            $seconds -= 604_800;
         }
-        while ($seconds >= 86400) {
+        while ($seconds >= 86_400) {
             $days++;
-            $seconds -= 86400;
+            $seconds -= 86_400;
         }
-        while ($seconds >= 3600) {
+        while ($seconds >= 3_600) {
             $hours++;
-            $seconds -= 3600;
+            $seconds -= 3_600;
         }
         while ($seconds >= 60) {
             $minutes++;
@@ -173,11 +182,10 @@ class StringHelper
 
     public static function ordinal($number)
     {
-        $ends = ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'];
         if ((($number % 100) >= 11) && (($number % 100) <= 13)) {
             return $number.'th';
         }
 
-        return $number.$ends[$number % 10];
+        return $number.self::ENDS[$number % 10];
     }
 }

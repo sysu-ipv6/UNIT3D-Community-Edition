@@ -62,8 +62,8 @@
                         <form role="form" method="POST" action="{{ route('reply-pm', ['id' => $pm->id]) }}">
                             @csrf
                             <div class="form-group">
-                                <label for="message"></label><textarea id="message" name="message" cols="30" rows="10"
-                                    class="form-control"></textarea>
+                                <label for="message"></label>
+                                <textarea id="message" name="message" cols="30" rows="10" class="form-control"></textarea>
                                 <button type="submit" class="btn btn-primary"
                                     style="float:right;">@lang('pm.reply')</button>
                             </div>
@@ -79,7 +79,6 @@
     <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
         $(document).ready(function() {
             $('#message').wysibb({});
-            emoji.textcomplete()
         })
     
     </script>

@@ -60,7 +60,9 @@ class TopicController extends Controller
     /**
      * Show The Topic.
      *
-     * @param $id
+     * @param \App\Models\Topic $id
+     * @param string            $page
+     * @param string            $post
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -105,7 +107,7 @@ class TopicController extends Controller
      * Topic Add Form.
      *
      * @param \Illuminate\Http\Request $request
-     * @param                          $id
+     * @param \App\Models\Forum        $id
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -131,9 +133,9 @@ class TopicController extends Controller
      * Create A New Topic In The Forum.
      *
      * @param \Illuminate\Http\Request $request
-     * @param                          $id
+     * @param \App\Models\Forum        $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function newTopic(Request $request, $id)
     {
@@ -189,52 +191,53 @@ class TopicController extends Controller
         if ($v->fails()) {
             return redirect()->route('forums.index')
                 ->withErrors($v->errors());
-        } else {
-            $post->save();
-            $topic->num_post = 1;
-            $topic->last_reply_at = $post->created_at;
-            $topic->save();
-            $forum->num_topic = $forum->getTopicCount($forum->id);
-            $forum->num_post = $forum->getPostCount($forum->id);
-            $forum->last_topic_id = $topic->id;
-            $forum->last_topic_name = $topic->name;
-            $forum->last_topic_slug = $topic->slug;
-            $forum->last_post_user_id = $user->id;
-            $forum->last_post_user_username = $user->username;
-            $forum->save();
-
-            $forum->notifySubscribers($user, $topic);
-
-            // Post To ShoutBox
-            $appurl = config('app.url');
-            $topicUrl = sprintf('%s/forums/topics/%s', $appurl, $topic->id);
-            $profileUrl = sprintf('%s/users/%s', $appurl, $user->username);
-
-            $this->chat->systemMessage(sprintf('[url=%s]%s[/url] has created a new topic [url=%s]%s[/url]', $profileUrl, $user->username, $topicUrl, $topic->name));
-
-            //Achievements
-            $user->unlock(new UserMadeFirstPost(), 1);
-            $user->addProgress(new UserMade25Posts(), 1);
-            $user->addProgress(new UserMade50Posts(), 1);
-            $user->addProgress(new UserMade100Posts(), 1);
-            $user->addProgress(new UserMade200Posts(), 1);
-            $user->addProgress(new UserMade300Posts(), 1);
-            $user->addProgress(new UserMade400Posts(), 1);
-            $user->addProgress(new UserMade500Posts(), 1);
-            $user->addProgress(new UserMade600Posts(), 1);
-            $user->addProgress(new UserMade700Posts(), 1);
-            $user->addProgress(new UserMade800Posts(), 1);
-            $user->addProgress(new UserMade900Posts(), 1);
-
-            return redirect()->route('forum_topic', ['id' => $topic->id])
-                ->withSuccess('Topic Created Successfully!');
         }
+        $post->save();
+        $topic->num_post = 1;
+        $topic->last_reply_at = $post->created_at;
+        $topic->save();
+        $forum->num_topic = $forum->getTopicCount($forum->id);
+        $forum->num_post = $forum->getPostCount($forum->id);
+        $forum->last_topic_id = $topic->id;
+        $forum->last_topic_name = $topic->name;
+        $forum->last_topic_slug = $topic->slug;
+        $forum->last_post_user_id = $user->id;
+        $forum->last_post_user_username = $user->username;
+        $forum->save();
+
+        // Post To ShoutBox
+        $appurl = config('app.url');
+        $topicUrl = sprintf('%s/forums/topics/%s', $appurl, $topic->id);
+        $profileUrl = sprintf('%s/users/%s', $appurl, $user->username);
+
+        if (config('other.staff-forum-notify') && ($forum->id == config('other.staff-forum-id') || $forum->parent_id == config('other.staff-forum-id'))) {
+            $forum->notifyStaffers($user, $topic);
+        } else {
+            $this->chat->systemMessage(sprintf('[url=%s]%s[/url] has created a new topic [url=%s]%s[/url]', $profileUrl, $user->username, $topicUrl, $topic->name));
+            $forum->notifySubscribers($user, $topic);
+        }
+        //Achievements
+        $user->unlock(new UserMadeFirstPost(), 1);
+        $user->addProgress(new UserMade25Posts(), 1);
+        $user->addProgress(new UserMade50Posts(), 1);
+        $user->addProgress(new UserMade100Posts(), 1);
+        $user->addProgress(new UserMade200Posts(), 1);
+        $user->addProgress(new UserMade300Posts(), 1);
+        $user->addProgress(new UserMade400Posts(), 1);
+        $user->addProgress(new UserMade500Posts(), 1);
+        $user->addProgress(new UserMade600Posts(), 1);
+        $user->addProgress(new UserMade700Posts(), 1);
+        $user->addProgress(new UserMade800Posts(), 1);
+        $user->addProgress(new UserMade900Posts(), 1);
+
+        return redirect()->route('forum_topic', ['id' => $topic->id])
+                ->withSuccess('Topic Created Successfully!');
     }
 
     /**
      * Topic Edit Form.
      *
-     * @param $id
+     * @param \App\Models\Topic $id
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -250,9 +253,9 @@ class TopicController extends Controller
      * Edit Topic In The Forum.
      *
      * @param \Illuminate\Http\Request $request
-     * @param                          $id
+     * @param \App\Models\Topic        $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function editTopic(Request $request, $id)
     {
@@ -274,9 +277,9 @@ class TopicController extends Controller
      * Close The Topic.
      *
      * @param \Illuminate\Http\Request $request
-     * @param                          $id
+     * @param \App\Models\Topic        $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function closeTopic(Request $request, $id)
     {
@@ -295,9 +298,9 @@ class TopicController extends Controller
      * Open The Topic.
      *
      * @param \Illuminate\Http\Request $request
-     * @param                          $id
+     * @param \App\Models\Topic        $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function openTopic(Request $request, $id)
     {
@@ -316,9 +319,9 @@ class TopicController extends Controller
      * Delete The Topic and The Posts.
      *
      * @param \Illuminate\Http\Request $request
-     * @param                          $id
+     * @param \App\Models\Topic        $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function deleteTopic(Request $request, $id)
     {
@@ -337,9 +340,9 @@ class TopicController extends Controller
     /**
      * Pin The Topic.
      *
-     * @param $id
+     * @param \App\Models\Topic $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function pinTopic($id)
     {
@@ -354,9 +357,9 @@ class TopicController extends Controller
     /**
      * Unpin The Topic.
      *
-     * @param $id
+     * @param \App\Models\Topic $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function unpinTopic($id)
     {

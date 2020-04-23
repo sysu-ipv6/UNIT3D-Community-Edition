@@ -23,9 +23,9 @@ class LikeController extends Controller
      * Like A Post.
      *
      * @param \Illuminate\Http\Request $request
-     * @param                          $postId
+     * @param \App\Models\Post         $postId
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request, $postId)
     {
@@ -43,25 +43,24 @@ class LikeController extends Controller
         if ($user->id == $post->user_id) {
             return redirect()->to($postUrl)
                 ->withErrors('You cannot like your own post!');
-        } else {
-            $new = new Like();
-            $new->user_id = $user->id;
-            $new->post_id = $post->id;
-            $new->like = 1;
-            $new->save();
-
-            return redirect()->to($postUrl)
-                ->withSuccess('Like Successfully Applied!');
         }
+        $new = new Like();
+        $new->user_id = $user->id;
+        $new->post_id = $post->id;
+        $new->like = 1;
+        $new->save();
+
+        return redirect()->to($postUrl)
+                ->withSuccess('Like Successfully Applied!');
     }
 
     /**
      * Dislike A Post.
      *
      * @param \Illuminate\Http\Request $request
-     * @param                          $postId
+     * @param \App\Models\Post         $postId
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, $postId)
     {
@@ -79,15 +78,14 @@ class LikeController extends Controller
         if ($user->id == $post->user_id) {
             return redirect()->to($postUrl)
                 ->withErrors('You cannot dislike your own post!');
-        } else {
-            $new = new Like();
-            $new->user_id = $user->id;
-            $new->post_id = $post->id;
-            $new->dislike = 1;
-            $new->save();
-
-            return redirect()->to($postUrl)
-                ->withSuccess('Dislike Successfully Applied!');
         }
+        $new = new Like();
+        $new->user_id = $user->id;
+        $new->post_id = $post->id;
+        $new->dislike = 1;
+        $new->save();
+
+        return redirect()->to($postUrl)
+                ->withSuccess('Dislike Successfully Applied!');
     }
 }

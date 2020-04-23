@@ -43,7 +43,7 @@ class ApplicationController extends Controller
     /**
      * Get A Application.
      *
-     * @param  $id
+     * @param \App\Models\Application $id
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -58,9 +58,11 @@ class ApplicationController extends Controller
      * Approve A Application.
      *
      * @param \Illuminate\Http\Request $request
-     * @param $id
+     * @param \App\Models\Application  $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function approve(Request $request, $id)
     {
@@ -105,19 +107,19 @@ class ApplicationController extends Controller
 
             return redirect()->route('staff.applications.index')
                 ->withSuccess('Application Approved');
-        } else {
-            return redirect()->route('staff.applications.index')
-                ->withErrors('Application Already Approved');
         }
+
+        return redirect()->route('staff.applications.index')
+                ->withErrors('Application Already Approved');
     }
 
     /**
      * Reject A Application.
      *
      * @param \Illuminate\Http\Request $request
-     * @param $id
+     * @param \App\Models\Application  $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function reject(Request $request, $id)
     {

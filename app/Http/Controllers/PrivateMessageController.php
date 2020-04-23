@@ -86,8 +86,8 @@ class PrivateMessageController extends Controller
     /**
      * View A Message.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param                          $id
+     * @param \Illuminate\Http\Request   $request
+     * @param \App\Models\PrivateMessage $id
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -130,7 +130,7 @@ class PrivateMessageController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function sendPrivateMessage(Request $request)
     {
@@ -185,10 +185,10 @@ class PrivateMessageController extends Controller
     /**
      * Reply To A Message.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param $id
+     * @param \Illuminate\Http\Request   $request
+     * @param \App\Models\PrivateMessage $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function replyPrivateMessage(Request $request, $id)
     {
@@ -226,10 +226,10 @@ class PrivateMessageController extends Controller
     /**
      * Delete A Message.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param                          $id
+     * @param \Illuminate\Http\Request   $request
+     * @param \App\Models\PrivateMessage $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function deletePrivateMessage(Request $request, $id)
     {
@@ -250,10 +250,26 @@ class PrivateMessageController extends Controller
 
             return redirect()->route('inbox')
                 ->withSuccess('PM Was Deleted Successfully!');
-        } else {
-            return redirect()->route('inbox')
-                ->withErrors('What Are You Trying To Do Here!');
         }
+
+        return redirect()->route('inbox')
+                ->withErrors('What Are You Trying To Do Here!');
+    }
+
+    /**
+     * Empty Private Message Inbox.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function emptyInbox(Request $request)
+    {
+        $user = $request->user();
+        $pms = PrivateMessage::where('receiver_id', '=', $user->id)->delete();
+
+        return redirect()->route('inbox')
+                ->withSuccess('PM Was Deleted Successfully!');
     }
 
     /**
@@ -261,7 +277,7 @@ class PrivateMessageController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function markAllAsRead(Request $request)
     {

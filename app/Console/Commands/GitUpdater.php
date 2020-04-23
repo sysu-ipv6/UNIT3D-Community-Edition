@@ -44,6 +44,14 @@ class GitUpdater extends Command
     protected $description = 'Executes The Commands Necessary To Update Your Website Using Git';
 
     /**
+     * @var string[]
+     */
+    private const ADDITIONAL = [
+        '.env',
+        'laravel-echo-server.json',
+    ];
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -84,7 +92,7 @@ class GitUpdater extends Command
         <fg=red>BY PROCEEDING YOU AGREE TO THE ABOVE DISCLAIMER! USE AT YOUR OWN RISK!</>
         </>');
 
-        if (!$this->io->confirm('Would you like to proceed', false)) {
+        if (! $this->io->confirm('Would you like to proceed', false)) {
             $this->line('<fg=red>Aborted ...</>');
             die();
         }
@@ -307,7 +315,7 @@ class GitUpdater extends Command
 
     private function validatePath($path)
     {
-        if (!is_file(base_path($path)) && !is_dir(base_path($path))) {
+        if (! is_file(base_path($path)) && ! is_dir(base_path($path))) {
             $this->red(sprintf('The path \'%s\' is invalid', $path));
             //$this->call('up');
             //die();
@@ -316,11 +324,11 @@ class GitUpdater extends Command
 
     private function createBackupPath($path)
     {
-        if (!is_dir(storage_path(sprintf('gitupdate/%s', $path))) && !is_file(base_path($path))) {
+        if (! is_dir(storage_path(sprintf('gitupdate/%s', $path))) && ! is_file(base_path($path))) {
             mkdir(storage_path(sprintf('gitupdate/%s', $path)), 0775, true);
         } elseif (is_file(base_path($path)) && dirname($path) !== '.') {
             $path = dirname($path);
-            if (!is_dir(storage_path(sprintf('gitupdate/%s', $path)))) {
+            if (! is_dir(storage_path(sprintf('gitupdate/%s', $path)))) {
                 mkdir(storage_path(sprintf('gitupdate/%s', $path)), 0775, true);
             }
         }
@@ -346,11 +354,6 @@ class GitUpdater extends Command
         $p = $this->process('git diff master --name-only');
         $paths = array_filter(explode("\n", $p->getOutput()), 'strlen');
 
-        $additional = [
-            '.env',
-            'laravel-echo-server.json',
-        ];
-
-        return array_merge($paths, $additional);
+        return array_merge($paths, self::ADDITIONAL);
     }
 }
