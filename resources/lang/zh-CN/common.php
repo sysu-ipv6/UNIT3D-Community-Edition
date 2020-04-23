@@ -190,6 +190,7 @@ return [
     'submit'               => '提交',
     'subscriptions'        => '订阅',
     'subtitle'             => '字幕',
+    'subtitles'            => '字幕',
     'teams'                => '团队',
     'terms'                => '使用条款',
     'the'                  => '这',
