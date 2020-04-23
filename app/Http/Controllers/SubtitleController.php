@@ -240,7 +240,11 @@ class SubtitleController extends Controller
         }
 
         // Grab the subtitle file
-        copy(public_path().'/files/subtitles/'.$subtitle->file_name, public_path().'/files/tmp/'.$temp_filename);
+        if (file_exists(public_path().'/files/subtitles/'.$subtitle->file_name)) {
+            copy(public_path().'/files/subtitles/'.$subtitle->file_name, public_path().'/files/tmp/'.$temp_filename);
+        } else {
+            copy(public_path().'/files/subtitles/'.$subtitle->torrent->id.'/'.$subtitle->id.'.'.$subtitle->extension, public_path().'/files/tmp/'.$temp_filename);
+        }
 
         // Increment downloads count
         $subtitle->downloads = ++$subtitle->downloads;
