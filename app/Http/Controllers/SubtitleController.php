@@ -232,7 +232,7 @@ class SubtitleController extends Controller
         }
 
         // Define the filename for the download
-        $temp_filename = '['.$subtitle->language->name.' Subtitle]'.$subtitle->torrent->name.$subtitle->extension;
+        $temp_filename = '['.$subtitle->language->name.' Subtitle]'.$subtitle->torrent->name.'.'.$subtitle->extension;
 
         // Delete the last torrent tmp file
         if (file_exists(public_path().'/files/tmp/'.$temp_filename)) {
