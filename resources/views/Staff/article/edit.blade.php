@@ -43,8 +43,7 @@
     
             <div class="form-group">
                 <label for="content">@lang('staff.article-content')</label>
-                <textarea name="content" id="content" cols="30" rows="10"
-                    class="form-control">{{ $article->content }}</textarea>
+                <textarea name="content" id="content" cols="30" rows="10" class="form-control">{{ $article->content }}</textarea>
             </div>
     
             <button type="submit" class="btn btn-default">@lang('common.save')</button>
@@ -56,7 +55,6 @@
     <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
         $(document).ready(function() {
             $('#content').wysibb({});
-            emoji.textcomplete()
         })
     
     </script>

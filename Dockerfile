@@ -3,7 +3,7 @@ COPY . /app
 WORKDIR /app
 RUN npm install && npm install --save-dev socket.io-client && npm run prod && rm -rf node_modules
 
-FROM composer:1.9 as composer
+FROM composer:1.10 as composer
 FROM php:7.4-cli-alpine
 ENV COMPOSER_MEMORY_LIMIT=-1
 COPY --from=composer /usr/bin/composer /usr/bin/composer

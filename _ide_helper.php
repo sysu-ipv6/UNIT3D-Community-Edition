@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 6.16.0 on 2020-02-24 13:18:54.
+ * Generated for Laravel 6.18.10 on 2020-04-23 08:14:54.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -506,8 +506,6 @@ namespace Illuminate\Support\Facades {
         
         /**
          * Resolve the given type from the container.
-         * 
-         * (Overriding Container::make)
          *
          * @param string $abstract
          * @param array $parameters
@@ -522,8 +520,6 @@ namespace Illuminate\Support\Facades {
         
         /**
          * Determine if the given abstract type has been bound.
-         * 
-         * (Overriding Container::bound)
          *
          * @param string $abstract
          * @return bool 
@@ -2734,7 +2730,6 @@ namespace Illuminate\Support\Facades {
          *
          * @param mixed $command
          * @return mixed 
-         * @throws \RuntimeException
          * @static 
          */ 
         public static function dispatchToQueue($command)
@@ -8613,6 +8608,8 @@ namespace Illuminate\Support\Facades {
     /**
      * 
      *
+     * @method static \Illuminate\Redis\Limiters\ConcurrencyLimiterBuilder funnel(string $name)
+     * @method static \Illuminate\Redis\Limiters\DurationLimiterBuilder throttle(string $name)
      * @see \Illuminate\Redis\RedisManager
      * @see \Illuminate\Contracts\Redis\Factory
      */ 
@@ -10196,7 +10193,9 @@ namespace Illuminate\Support\Facades {
          * Gets the preferred format for the response by inspecting, in the following order:
          *   * the request format set using setRequestFormat
          *   * the values of the Accept HTTP header
-         *   * the content type of the body of the request.
+         * 
+         * Note that if you use this method, you should send the "Vary: Accept" header
+         * in the response to prevent any issues with intermediary HTTP caches.
          *
          * @static 
          */ 
@@ -16387,13 +16386,14 @@ namespace Mews\Purifier\Facades {
          *
          * @param $dirty
          * @param null $config
+         * @param \Closure|null $postCreateConfigHook
          * @return mixed 
          * @static 
          */ 
-        public static function clean($dirty, $config = null)
+        public static function clean($dirty, $config = null, $postCreateConfigHook = null)
         {
                         /** @var \Mews\Purifier\Purifier $instance */
-                        return $instance->clean($dirty, $config);
+                        return $instance->clean($dirty, $config, $postCreateConfigHook);
         }
         
         /**
@@ -18646,7 +18646,7 @@ namespace  {
             /**
              * Add an "order by" clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|string $column
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string $column
              * @param string $direction
              * @return \Illuminate\Database\Query\Builder 
              * @throws \InvalidArgumentException

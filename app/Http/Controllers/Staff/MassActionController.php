@@ -22,6 +22,11 @@ use Illuminate\Http\Request;
 class MassActionController extends Controller
 {
     /**
+     * @var int
+     */
+    private const SENDER_ID = 1;
+
+    /**
      * Mass PM Form.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -36,13 +41,11 @@ class MassActionController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         $users = User::all();
-
-        $sender_id = 1;
         $subject = $request->input('subject');
         $message = $request->input('message');
 
@@ -56,7 +59,7 @@ class MassActionController extends Controller
                 ->withErrors($v->errors());
         }
         foreach ($users as $user) {
-            $this->dispatch(new ProcessMassPM($sender_id, $user->id, $subject, $message));
+            $this->dispatch(new ProcessMassPM(self::SENDER_ID, $user->id, $subject, $message));
         }
 
         return redirect()->route('staff.mass-pm.create')
@@ -66,17 +69,15 @@ class MassActionController extends Controller
     /**
      * Mass Validate Unvalidated Users.
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update()
     {
-        $validating_group = cache()->rememberForever('validating_group', function () {
-            return Group::where('slug', '=', 'validating')->pluck('id');
-        });
-        $member_group = cache()->rememberForever('member_group', function () {
-            return Group::where('slug', '=', 'user')->pluck('id');
-        });
-        $users = User::where('active', '=', 0)->where('group_id', '=', $validating_group[0])->get();
+        $validating_group = cache()->rememberForever('validating_group', fn () => Group::where('slug', '=', 'validating')->pluck('id'));
+        $member_group = cache()->rememberForever('member_group', fn () => Group::where('slug', '=', 'user')->pluck('id'));
+        $users = User::where('group_id', '=', $validating_group[0])->get();
 
         foreach ($users as $user) {
             $user->group_id = $member_group[0];

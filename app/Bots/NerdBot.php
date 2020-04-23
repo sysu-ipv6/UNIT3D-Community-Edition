@@ -90,12 +90,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getBanker($duration = 'default')
     {
         $banker = cache()->get('nerdbot-banker');
-        if (!$banker || $banker == null) {
+        if (! $banker || $banker == null) {
             $banker = User::latest('seedbonus')->first();
             cache()->put('nerdbot-banker', $banker, $this->expiresAt);
         }
@@ -108,12 +110,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getSnatched($duration = 'default')
     {
         $snatched = cache()->get('nerdbot-snatched');
-        if (!$snatched || $snatched == null) {
+        if (! $snatched || $snatched == null) {
             $snatched = Torrent::latest('times_completed')->first();
             cache()->put('nerdbot-snatched', $snatched, $this->expiresAt);
         }
@@ -126,12 +130,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getLeeched($duration = 'default')
     {
         $leeched = cache()->get('nerdbot-leeched');
-        if (!$leeched || $leeched == null) {
+        if (! $leeched || $leeched == null) {
             $leeched = Torrent::latest('leechers')->first();
             cache()->put('nerdbot-leeched', $leeched, $this->expiresAt);
         }
@@ -144,12 +150,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getSeeded($duration = 'default')
     {
         $seeded = cache()->get('nerdbot-seeded');
-        if (!$seeded || $seeded == null) {
+        if (! $seeded || $seeded == null) {
             $seeded = Torrent::latest('seeders')->first();
             cache()->put('nerdbot-seeded', $seeded, $this->expiresAt);
         }
@@ -162,12 +170,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getFreeleech($duration = 'default')
     {
         $fl = cache()->get('nerdbot-fl');
-        if (!$fl || $fl == null) {
+        if (! $fl || $fl == null) {
             $fl = Torrent::where('free', '=', 1)->count();
             cache()->put('nerdbot-fl', $fl, $this->expiresAt);
         }
@@ -180,12 +190,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getDoubleUpload($duration = 'default')
     {
         $du = cache()->get('nerdbot-doubleup');
-        if (!$du || $du == null) {
+        if (! $du || $du == null) {
             $du = Torrent::where('doubleup', '=', 1)->count();
             cache()->put('nerdbot-doubleup', $du, $this->expiresAt);
         }
@@ -198,12 +210,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getPeers($duration = 'default')
     {
         $peers = cache()->get('nerdbot-peers');
-        if (!$peers || $peers == null) {
+        if (! $peers || $peers == null) {
             $peers = Peer::count();
             cache()->put('nerdbot-peers', $peers, $this->expiresAt);
         }
@@ -216,12 +230,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getBans($duration = 'default')
     {
         $bans = cache()->get('nerdbot-bans');
-        if (!$bans || $bans == null) {
+        if (! $bans || $bans == null) {
             $bans = Ban::whereNull('unban_reason')->whereNull('removed_at')->where('created_at', '>', $this->current->subDay())->count();
             cache()->put('nerdbot-bans', $bans, $this->expiresAt);
         }
@@ -234,12 +250,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getWarnings($duration = 'default')
     {
         $warnings = cache()->get('nerdbot-warnings');
-        if (!$warnings || $warnings == null) {
+        if (! $warnings || $warnings == null) {
             $warnings = Warning::where('created_at', '>', $this->current->subDay())->count();
             cache()->put('nerdbot-warnings', $warnings, $this->expiresAt);
         }
@@ -252,12 +270,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getUploads($duration = 'default')
     {
         $uploads = cache()->get('nerdbot-uploads');
-        if (!$uploads || $uploads == null) {
+        if (! $uploads || $uploads == null) {
             $uploads = Torrent::where('created_at', '>', $this->current->subDay())->count();
             cache()->put('nerdbot-uploads', $uploads, $this->expiresAt);
         }
@@ -270,12 +290,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getLogins($duration = 'default')
     {
         $logins = cache()->get('nerdbot-logins');
-        if (!$logins || $logins == null) {
+        if (! $logins || $logins == null) {
             $logins = User::whereNotNull('last_login')->where('last_login', '>', $this->current->subDay())->count();
             cache()->put('nerdbot-logins', $logins, $this->expiresAt);
         }
@@ -288,17 +310,19 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getRegistrations($duration = 'default')
     {
         $registrations = cache()->get('nerdbot-users');
-        if (!$registrations || $registrations == null) {
-            $users = User::where('created_at', '>', $this->current->subDay())->count();
-            cache()->put('nerdbot-users', $users, $this->expiresAt);
+        if (! $registrations || $registrations == null) {
+            $registrations = User::where('created_at', '>', $this->current->subDay())->count();
+            cache()->put('nerdbot-users', $registrations, $this->expiresAt);
         }
 
-        return sprintf('In The Last 24 Hours %s Users Have Registered To ', $users).config('other.title').'!';
+        return sprintf('In The Last 24 Hours %s Users Have Registered To ', $registrations).config('other.title').'!';
     }
 
     /**
@@ -306,12 +330,14 @@ class NerdBot
      *
      * @param string $duration
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getDonations($duration = 'default')
     {
         $donations = cache()->get('nerdbot-donations');
-        if (!$donations || $donations == null) {
+        if (! $donations || $donations == null) {
             $donations = BotTransaction::with('user', 'bot')->where('to_bot', '=', 1)->latest()->limit(10)->get();
             cache()->put('nerdbot-donations', $donations, $this->expiresAt);
         }
@@ -346,6 +372,8 @@ class NerdBot
      *
      * @param int    $amount
      * @param string $note
+     *
+     * @throws \Exception
      *
      * @return string
      */
@@ -502,7 +530,7 @@ class NerdBot
         if ($type == 'message' || $type == 'private') {
             $receiver_dirty = 0;
             $receiver_echoes = cache()->get('user-echoes'.$target->id);
-            if (!$receiver_echoes || !is_array($receiver_echoes) || count($receiver_echoes) < 1) {
+            if (! $receiver_echoes || ! is_array($receiver_echoes) || count($receiver_echoes) < 1) {
                 $receiver_echoes = UserEcho::with(['room', 'target', 'bot'])->whereRaw('user_id = ?', [$target->id])->get();
             }
             $receiver_listening = false;
@@ -511,7 +539,7 @@ class NerdBot
                     $receiver_listening = true;
                 }
             }
-            if (!$receiver_listening) {
+            if (! $receiver_listening) {
                 $receiver_port = new UserEcho();
                 $receiver_port->user_id = $target->id;
                 $receiver_port->bot_id = $this->bot->id;
@@ -526,7 +554,7 @@ class NerdBot
             }
             $receiver_dirty = 0;
             $receiver_audibles = cache()->get('user-audibles'.$target->id);
-            if (!$receiver_audibles || !is_array($receiver_audibles) || count($receiver_audibles) < 1) {
+            if (! $receiver_audibles || ! is_array($receiver_audibles) || count($receiver_audibles) < 1) {
                 $receiver_audibles = UserAudible::with(['room', 'target', 'bot'])->whereRaw('user_id = ?', [$target->id])->get();
             }
             $receiver_listening = false;
@@ -535,7 +563,7 @@ class NerdBot
                     $receiver_listening = true;
                 }
             }
-            if (!$receiver_listening) {
+            if (! $receiver_listening) {
                 $receiver_port = new UserAudible();
                 $receiver_port->user_id = $target->id;
                 $receiver_port->bot_id = $this->bot->id;

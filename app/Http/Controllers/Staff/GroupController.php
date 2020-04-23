@@ -59,7 +59,7 @@ class GroupController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -81,6 +81,7 @@ class GroupController extends Controller
         $group->is_trusted = $request->input('is_trusted');
         $group->is_immune = $request->input('is_immune');
         $group->is_freeleech = $request->input('is_freeleech');
+        $group->is_double_upload = $request->input('is_double_upload');
         $group->is_incognito = $request->input('is_incognito');
         $group->can_upload = $request->input('can_upload');
         $group->autogroup = $request->input('autogroup');
@@ -93,7 +94,7 @@ class GroupController extends Controller
             'icon'     => 'required',
         ]);
 
-        if (!$request->user()->group->is_owner && $request->input('is_owner') == 1) {
+        if (! $request->user()->group->is_owner && $request->input('is_owner') == 1) {
             return redirect()->route('staff.groups.index')
                 ->withErrors('You are not permitted to create a group with owner permissions!');
         }
@@ -122,7 +123,7 @@ class GroupController extends Controller
      * Group Edit Form.
      *
      * @param \Illuminate\Http\Request $request
-     * @param                          $id
+     * @param \App\Models\Group        $id
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -140,9 +141,9 @@ class GroupController extends Controller
      * Edit A Group.
      *
      * @param \Illuminate\Http\Request $request
-     * @param                          $id
+     * @param \App\Models\Group        $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -165,6 +166,7 @@ class GroupController extends Controller
         $group->is_trusted = $request->input('is_trusted');
         $group->is_immune = $request->input('is_immune');
         $group->is_freeleech = $request->input('is_freeleech');
+        $group->is_double_upload = $request->input('is_double_upload');
         $group->is_incognito = $request->input('is_incognito');
         $group->can_upload = $request->input('can_upload');
         $group->autogroup = $request->input('autogroup');
@@ -177,7 +179,7 @@ class GroupController extends Controller
             'icon'     => 'required',
         ]);
 
-        if (!$request->user()->group->is_owner && $request->input('is_owner') == 1) {
+        if (! $request->user()->group->is_owner && $request->input('is_owner') == 1) {
             return redirect()->route('staff.groups.index')
                 ->withErrors('You are not permitted to give a group owner permissions!');
         }

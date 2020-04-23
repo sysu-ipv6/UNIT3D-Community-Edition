@@ -73,14 +73,12 @@ class RegisterController extends Controller
     {
         // Make sure open reg is off and invite code exist and has not been used already
         $key = Invite::where('code', '=', $code)->first();
-        if (config('other.invite-only') == 1 && (!$key || $key->accepted_by !== null)) {
+        if (config('other.invite-only') == 1 && (! $key || $key->accepted_by !== null)) {
             return redirect()->route('registrationForm', ['code' => $code])
                 ->withErrors(trans('auth.invalid-key'));
         }
 
-        $validating_group = cache()->rememberForever('validating_group', function () {
-            return Group::where('slug', '=', 'validating')->pluck('id');
-        });
+        $validating_group = cache()->rememberForever('validating_group', fn () => Group::where('slug', '=', 'validating')->pluck('id'));
 
         $user = new User();
         $user->username = $request->input('username');
@@ -186,5 +184,18 @@ class RegisterController extends Controller
 
         return redirect()->route('login')
             ->withSuccess(trans('auth.register-thanks'));
+    }
+
+    /**
+     * Show Email Whitelist / Blacklist when not authenticated.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function publicEmailList()
+    {
+        $whitelist = config('email-white-blacklist.allow', []);
+        $blacklist = config('email-white-blacklist.block', []);
+
+        return view('auth.public-emaillist', ['whitelist' => $whitelist, 'blacklist' => $blacklist]);
     }
 }

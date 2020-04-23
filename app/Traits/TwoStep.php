@@ -33,7 +33,7 @@ trait TwoStep
                 return false;
             }
 
-            return !$this->checkTimeSinceVerified($twoStepAuthStatus);
+            return ! $this->checkTimeSinceVerified($twoStepAuthStatus);
         }
 
         return true;
@@ -66,6 +66,8 @@ trait TwoStep
      * Reset TwoStepAuth collection item and code.
      *
      * @param collection $twoStepAuth
+     *
+     * @throws \Exception
      *
      * @return collection
      */
@@ -106,6 +108,8 @@ trait TwoStep
      * Create/retreive 2step verification object.
      *
      * @param int $userId
+     *
+     * @throws \Exception
      *
      * @return collection
      */
@@ -176,6 +180,8 @@ trait TwoStep
      *
      * @param collection $twoStepEntry
      *
+     * @throws \Exception
+     *
      * @return collection
      */
     protected function resetExceededTime($twoStepEntry)
@@ -191,6 +197,8 @@ trait TwoStep
      * Successful activation actions.
      *
      * @param collection $twoStepAuth
+     *
+     * @throws \Exception
      *
      * @return void
      */

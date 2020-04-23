@@ -20,6 +20,7 @@ use App\Helpers\TorrentTools;
 use App\Http\Resources\TorrentResource;
 use App\Http\Resources\TorrentsResource;
 use App\Models\Category;
+use App\Models\FeaturedTorrent;
 use App\Models\TagTorrent;
 use App\Models\Torrent;
 use App\Models\TorrentFile;
@@ -62,6 +63,11 @@ class TorrentController extends BaseController
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Torrent      $torrent
+     *
+     * @throws \ErrorException
+     * @throws \HttpInvalidParamException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      *
      * @return \Illuminate\Http\Response
      */
@@ -69,7 +75,7 @@ class TorrentController extends BaseController
     {
         $user = $request->user();
         $requestFile = $request->file('torrent');
-        if ($request->hasFile('torrent') === false) {
+        if (! $request->hasFile('torrent')) {
             return $this->sendError('Validation Error.', 'You Must Provide A Torrent File For Upload!');
         }
 
@@ -118,7 +124,11 @@ class TorrentController extends BaseController
         $torrent->anon = $request->input('anonymous');
         $torrent->stream = $request->input('stream');
         $torrent->sd = $request->input('sd');
-        $torrent->internal = $request->input('internal');
+        $torrent->internal = $user->group->is_modo || $user->group->is_internal ? $request->input('internal') : 0;
+        $torrent->featured = $user->group->is_modo || $user->group->is_internal ? $request->input('featured') : 0;
+        $torrent->doubleup = $user->group->is_modo || $user->group->is_internal ? $request->input('doubleup') : 0;
+        $torrent->free = $user->group->is_modo || $user->group->is_internal ? $request->input('free') : 0;
+        $torrent->sticky = $user->group->is_modo || $user->group->is_internal ? $request->input('sticky') : 0;
         $torrent->moderated_at = Carbon::now();
         $torrent->moderated_by = User::where('username', 'System')->first()->id; //System ID
 
@@ -143,17 +153,29 @@ class TorrentController extends BaseController
             'anon'        => 'required',
             'stream'      => 'required',
             'sd'          => 'required',
+            'internal'    => 'required',
+            'featured'    => 'required',
+            'free'        => 'required',
+            'doubleup'    => 'required',
+            'sticky'      => 'required',
         ]);
 
         if ($v->fails()) {
-            if (Storage::disk('torrent')->exists($fileName)) {
-                Storage::disk('torrent')->delete($fileName);
+            if (Storage::disk('torrents')->exists($fileName)) {
+                Storage::disk('torrents')->delete($fileName);
             }
 
             return $this->sendError('Validation Error.', $v->errors());
         }
         // Save The Torrent
         $torrent->save();
+        // Set torrent to featured
+        if ($torrent->featured == 1) {
+            $feature = new FeaturedTorrent();
+            $feature->user_id = $user->id;
+            $feature->torrent_id = $torrent->id;
+            $feature->save();
+        }
         // Count and save the torrent number in this category
         $category->num_torrent = $category->torrents_count;
         $category->save();
@@ -198,6 +220,9 @@ class TorrentController extends BaseController
             $user_id = $user->id;
             $username = $user->username;
             $anon = $torrent->anon;
+            $featured = $torrent->featured;
+            $free = $torrent->free;
+            $doubleup = $torrent->doubleup;
 
             // Announce To Shoutbox
             if ($anon == 0) {
@@ -207,6 +232,28 @@ class TorrentController extends BaseController
             } else {
                 $this->chat->systemMessage(
                     sprintf('An anonymous user has uploaded [url=%s/torrents/', $appurl).$torrent->id.']'.$torrent->name.'[/url] grab it now! :slight_smile:'
+                );
+            }
+
+            if ($anon == 1 && $featured == 1) {
+                $this->chat->systemMessage(
+                    sprintf('Ladies and Gents, [url=%s/torrents/', $appurl).$torrent->id.']'.$torrent->name.'[/url] has been added to the Featured Torrents Slider by an anonymous user! Grab It While You Can! :fire:'
+                );
+            } elseif ($anon == 0 && $featured == 1) {
+                $this->chat->systemMessage(
+                    sprintf('Ladies and Gents, [url=%s/torrents/', $appurl).$torrent->id.']'.$torrent->name.sprintf('[/url] has been added to the Featured Torrents Slider by [url=%s/users/', $appurl).$username.']'.$username.'[/url]! Grab It While You Can! :fire:'
+                );
+            }
+
+            if ($free == 1 && $featured == 0) {
+                $this->chat->systemMessage(
+                    sprintf('Ladies and Gents, [url=%s/torrents/', $appurl).$torrent->id.']'.$torrent->name.'[/url] has been granted 100%% FreeLeech! Grab It While You Can! :fire:'
+                );
+            }
+
+            if ($doubleup == 1 && $featured == 0) {
+                $this->chat->systemMessage(
+                    sprintf('Ladies and Gents, [url=%s/torrents/', $appurl).$torrent->id.']'.$torrent->name.'[/url] has been granted Double Upload! Grab It While You Can! :fire:'
                 );
             }
 
@@ -238,7 +285,7 @@ class TorrentController extends BaseController
      * @param \Illuminate\Http\Request $request
      * @param int                      $id
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Request $request, $id)
     {
@@ -250,7 +297,7 @@ class TorrentController extends BaseController
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy($id)
     {
@@ -269,6 +316,9 @@ class TorrentController extends BaseController
     {
         $search = $request->input('name');
         $description = $request->input('description');
+        $size = $request->input('size');
+        $info_hash = $request->input('info_hash');
+        $file_name = $request->input('file_name');
         $uploader = $request->input('uploader');
         $imdb = $request->input('imdb');
         $tvdb = $request->input('tvdb');
@@ -320,6 +370,20 @@ class TorrentController extends BaseController
         if ($request->has('description') && $request->input('description') != null) {
             $torrent->where(function ($query) use ($description) {
                 $query->where('torrents.description', 'like', $description)->orWhere('mediainfo', 'like', $description);
+            });
+        }
+
+        if ($request->has('size') && $request->input('size') != null) {
+            $torrent->where('torrents.size', '=', $size);
+        }
+
+        if ($request->has('info_hash') && $request->input('info_hash') != null) {
+            $torrent->where('torrents.info_hash', '=', $info_hash);
+        }
+
+        if ($request->has('file_name') && $request->input('file_name') != null) {
+            $torrent = $torrent->whereHas('files', function ($q) use ($file_name) {
+                $q->where('name', $file_name);
             });
         }
 
@@ -412,7 +476,7 @@ class TorrentController extends BaseController
             $torrent->where('torrents.seeders', '=', 0)->where('torrents.leechers', '>=', 1);
         }
 
-        if (!empty($torrent)) {
+        if (! empty($torrent)) {
             return new TorrentsResource($torrent->paginate(25));
         }
 
