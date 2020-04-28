@@ -64,7 +64,7 @@ trait AuthChecker
 
     public function findUserDeviceByAgent(Authenticatable $user, Agent $agent): ?Device
     {
-        if (! $user->hasDevices()) {
+        if (!$user->hasDevices()) {
             return null;
         }
 
@@ -126,7 +126,7 @@ trait AuthChecker
 
     public function findDeviceForUser(Authenticatable $user, Agent $agent): ?Device
     {
-        if (! $user->hasDevices()) {
+        if (!$user->hasDevices()) {
             return false;
         }
 
