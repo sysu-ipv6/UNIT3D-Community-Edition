@@ -45,7 +45,7 @@ class AuthEventSubscriber
     {
         $user = $event->user;
 
-        if (! is_null($user)) {
+        if (!is_null($user)) {
             $this->handleLogin($user);
         }
     }
@@ -59,7 +59,7 @@ class AuthEventSubscriber
     {
         $user = $event->user;
 
-        if (! is_null($user)) {
+        if (!is_null($user)) {
             $this->handleFailed($user);
         }
     }
@@ -73,7 +73,7 @@ class AuthEventSubscriber
     {
         $payload = $event->request->all();
 
-        if (! empty($payload)) {
+        if (!empty($payload)) {
             $this->handleLockout($payload);
         }
     }

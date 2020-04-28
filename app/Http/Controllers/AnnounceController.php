@@ -58,7 +58,7 @@ class AnnounceController extends Controller
 
         // Check Announce Request Method
         $method = $request->method();
-        if (! $request->isMethod('get')) {
+        if (!$request->isMethod('get')) {
             info('Announce Request Method Was Not GET');
 
             return response()->torrentClient(['failure reason' => 'Invalid Request Type: Client Request Was Not A HTTP GET.']);
@@ -91,37 +91,37 @@ class AnnounceController extends Controller
         }
 
         // If Infohash Is Not Provided Return Error to Client
-        if (! $request->has('info_hash')) {
+        if (!$request->has('info_hash')) {
             //info('Client Attempted To Connect To Announce Without A Infohash');
             return response()->torrentClient(['failure reason' => 'Missing info_hash']);
         }
 
         // If Peerid Is Not Provided Return Error to Client
-        if (! $request->has('peer_id')) {
+        if (!$request->has('peer_id')) {
             //info('Client Attempted To Connect To Announce Without A Peerid');
             return response()->torrentClient(['failure reason' => 'Missing peer_id']);
         }
 
         // If Port Is Not Provided Return Error to Client
-        if (! $request->has('port')) {
+        if (!$request->has('port')) {
             //info('Client Attempted To Connect To Announce Without A Specified Port');
             return response()->torrentClient(['failure reason' => 'Missing port']);
         }
 
         // If "Left" Is Not Provided Return Error to Client
-        if (! $request->has('left')) {
+        if (!$request->has('left')) {
             //info('Client Attempted To Connect To Announce Without Supplying Any "Left" Information');
             return response()->torrentClient(['failure reason' => 'Missing left']);
         }
 
         // If "Upload" Is Not Provided Return Error to Client
-        if (! $request->has('uploaded')) {
+        if (!$request->has('uploaded')) {
             //info('Client Attempted To Connect To Announce Without Supplying Any "Upload" Information');
             return response()->torrentClient(['failure reason' => 'Missing upload']);
         }
 
         // If "Download" Is Not Provided Return Error to Client
-        if (! $request->has('downloaded')) {
+        if (!$request->has('downloaded')) {
             //info('Client Attempted To Connect To Announce Without Supplying Any "Download" Information');
             return response()->torrentClient(['failure reason' => 'Missing download']);
         }
@@ -198,7 +198,7 @@ class AnnounceController extends Controller
         }
 
         // If User Client Does Not Support Compact Return Error to Client
-        if (! $compact) {
+        if (!$compact) {
             //info('Client Attempted To Connect To Announce But Doesn't Support Compact');
             return response()->torrentClient(['failure reason' => "Your client doesn't support compact, please update your client"]);
         }
