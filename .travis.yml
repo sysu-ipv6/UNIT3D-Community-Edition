@@ -7,6 +7,7 @@ addons:
   mariadb: '10.3'
 
 before_script:
+- cp .env.testing .env
 - composer install --prefer-source --no-interaction
 - php artisan key:generate --env testing
 - npm install
