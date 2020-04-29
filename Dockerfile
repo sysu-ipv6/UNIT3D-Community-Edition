@@ -31,10 +31,12 @@ RUN composer install --prefer-dist --no-autoloader --no-scripts --no-dev --quiet
 COPY --from=node /app /app
 
 RUN set -xe \
+    && cp .env.testing .env \
     && chown -R www-data: storage bootstrap public config && find . -type d -exec chmod 0775 '{}' + -or -type f -exec chmod 0644 '{}' + \
-    && composer require --prefer-dist --no-scripts --quiet swooletw/laravel-swoole robinwongm/tjupt-to-unit3d \
+    && composer require --prefer-dist --quiet swooletw/laravel-swoole robinwongm/tjupt-to-unit3d \
     && composer install --prefer-dist --optimize-autoloader --no-dev --quiet \
-    && php artisan vendor:publish --tag=laravel-swoole
+    && php artisan vendor:publish --tag=laravel-swoole \
+    && rm .env
 
 USER www-data
 CMD ["php", "artisan", "swoole:http", "start"]
