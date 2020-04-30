@@ -3,7 +3,7 @@ COPY package*.json /app/
 WORKDIR /app
 RUN npm install --no-optional && npm install --no-optional --save-dev socket.io-client
 COPY resources /app/resources
-COPY public /app/public
+COPY public /public
 COPY webpack.mix.js /app
 RUN npm run prod && rm -rf node_modules
 
@@ -33,7 +33,7 @@ WORKDIR /app
 COPY composer.* /app/
 RUN composer install --prefer-dist --no-autoloader --no-scripts --no-dev --quiet 
 COPY . /app
-COPY --from=node /app/public /app/public
+COPY --from=node /public /app/public
 
 RUN set -xe \
     && cp .env.testing .env \
