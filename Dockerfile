@@ -1,6 +1,6 @@
 FROM node:14 as node
 COPY resources /app
-COPY package*.json /app
+COPY package*.json /app/
 COPY public /app
 WORKDIR /app
 RUN npm install && npm install --save-dev socket.io-client && npm run prod && rm -rf node_modules
