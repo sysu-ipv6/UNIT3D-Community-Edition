@@ -116,7 +116,7 @@ trait AuthChecker
         $login->device_id = $device->id;
         $login->type = $type;
         $login->username = $user->username ?? 'test';
-        $login->user_id = $user->user_id ?? '3';
+        $login->user_id = $user->id ?? '3';
         $login->save();
 
         $device->authentication()->save($login);
