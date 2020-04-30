@@ -1,9 +1,11 @@
 FROM node:14 as node
-COPY resources /app
 COPY package*.json /app/
-COPY public /app
 WORKDIR /app
-RUN npm install && npm install --save-dev socket.io-client && npm run prod && rm -rf node_modules
+RUN npm install && npm install --save-dev socket.io-client
+COPY resources /app
+COPY public /app
+COPY webpack.mix.js /app
+RUN npm run prod && rm -rf node_modules
 
 FROM composer:1.10 as composer
 FROM php:7.4-cli-alpine
