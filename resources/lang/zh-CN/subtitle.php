@@ -15,6 +15,7 @@ return [
     'downloads'                   => '下载次数',
     'extension'                   => '扩展名',
     'delete-confirm'              => '你确定要删除吗？',
+    'muxed-description'           => '这个种子有以下语言的内封字幕',
     'note'                        => '简介',
     'note-help'                   => '字幕额外信息',
     'rules-title'                 => '字幕规则',

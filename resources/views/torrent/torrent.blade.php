@@ -476,6 +476,84 @@
             </div>
         </div>
 
+        {{-- Subtitles Block --}}
+        @include('torrent.partials.subtitles')
+
+        <div class="panel panel-chat shoutbox">
+            <div class="panel-heading">
+                <h4><i class="{{ config("other.font-awesome") }} fa-coins"></i> @lang('torrent.tip-jar')</h4>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-condensed table-bordered table-striped">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="col-md-7">
+                                <form role="form" method="POST"
+                                      action="{{ route('tip_uploader', ['id' => $torrent->id]) }}"
+                                      class="form-inline">
+                                    @csrf
+                                    <div class="form-group">
+                                        <span class="text-green text-bold">@lang('torrent.define-tip-amount')</span>
+                                        <label>
+                                            <input type="number" name="tip" value="0" placeholder="0" class="form-control"
+                                                   style="width: 80%">
+                                        </label>
+                                        <button type="submit"
+                                                class="btn btn-primary">@lang('torrent.leave-tip')</button>
+                                    </div>
+                                    <br>
+                                    <span class="text-green text-bold">@lang('torrent.quick-tip')</span>
+                                    <br>
+                                    <button type="submit" value="10" name="tip" class="btn"><img
+                                                src="/img/coins/10coin.png" alt="coin"/></button>
+                                    <button type="submit" value="20" name="tip" class="btn"><img
+                                                src="/img/coins/20coin.png" alt="coin"/></button>
+                                    <button type="submit" value="50" name="tip" class="btn"><img
+                                                src="/img/coins/50coin.png" alt="coin"/></button>
+                                    <button type="submit" value="100" name="tip" class="btn"><img
+                                                src="/img/coins/100coin.png" alt="coin"/></button>
+                                    <button type="submit" value="200" name="tip" class="btn"><img
+                                                src="/img/coins/200coin.png" alt="coin"/></button>
+                                    <button type="submit" value="500" name="tip" class="btn"><img
+                                                src="/img/coins/500coin.png" alt="coin"/></button>
+                                    <button type="submit" value="1000" name="tip" class="btn"><img
+                                                src="/img/coins/1000coin.png" alt="coin"/></button>
+                                </form>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="well" style="box-shadow: none !important;">
+                                    <h4>{!! trans('torrent.torrent-tips', ['total' => $total_tips, 'user' => $user_tips]) !!}
+                                        .</h4>
+                                    <span class="text-red text-bold">(@lang('torrent.torrent-tips-desc'))</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-chat shoutbox">
+            <div class="panel-heading">
+                <h4><i class="{{ config("other.font-awesome") }} fa-sticky-note"></i> @lang('common.description')</h4>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-condensed table-bordered table-striped">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="panel-body">
+                                @emojione($torrent->getDescriptionHtml())
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         @if ($torrent->mediainfo != null)
             <div class="panel panel-chat shoutbox">
                 <div class="panel-heading">
@@ -590,83 +668,7 @@
             </div>
         @endif
 
-        <div class="panel panel-chat shoutbox">
-            <div class="panel-heading">
-                <h4><i class="{{ config("other.font-awesome") }} fa-sticky-note"></i> @lang('common.description')</h4>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-condensed table-bordered table-striped">
-                    <tbody>
-                    <tr>
-                        <td>
-                            <div class="panel-body">
-                                @emojione($torrent->getDescriptionHtml())
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        {{-- Subtitles Block --}}
-        @include('torrent.partials.subtitles')
-
-        <div class="panel panel-chat shoutbox">
-            <div class="panel-heading">
-                <h4><i class="{{ config("other.font-awesome") }} fa-coins"></i> @lang('torrent.tip-jar')</h4>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-condensed table-bordered table-striped">
-                    <tbody>
-                    <tr>
-                        <td>
-                            <div class="col-md-7">
-                                <form role="form" method="POST"
-                                      action="{{ route('tip_uploader', ['id' => $torrent->id]) }}"
-                                      class="form-inline">
-                                    @csrf
-                                    <div class="form-group">
-                                        <span class="text-green text-bold">@lang('torrent.define-tip-amount')</span>
-                                        <label>
-                                            <input type="number" name="tip" value="0" placeholder="0" class="form-control"
-                                                   style="width: 80%">
-                                        </label>
-                                        <button type="submit"
-                                                class="btn btn-primary">@lang('torrent.leave-tip')</button>
-                                    </div>
-                                    <br>
-                                    <span class="text-green text-bold">@lang('torrent.quick-tip')</span>
-                                    <br>
-                                    <button type="submit" value="10" name="tip" class="btn"><img
-                                                src="/img/coins/10coin.png" alt="coin"/></button>
-                                    <button type="submit" value="20" name="tip" class="btn"><img
-                                                src="/img/coins/20coin.png" alt="coin"/></button>
-                                    <button type="submit" value="50" name="tip" class="btn"><img
-                                                src="/img/coins/50coin.png" alt="coin"/></button>
-                                    <button type="submit" value="100" name="tip" class="btn"><img
-                                                src="/img/coins/100coin.png" alt="coin"/></button>
-                                    <button type="submit" value="200" name="tip" class="btn"><img
-                                                src="/img/coins/200coin.png" alt="coin"/></button>
-                                    <button type="submit" value="500" name="tip" class="btn"><img
-                                                src="/img/coins/500coin.png" alt="coin"/></button>
-                                    <button type="submit" value="1000" name="tip" class="btn"><img
-                                                src="/img/coins/1000coin.png" alt="coin"/></button>
-                                </form>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="well" style="box-shadow: none !important;">
-                                    <h4>{!! trans('torrent.torrent-tips', ['total' => $total_tips, 'user' => $user_tips]) !!}
-                                        .</h4>
-                                    <span class="text-red text-bold">(@lang('torrent.torrent-tips-desc'))</span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        
     </div>
 
     @if ($torrent->category->movie_meta || $torrent->category->tv_meta)

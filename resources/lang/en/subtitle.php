@@ -15,6 +15,7 @@ return [
     'downloads'                   => 'Downloads',
     'extension'                   => 'Extension',
     'delete-confirm'              => 'Are You Sure You Want To Delete This?',
+    'muxed-description'           => 'This torrent already includes the following subtitles muxed in:',
     'note'                        => 'Note',
     'note-help'                   => 'Extra Info for this subtitle',
     'rules-title'                 => 'Subtitle Rules!',
