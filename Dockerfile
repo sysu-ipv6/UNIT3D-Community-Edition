@@ -1,7 +1,7 @@
 FROM node:14 as node
 COPY package*.json /app/
 WORKDIR /app
-RUN npm install && npm install --save-dev socket.io-client
+RUN npm install --no-optional && npm install --no-optional --save-dev socket.io-client
 COPY resources /app/resources
 COPY public /app/public
 COPY webpack.mix.js /app
