@@ -1,5 +1,7 @@
-FROM node:13 as node
-COPY . /app
+FROM node:14 as node
+COPY resources /app
+COPY package*.json /app
+COPY public /app
 WORKDIR /app
 RUN npm install && npm install --save-dev socket.io-client && npm run prod && rm -rf node_modules
 
@@ -26,9 +28,10 @@ RUN set -xe \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/* /usr/src/nginx/*
     
 WORKDIR /app
-COPY --from=node /app/composer.* /app/
+COPY composer.* /app/
 RUN composer install --prefer-dist --no-autoloader --no-scripts --no-dev --quiet 
-COPY --from=node /app /app
+COPY . /app
+COPY --from=node /app/public /app/public
 
 RUN set -xe \
     && cp .env.testing .env \
