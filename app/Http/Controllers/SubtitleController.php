@@ -270,8 +270,9 @@ class SubtitleController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Subtitle     $subtitle
      *
-     * @return array
      * @throws \Throwable
+     *
+     * @return array
      */
     public function faceted(Request $request, Subtitle $subtitle)
     {
@@ -306,8 +307,8 @@ class SubtitleController extends Controller
         $subtitles = $subtitle->latest()->paginate(25);
 
         return view('subtitle.results', [
-            'user'        =>  $user,
-            'subtitles'   =>  $subtitles,
+            'user'        => $user,
+            'subtitles'   => $subtitles,
         ])->render();
     }
 }
