@@ -415,7 +415,7 @@
 
                     <tr>
                         <td class="col-sm-2"><strong>@lang('torrent.type')</strong></td>
-                        <td>{{ $torrent->type }}</td>
+                        <td>{{ $torrent->type->name }}</td>
                     </tr>
 
                     <tr>
