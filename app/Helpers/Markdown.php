@@ -1151,7 +1151,7 @@ class Markdown
             $extent += strlen($matches[0]);
         } else {
             if (preg_match('#^\s*\[(.*?)\]#', $remainder, $matches)) {
-                $definition = strlen($matches[1]) ? $matches[1] : $Element['text'];
+                $definition = strlen($matches[1]) !== 0 ? $matches[1] : $Element['text'];
                 $definition = strtolower($definition);
 
                 $extent += strlen($matches[0]);
@@ -1386,8 +1386,8 @@ class Markdown
             $Element = $this->filterUnsafeUrlInAttribute($Element, $safeUrlNameToAtt[$Element['name']]);
         }
 
-        if (!empty($Element['attributes'])) {
-            foreach ($Element['attributes'] as $att => $val) {
+        if (! empty($Element['attributes'])) {
+            foreach (array_keys($Element['attributes']) as $att) {
                 // filter out badly parsed attribute
                 if (!preg_match($goodAttribute, $att)) {
                     unset($Element['attributes'][$att]);
