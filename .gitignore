@@ -43,3 +43,4 @@ laravel-echo-server.*
 
 # Vim
 .*.swp
+_ide_helper.php
