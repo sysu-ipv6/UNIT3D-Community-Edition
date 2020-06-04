@@ -673,10 +673,6 @@
         
     </div>
 
-    @if ($torrent->category->movie_meta || $torrent->category->tv_meta)
-        @include('torrent.partials.movie_tv_recommendations')
-    @endif
-
     <div class="torrent box container" id="comments">
         <div class="clearfix"></div>
         <div class="row ">
