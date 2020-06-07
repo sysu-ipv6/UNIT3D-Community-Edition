@@ -144,7 +144,7 @@ class TorrentController extends BaseController
             'announce'       => 'required',
             'size'           => 'required',
             'category_id'    => 'required|exists:categories,id',
-            'type_id'        => 'required|exists:types,name',
+            'type_id'        => 'required|exists:types,id',
             'resolution_id'  => 'exists:resolutions,id',
             'user_id'        => 'required|exists:users,id',
             'imdb'           => 'required|numeric',
@@ -331,6 +331,7 @@ class TorrentController extends BaseController
         $end_year = $request->input('end_year');
         $categories = $request->input('categories');
         $types = $request->input('types');
+        $resolutions = $request->input('resolutions');
         $genres = $request->input('genres');
         $freeleech = $request->input('freeleech');
         $doubleupload = $request->input('doubleupload');
@@ -427,6 +428,10 @@ class TorrentController extends BaseController
 
         if ($request->has('types') && $request->input('types') != null) {
             $torrent->whereIn('torrents.type_id', $types);
+        }
+
+        if ($request->has('resolutions') && $request->input('resolutions') != null) {
+            $torrent->whereIn('torrents.resolution_id', $resolutions);
         }
 
         if ($request->has('genres') && $request->input('genres') != null) {
