@@ -1062,6 +1062,7 @@ class TorrentController extends Controller
         $torrent->mal = $request->input('mal');
         $torrent->igdb = $request->input('igdb');
         $torrent->type_id = $request->input('type_id');
+        $torrent->resolution_id = $request->input('resolution_id');
         $torrent->mediainfo = $request->input('mediainfo');
         $torrent->anon = $request->input('anonymous');
         $torrent->stream = $request->input('stream');
@@ -1069,19 +1070,20 @@ class TorrentController extends Controller
         $torrent->internal = $request->input('internal');
 
         $v = validator($torrent->toArray(), [
-            'name'         => 'required',
-            'slug'         => 'required',
-            'description'  => 'required',
-            'category_id'  => 'required',
-            'imdb'         => 'numeric',
-            'tvdb'         => 'numeric',
-            'tmdb'         => 'numeric',
-            'mal'          => 'numeric',
-            'igdb'         => 'numeric',
-            'type_id'      => 'required',
-            'anon'         => 'required',
-            'stream'       => 'required',
-            'sd'           => 'required',
+            'name'          => 'required',
+            'slug'          => 'required',
+            'description'   => 'required',
+            'category_id'   => 'required|exists:categories,id',
+            'type_id'       => 'required|exists:types,id',
+            'resolution_id' => 'nullable|exists:resolutions,id',
+            'imdb'          => 'required|numeric',
+            'tvdb'          => 'required|numeric',
+            'tmdb'          => 'required|numeric',
+            'mal'           => 'required|numeric',
+            'igdb'          => 'required|numeric',
+            'anon'          => 'required',
+            'stream'        => 'required',
+            'sd'            => 'required',
         ]);
 
         if ($v->fails()) {
@@ -1347,7 +1349,7 @@ class TorrentController extends Controller
             'size'           => 'required',
             'category_id'    => 'required|exists:categories,id',
             'type_id'        => 'required|exists:types,id',
-            'resolution_id'  => 'exists:resolutions,id',
+            'resolution_id'  => 'nullable|exists:resolutions,id',
             'user_id'        => 'required|exists:users,id',
             'imdb'           => 'required|numeric',
             'tvdb'           => 'required|numeric',
