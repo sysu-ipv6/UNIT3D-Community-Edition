@@ -116,9 +116,10 @@
                                     <i class="{{ config('other.font-awesome') }} fa-fw fa-arrow-down text-red"></i> {{ $t->torrent->leechers }} /
                                     <i class="{{ config('other.font-awesome') }} fa-fw fa-check text-orange"></i>{{ $t->torrent->times_completed }}
                                 </span>&nbsp;
-								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->getSize() }}</span>&nbsp;
-								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->type->name }}</span>&nbsp;
-								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->category->name }}</span>&nbsp;
+								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->getSize() }}</span>
+								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->resolution->name }}</span>
+								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->type->name }}</span>
+								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->category->name }}</span>
 							</div>
 							<div class="card_body">
 								<div class="body_poster">
