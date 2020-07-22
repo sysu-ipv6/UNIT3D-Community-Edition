@@ -26,8 +26,16 @@ class LoginListener
      */
     public function handle($event)
     {
-        // Update Login Timestamp
-        $event->user->last_login = Carbon::now();
-        $event->user->save();
+        FailedLoginAttempt::record(
+            $event->user,
+            Request::input('username'),
+            Request::getClientIp()
+        );
+
+        if (isset($event->user) && \is_a($event->user, 'Illuminate\Database\Eloquent\Model')) {
+            $event->user->notify(new FailedLogin(
+                Request::getClientIp()
+            ));
+        }
     }
 }
