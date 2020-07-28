@@ -7,8 +7,7 @@
 <hr>
 
 <p align="center">
-<a href="http://laravel.com"><img src="https://img.shields.io/badge/Laravel-6-f4645f.svg?style=flat-square" /></a> 
-<a href="https://github.com/php-pm/php-pm"><img src="https://raw.githubusercontent.com/php-pm/ppm-badge/master/ppm-badge.png" /></a> 
+<a href="http://laravel.com"><img src="https://img.shields.io/badge/Laravel-7-f4645f.svg?style=flat-square" /></a> 
 <a href="https://github.com/HDInnovations/UNIT3D/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-AGPL%20v3.0-yellow.svg?style=flat-square" /></a>
 <a href="https://github.styleci.io/repos/238207183"><img src="https://github.styleci.io/repos/238207183/shield?branch=master" alt="StyleCI"></a>
 <a href="https://travis-ci.org/sysu-ipv6/UNIT3D-Community-Edition"><img src="https://api.travis-ci.org/sysu-ipv6/UNIT3D-Community-Edition.svg?branch=master" alt="TravisCI"></a>
