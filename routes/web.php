@@ -22,8 +22,6 @@
 |
 */
 
-Route::group(['middleware' => 'language'], function () {
-
     /*
     |---------------------------------------------------------------------------------
     | Website (Not Authorized) (Alpha Ordered)
@@ -381,9 +379,6 @@ Route::group(['middleware' => 'language'], function () {
 
         // Thank System
         Route::get('/thanks/{id}', 'ThankController@store')->name('thanks.store');
-
-        // Language System
-        Route::get('/{locale}/back', 'LanguageController@back')->name('back');
 
         // Invite System
         Route::group(['prefix' => 'invites'], function () {
@@ -891,4 +886,3 @@ Route::group(['middleware' => 'language'], function () {
             });
         });
     });
-});
