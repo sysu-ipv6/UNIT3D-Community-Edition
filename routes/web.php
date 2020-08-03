@@ -22,6 +22,7 @@
 |
 */
 
+Route::group(['middleware' => 'language'], function () {
     /*
     |---------------------------------------------------------------------------------
     | Website (Not Authorized) (Alpha Ordered)
@@ -886,3 +887,4 @@
             });
         });
     });
+});
