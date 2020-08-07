@@ -13,7 +13,7 @@
 
 return [
     'current-seedtime'   => '目前做种时间',
-    'dead'               => '死种',
+    'dead'               => '断种',
     'graveyard'          => '坟场',
     'guidelines'         => '指引',
     'guidelines-content' => '1) 你不可以申请救活自己发布的种子；<br>2) 不要申请救活自己未必一定能救活的种子。',
