@@ -12,7 +12,7 @@
  */
 
 return [
-    'active-users'            => '活跃用户'
+    'active-users'            => '活跃用户',
     'all-time'                => '开站至今',
     'all-users'               => '所有用户',
     'banned-users'            => '被ban的用户',
