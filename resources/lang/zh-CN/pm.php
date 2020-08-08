@@ -23,7 +23,7 @@ return [
     'new'               => '新消息',
     'outbox'            => '发件箱',
     'private'           => '私密',
-    'private-messages'  => '私密',
+    'private-messages'  => '私信',
     'read'              => '阅读',
     'received-at'       => '接收于',
     'refresh'           => '刷新',
