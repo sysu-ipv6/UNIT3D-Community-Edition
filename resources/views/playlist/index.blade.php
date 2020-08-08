@@ -3,7 +3,7 @@
 @section('breadcrumb')
     <li>
         <a href="{{ route('playlists.index') }}" itemprop="url" class="l-breadcrumb-item-link">
-            <span itemprop="title" class="l-breadcrumb-item-link-title">Playlists</span>
+            <span itemprop="title" class="l-breadcrumb-item-link-title">@lang('common.playlist')</span>
         </a>
     </li>
 @endsection
@@ -13,15 +13,15 @@
         <div class="block">
             <div class="header gradient yellow">
                 <div class="inner_content">
-                    <h1>Playlists</h1>
+                    <h1>@lang('playlists.welcome-title')</h1>
                 </div>
             </div>
         </div>
         <div class="block">
             <div class="container box text-center">
-                <h2>Playlists</h2>
-                <h4>Here you will find user compiled playlists that contain titles to there liking!</h4>
-                <a href="{{ route('playlists.create') }}" class="btn btn-md btn-success">Create New Playlist</a>
+                <h2>@lang('playlists.welcome-title')</h2>
+                <h4>@lang('playlists.welcome-text')</h4>
+                <a href="{{ route('playlists.create') }}" class="btn btn-md btn-success">@lang('playlists.create-new-playlist')</a>
             </div>
     
             <div class="row">

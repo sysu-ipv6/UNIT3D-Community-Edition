@@ -1,7 +1,11 @@
-FROM node:13 as node
-COPY . /app
+FROM node:14 as node
+COPY artisan package*.json /app/
 WORKDIR /app
-RUN npm install && npm install --save-dev socket.io-client && npm run prod && rm -rf node_modules
+RUN npm install --no-optional && npm install --no-optional --save-dev socket.io-client
+COPY resources /app/resources
+COPY public /app/public
+COPY webpack.mix.js /app
+RUN npm run prod && rm -rf node_modules
 
 FROM composer:1.10 as composer
 FROM php:7.4-cli-alpine
@@ -26,9 +30,10 @@ RUN set -xe \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/* /usr/src/nginx/*
     
 WORKDIR /app
-COPY --from=node /app/composer.* /app/
+COPY composer.* /app/
 RUN composer install --prefer-dist --no-autoloader --no-scripts --no-dev --quiet 
-COPY --from=node /app /app
+COPY . /app
+COPY --from=node /app/public /app/public
 
 RUN set -xe \
     && cp .env.testing .env \

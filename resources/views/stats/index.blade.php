@@ -24,7 +24,7 @@
                 <div class="content">
                     <div class="inner_content">
                         <h1>@lang('stat.nerd-stats')</h1>
-                        <p>@lang('stat.nerd-stats-desc'). <b>(Updated Every 10 Minutes!)</b></p>
+                        <p>@lang('stat.nerd-stats-desc'). <b>@lang('stat.update')</b></p>
     
                         <div class="inner_stats">
                             @foreach ($categories as $category)
@@ -41,12 +41,12 @@
     
                             <div class="stat">
                                 <p>{{ $num_hd }}</p>
-                                <span class="badge-extra">HD @lang('torrent.torrents')</span>
+                                <span class="badge-extra">@lang('stat.hd-torrents')</span>
                             </div>
     
                             <div class="stat">
                                 <p>{{ $num_sd }}</p>
-                                <span class="badge-extra">SD @lang('torrent.torrents')</span>
+                                <span class="badge-extra">@lang('stat.sd-torrents')</span>
                             </div>
     
                             <div class="stat">
@@ -57,27 +57,27 @@
     
                             <div class="stat">
                                 <p>{{ $all_user }}</p>
-                                <span class="badge-extra">All @lang('common.users')</span>
+                                <span class="badge-extra">@lang('stat.all-users')</span>
                             </div>
     
                             <div class="stat">
                                 <p>{{ $active_user }}</p>
-                                <span class="badge-extra">Active @lang('common.users')</span>
+                                <span class="badge-extra">@lang('stat.active-users')</span>
                             </div>
     
                             <div class="stat">
                                 <p>{{ $disabled_user }}</p>
-                                <span class="badge-extra">Disabled @lang('common.users')</span>
+                                <span class="badge-extra">@lang('stat.disabled-users')</span>
                             </div>
     
                             <div class="stat">
                                 <p>{{ $pruned_user }}</p>
-                                <span class="badge-extra">Pruned @lang('common.users')</span>
+                                <span class="badge-extra">@lang('stat.pruned-users')</span>
                             </div>
     
                             <div class="stat">
                                 <p>{{ $banned_user }}</p>
-                                <span class="badge-extra">Banned @lang('common.users')</span>
+                                <span class="badge-extra">@lang('stat.banned-users')</span>
                             </div>
     
                             <div class="stat">
@@ -99,34 +99,34 @@
     
                             <div class="stat">
                                 <p>{{ \App\Helpers\StringHelper::formatBytes($actual_upload, 2) }}</p>
-                                <span class="badge-extra">Real @lang('stat.total-upload')</span>
+                                <span class="badge-extra">@lang('stat.real') @lang('stat.total-upload')</span>
                             </div>
     
                             <div class="stat">
                                 <p>{{ \App\Helpers\StringHelper::formatBytes($actual_download, 2) }}</p>
-                                <span class="badge-extra">Real @lang('stat.total-download')</span>
+                                <span class="badge-extra">@lang('stat.real') @lang('stat.total-download')</span>
                             </div>
     
                             <div class="stat">
                                 <p>{{ \App\Helpers\StringHelper::formatBytes($actual_up_down, 2) }}</p>
-                                <span class="badge-extra">Real @lang('stat.total-traffic')</span>
+                                <span class="badge-extra">@lang('stat.real') @lang('stat.total-traffic')</span>
                             </div>
     
                             <br>
     
                             <div class="stat">
                                 <p>{{ \App\Helpers\StringHelper::formatBytes($credited_upload, 2) }}</p>
-                                <span class="badge-extra">Credited @lang('stat.total-upload')</span>
+                                <span class="badge-extra">@lang('stat.credicted') @lang('stat.total-upload')</span>
                             </div>
     
                             <div class="stat">
                                 <p>{{ \App\Helpers\StringHelper::formatBytes($credited_download, 2) }}</p>
-                                <span class="badge-extra">Credited @lang('stat.total-download')</span>
+                                <span class="badge-extra">@lang('stat.credicted') @lang('stat.total-download')</span>
                             </div>
     
                             <div class="stat">
                                 <p>{{ \App\Helpers\StringHelper::formatBytes($credited_up_down, 2) }}</p>
-                                <span class="badge-extra">Credited @lang('stat.total-traffic')</span>
+                                <span class="badge-extra">@lang('stat.credicted') @lang('stat.total-traffic')</span>
                             </div>
     
                         </div>

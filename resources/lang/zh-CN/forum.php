@@ -69,6 +69,6 @@ return [
     'topic-title'        => '标题',
     'topics'             => '主题',
     'unpin'              => '解除固定',
-    'view-all'           => '阅览全部',
-    'views'              => '阅览',
+    'view-all'           => '浏览全部',
+    'views'              => '浏览',
 ];
