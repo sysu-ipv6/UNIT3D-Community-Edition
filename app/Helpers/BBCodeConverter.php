@@ -144,12 +144,13 @@ class BBCodeConverter
                 }
 
                 // We need a like break above the list and another one below.
-                if (!empty($buffer)) {
+                if (! empty($buffer)) {
                     $buffer = PHP_EOL.$buffer.PHP_EOL;
                 }
 
                 return $buffer;
             },
+
             $this->text
         );
     }
@@ -218,6 +219,7 @@ class BBCodeConverter
 
                 throw new \RuntimeException(\sprintf("Text identified by '%d' has malformed BBCode urls", $this->id));
             },
+
             $this->text
         );
     }
@@ -230,6 +232,7 @@ class BBCodeConverter
         $this->text = \preg_replace_callback('#\[img\]([\W\D\w\s]*?)\[/img\]#iu',
 
             fn ($matches) => PHP_EOL.'![]'.'('.$matches[1].')'.PHP_EOL,
+
             $this->text
         );
     }
@@ -263,6 +266,7 @@ class BBCodeConverter
 
                 return '> '.$quote.PHP_EOL.PHP_EOL;
             },
+
             $this->text
         );
     }
@@ -309,6 +313,7 @@ class BBCodeConverter
 
                 throw new \RuntimeException(\sprintf("Text identified by '%d' has malformed BBCode snippet.", $this->id));
             },
+
             $this->text
         );
     }
