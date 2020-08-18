@@ -38,7 +38,7 @@ COPY --from=node /app/public /app/public
 RUN set -xe \
     && cp .env.testing .env \
     && chown -R www-data: storage bootstrap public config && find . -type d -exec chmod 0775 '{}' + -or -type f -exec chmod 0644 '{}' + \
-    && composer require --prefer-dist swooletw/laravel-swoole \
+    && composer require --prefer-dist swooletw/laravel-swoole robinwongm/tjupt-to-unit3d \
     && composer install --prefer-dist --optimize-autoloader --no-dev --quiet \
     && php artisan vendor:publish --tag=laravel-swoole \
     && rm .env
