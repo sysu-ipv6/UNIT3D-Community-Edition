@@ -17,54 +17,277 @@
  * facetedSearchBuilder - To add filters for search / Used: Torrents
  * forumTipBuilder - To add tip buttons for forum / Used: Topics
  * userExtensionBuilder - To add toggle capabilities to BON / Used: BON
- * configExtensionBuilder - To add Swal to config manager / Used: Admin Config Manager
  *
  * After classes, event attachments then globals.
 */
 
 class uploadExtensionBuilder {
-    constructor() {
-        // Empty for now
+    // https://stackoverflow.com/a/10710400
+    // get all indexes of ch in str
+    getAllIndexes(str, ch) {
+        var indices = [];
+        for (var i = 0; i < str.length; i++) {
+            if (str[i] === ch) indices.push(i);
+        }
+        return indices;
+    }
+    // is index in range of str?
+    inRange(str, index) {
+        return (index >= 0 && index < str.length);
+    }
+    // https://stackoverflow.com/a/8935675
+    is_numeric(str) {
+        return /^\d+$/.test(str)
+    }
+    // https://www.geeksforgeeks.org/how-to-replace-a-character-at-a-particular-index-in-javascript/
+    replaceChar(origString, replaceChar, index) {
+        let firstPart = origString.substr(0, index);
+        let lastPart = origString.substr(index + 1);
+
+        let newString = firstPart + replaceChar + lastPart;
+        return newString;
+    }
+    removeDots(title) {
+        // replace dots with spaces that are between:
+        // 1) letter and letter
+        // 2) number and letter
+        // 3) . 4 numbers (.year)
+        // 4) 4 numbers and 3 numbers followed by i or p (year and resolution, 2020.720p)
+        // 5) 4 numbers and 4 numbers followed by i or p (year and resolution, 2020.1080p)
+        // 6) S 2 numbers . 3 numbers followed by i or p (season and resolution, S01.720p)
+        // 7) S 2 numbers . 4 numbers followed by i or p (season and resolution, S01.1080p)
+        // 8) 2 letters . number . number (DD.2.0 or AAC.2.0 or DD+.2.0 or DTS-X.7.1)
+
+        let newTitle = title;
+
+        // array of indexes of each dot location
+        const indexes = this.getAllIndexes(title, ".")
+
+        // for each dot dot location
+        for (const i of indexes) {
+            if (this.inRange(title, i - 1) && this.inRange(title, i + 1)) {
+                // characters before and after dot
+                const before = title[i - 1]
+                const after = title[i + 1]
+
+                if (!this.is_numeric(before) && !this.is_numeric(after)) {
+                    // Case 1: letter and letter
+                    newTitle = this.replaceChar(newTitle, " ", i)
+                    continue;
+                } else if (this.is_numeric(before) && !this.is_numeric(after)) {
+                    // Case 2: number and letter
+                    newTitle = this.replaceChar(newTitle, " ", i)
+                    continue;
+                }
+            }
+
+            // Case 3: . 4 numbers (.year)
+            if (this.inRange(title, i + 5)) {
+                const after = title.substring(i + 1, i + 5)
+                if (this.is_numeric(after)) {
+                    newTitle = this.replaceChar(newTitle, " ", i)
+                    continue;
+                }
+            }
+
+            // Case 4: 4 numbers and 3 numbers followed by i or p (year and resolution, 2020.720p)
+            if (this.inRange(title, i - 4) && this.inRange(title, i + 4)) {
+                const beforeNum = title.substring(i - 4, i) // ex. 1987
+                const afterNum = title.substring(i + 1, i + 4) // ex. 480, 576 or 720
+                const afterResolution = title.charAt(i + 4).toLowerCase() // i or p
+
+                if (this.is_numeric(beforeNum) && this.is_numeric(afterNum) && (afterResolution == "i" || afterResolution == "p")) {
+                    newTitle = this.replaceChar(newTitle, " ", i)
+                    continue;
+                }
+            }
+
+            // Case 5: 4 numbers and 4 numbers followed by i or p (year and resolution, 2020.1080p)
+            if (this.inRange(title, i - 4) && this.inRange(title, i + 5)) {
+                const beforeNum = title.substring(i - 4, i) // ex. 1987
+                const afterNum = title.substring(i + 1, i + 5) // ex. 1080 or 2160
+                const afterResolution = title.charAt(i + 5).toLowerCase() // i or p
+
+                if (this.is_numeric(beforeNum) && this.is_numeric(afterNum) && (afterResolution == "i" || afterResolution == "p")) {
+                    newTitle = this.replaceChar(newTitle, " ", i)
+                    continue;
+                }
+            }
+
+            // Case 6: S 2 numbers . 3 numbers followed by i or p (season and resolution, S01.720p)
+            if (this.inRange(title, i - 3) && this.inRange(i + 4)) {
+                const beforeNum = title.substring(i - 3, i - 2).toLowerCase() // ex. S
+                const seasonNum = title.substring(i - 2, i).toLowerCase() // ex. 01
+
+                const afterNum = title.substring(i + 1, i + 4) // ex. 480, 576 or 720
+                const afterResolution = title.charAt(i + 4).toLowerCase() // i or p
+
+                if (beforeNum == "s" && this.is_numeric(seasonNum) && (afterResolution == "i" || afterResolution == "p")) {
+                    newTitle = this.replaceChar(newTitle, " ", i)
+                    continue;
+                }
+            }
+
+            // Case 7: S 2 numbers . 4 numbers followed by i or p (season and resolution, S01.720p)
+            if (this.inRange(title, i - 3) && this.inRange(i + 5)) {
+                const beforeNum = title.substring(i - 3, i - 2).toLowerCase() // ex. S
+                const seasonNum = title.substring(i - 2, i).toLowerCase() // ex. 01
+
+                const afterNum = title.substring(i + 1, i + 5) // ex. 1080 or 2160
+                const afterResolution = title.charAt(i + 5).toLowerCase() // i or p
+
+                if (beforeNum == "s" && this.is_numeric(seasonNum) && (afterResolution == "i" || afterResolution == "p")) {
+                    newTitle = this.replaceChar(newTitle, " ", i)
+                    continue;
+                }
+            }
+
+            // Case 8: 2 letters . number (DD.2.0 or AAC.2.0 or DD+.2.0 or DTS-X.7.1)
+            // looking at it from the first dot only
+            if (this.inRange(title, i - 1) && this.inRange(title, i + 1)) {
+                const before = title.substring(i - 1, i).toLowerCase() // ex. DD or AC or D+ or -X
+                const after = title.charAt(i + 1) // number
+
+                if (!this.is_numeric(before) && this.is_numeric(after)) {
+                    newTitle = this.replaceChar(newTitle, " ", i)
+                    continue;
+                }
+            }
+        }
+
+        return newTitle;
     }
     hook() {
         let name = document.querySelector('#title');
         let torrent = document.querySelector('#torrent');
+        let release;
         if (!name.value) {
-            let fileEndings = ['.mkv.torrent', '.mp4.torrent', '.torrent'];
-            let allowed = ['1.0', '2.0', '5.1', '6.1', '7.1', 'H.264'];
-            var newValue = '';
-            var preValue = torrent.value;
+            const fileEndings = ['.mkv.torrent', '.mp4.torrent', '.torrent'];
+            var newValue = torrent.value;
+            // strip path
+            newValue = newValue.split('\\').pop().split('/').pop();
+            // remove file endings
             fileEndings.forEach(function (e) {
-                preValue = preValue.replace(e, '');
+                newValue = newValue.replace(e, '');
             });
-            var recursion = preValue.split('\\').pop().split('/').pop();
-            for(var i=0; i<recursion.length; i++) {
-                var prev = false;
-                var next = false;
-                if(recursion[i] == '.') {
-                    var joined = false;
-                    for(var j=0; j<allowed.length; j++) {
-                        var tmp = allowed[j].split('.');
-                        if(tmp[0] == 'H') {
-                            if (recursion[i - 1] != undefined && recursion[i - 1] == tmp[0] && recursion[i + 1] != undefined && recursion[i + 1] == '2' && recursion[i + 2] != undefined && recursion[i + 2] == '6' && recursion[i + 3] != undefined && recursion[i + 3] =='4') {
-                                joined = true;
-                            }
-                        } else {
-                            if (recursion[i - 1] != undefined && recursion[i - 1] == tmp[0] && recursion[i + 1] != undefined && recursion[i + 1] == tmp[1]) {
-                                joined = true;
-                            }
-                        }
-                    }
-                    if(joined == false) { newValue=newValue+' '; }
-                    else {
-                        newValue = newValue+'.';
-                    }
+            // replace dots with spaces
+            name.value = this.removeDots(newValue);
+        }
+
+        /* PARSING */
+        release = title_parser.parse(name.value, {
+            strict: true, // if no main tags found, will throw an exception
+            flagged: true, // add flags to generated relese name (like STV, REMASTERED, READNFO)
+            erase: [], // add expressions to erase before parsing
+            defaults: {"language": "ENGLISH"} // defaults values for : language, resolution and year
+        });
+
+        console.log(release);
+
+        let matcher = name.value.toLowerCase();
+
+        // Torrent Category
+        if (release.type === "Movie") {
+            $("#autocat").val(1);
+        } else if (release.type === "TV Show") {
+            $("#autocat").val(2);
+        }
+
+        // Torrent Type
+        if (matcher.indexOf("bd50") > 0 || matcher.indexOf("bd25") > 0 || matcher.indexOf("untouched") > 0 || matcher.indexOf("dvd5") > 0 || matcher.indexOf("dvd9") > 0 || matcher.indexOf("mpeg-2") > 0 || matcher.indexOf("avc") > 0 || matcher.indexOf("vc-1") > 0) {
+            $("#autotype").val(1);
+        }
+        if (matcher.indexOf("remux") > 0) {
+            $("#autotype").val(2);
+        }
+        if (matcher.indexOf("x264") > 0) {
+            $("#autotype").val(3);
+        }
+        if (matcher.indexOf("x265") > 0) {
+            $("#autotype").val(3);
+        }
+        if (matcher.indexOf("webdl") > 0 || matcher.indexOf("web-dl") > 0) {
+            $("#autotype").val(4);
+        }
+        if (matcher.indexOf("web-rip") > 0 || matcher.indexOf("webrip") > 0) {
+            $("#autotype").val(5);
+        }
+        if (matcher.indexOf("hdtv") > 0) {
+            $("#autotype").val(6);
+        }
+
+        // Torrent Resolution
+        $("#autores").val(release.resolution);
+
+        // Torrent Season (TV Only)
+        $("#season_number").val(release.season);
+
+        // Torrent Episode (TV Only)
+        $("#episode_number").val(release.episode);
+
+        // Torrent TMDB ID
+        if (release.type === "Movie") {
+            theMovieDb.search.getMovie({ "query": release.title, "year": release.year }, successCB, errorCB);
+        } else if (release.type === "TV Show") {
+            theMovieDb.search.getTv({ "query": release.title }, successCB, errorCB);
+        }
+
+        function successCB(data) {
+            data = JSON.parse(data);
+            if (release.type === "Movie") {
+                if (data.results && data.results.length > 0) {
+                    $("#autotmdb").val(data.results[0].id);
+                    $("#apimatch").val('Found Match: ' + data.results[0].title + ' (' + data.results[0].release_date + ')');
+                    theMovieDb.movies.getKeywords({ "id": data.results[0].id }, success, error);
+                    theMovieDb.movies.getExternalIds({ "id": data.results[0].id }, s, e);
                 }
-                else {
-                    newValue = newValue + recursion[i];
+            } else if (release.type === "TV Show") {
+                if (data.results && data.results.length > 0) {
+                    $("#autotmdb").val(data.results[0].id);
+                    $("#apimatch").val('Found Match: ' + data.results[0].name + ' (' + data.results[0].first_air_date + ')');
+                    theMovieDb.tv.getKeywords({ "id": data.results[0].id }, success, error);
+                    theMovieDb.tv.getExternalIds({ "id": data.results[0].id }, s, e);
                 }
             }
-            name.value = newValue;
+        }
+        function errorCB(data) {
+            console.log("Error callback: " + data);
+        }
+
+        //Torrent Keywords
+        function success(data) {
+            data = JSON.parse(data);
+            if (release.type === "Movie") {
+                let tags = data.keywords.map(({ name }) => name).join(', ');
+                $("#autokeywords").val(tags);
+            } else if (release.type === "TV Show") {
+                let tags = data.results.map(({ name }) => name).join(', ');
+                $("#autokeywords").val(tags);
+            }
+        }
+        function error(data) {
+            console.log("Error callback: " + data);
+        }
+
+        //Torrent External IDs
+        function s(data) {
+            data = JSON.parse(data);
+            let imdb = data.imdb_id;
+            imdb = imdb.substring(2);
+            if (release.type === "Movie") {
+                $("#autoimdb").val(imdb);
+            } else if (release.type === "TV Show") {
+                $("#autoimdb").val(imdb);
+                $("#autotvdb").val(data.tvdb_id);
+            }
+        }
+        function e(data) {
+            console.log("Error callback: " + data);
+        }
+
+        // Torrent Stream Optimized?
+        if (release.container === "MP4" && release.audio === "AAC") {
+            document.getElementById("stream").checked = true;
         }
     }
 }
@@ -422,6 +645,7 @@ class facetedSearchBuilder {
             var search = $("#search").val();
         }
         var description = $("#description").val();
+        var keywords = $("#keywords").val();
         var uploader = $("#uploader").val();
         var imdb = $("#imdb").val();
         var tvdb = $("#tvdb").val();
@@ -432,6 +656,7 @@ class facetedSearchBuilder {
         var end_year = $("#end_year").val();
         var categories = [];
         var types = [];
+        var resolutions = [];
         var genres = [];
         var qty = $("#qty").val();
         var notdownloaded = (function () {
@@ -515,6 +740,9 @@ class facetedSearchBuilder {
         $(".type:checked").each(function () {
             types.push($(this).val());
         });
+        $(".resolution:checked").each(function () {
+            resolutions.push($(this).val());
+        });
         $(".genre:checked").each(function () {
             genres.push($(this).val());
         });
@@ -583,6 +811,7 @@ class facetedSearchBuilder {
                 _token: this.csrf,
                 search: search,
                 description: description,
+                keywords: keywords,
                 uploader: uploader,
                 imdb: imdb,
                 tvdb: tvdb,
@@ -599,6 +828,7 @@ class facetedSearchBuilder {
                 end_year: end_year,
                 categories: categories,
                 types: types,
+                resolutions: resolutions,
                 genres: genres,
                 freeleech: freeleech,
                 doubleupload: doubleupload,
@@ -835,86 +1065,6 @@ class forumTipBuilder {
         });
     }
 }
-class configExtensionBuilder {
-    constructor() {
-        this.csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-    }
-    handle(keyv,val) {
-        this.keyv = keyv;
-        this.val = val;
-        this.input = val.replace(/['"]/g,'');
-        Swal.fire({
-            title: 'Change Value',
-            width: '800px',
-            inputAttributes: {
-                autocapitalize: 'off'
-            },
-            html:
-                '<div class="text-left">'+
-                '<input type="text" size="30" id="val_'+configExtension.keyv+'" class="form-control" name="val" value="'+this.input+'" />' +
-                '</div>',
-            showCancelButton: true,
-            confirmButtonText: 'Save',
-            showLoaderOnConfirm: true,
-            preConfirm: () => {
-                this.val = $('#val_'+configExtension.keyv).val();
-                $.ajax({
-                    url: this.update,
-                    data: {
-                        'filePath' : configExtension.path,
-                        'key' : configExtension.keyv,
-                        'value' : ''+String(configExtension.val)+'',
-                    },
-                    beforeSend: function (request){
-                        request.setRequestHeader("X-CSRF-TOKEN", configExtension.csrf);
-                    },
-                    type: 'PUT',
-                    success: function(result) {
-                        $('#key_val_'+configExtension.keyv).html(configExtension.val);
-                        $('#button_'+configExtension.keyv).attr('val',configExtension.val);
-                    }
-                });
-            },
-            allowOutsideClick: false
-        }).then(result => {
-            if (result.value) {
-                Swal.fire({
-                    title: 'Value Has Been Changed',
-                    timer: 1500,
-                    onOpen: () => {
-                        swal.showLoading();
-                    }
-                })
-            }
-        });
-    }
-    init() {
-        $('#configBox').hide();
-        this.view = $('#configExtension').attr('view');
-        this.index = $('#configExtension').attr('index');
-        this.update = $('#configExtension').attr('update');
-        this.file = $('#configExtension').attr('file');
-        this.path = $('#configExtension').attr('path');
-        $('.file-select').off('change');
-        $('.file-select').on('change', function(){
-            var file = $(this).val();
-            if (file) {
-                window.location.href = configExtension.view+"/"+$(this).val();
-            } else {
-                window.location.href = configExtension.index;
-            }
-        });
-        if(this.file == 'yes') {
-            $('.edit').each(function () {
-                $(this).off('click');
-                $(this).on('click', function (e) {
-                    e.preventDefault();
-                    configExtension.handle($(this).attr('keyv'),$(this).attr('val'));
-                });
-            });
-        }
-    }
-}
 class torrentBookmarkBuilder {
     constructor() {
         this.csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
@@ -1125,7 +1275,6 @@ const torrentBookmark = new torrentBookmarkBuilder();
 const userFilter = new userFilterBuilder();
 const forumTip = new forumTipBuilder();
 const userExtension = new userExtensionBuilder();
-const configExtension = new configExtensionBuilder();
 const uploadExtension = new uploadExtensionBuilder();
 var userFilterXHR = null;
 var facetedSearchXHR = null;

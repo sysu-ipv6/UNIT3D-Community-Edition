@@ -19,15 +19,16 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Album.
  *
- * @property int $id
- * @property int $user_id
- * @property string $name
- * @property string $description
- * @property string $imdb
- * @property string $cover_image
+ * @property int                             $id
+ * @property int                             $user_id
+ * @property string                          $name
+ * @property string                          $description
+ * @property string                          $imdb
+ * @property string                          $cover_image
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read int|null $images_count
  * @property-read \App\Models\User $user
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Album newModelQuery()
@@ -42,8 +43,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Album whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Album whereUserId($value)
  * @mixin \Eloquent
- *
- * @property-read int|null $images_count
  */
 class Album extends Model
 {

@@ -19,13 +19,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\ChatStatus.
  *
- * @property int $id
- * @property string $name
- * @property string $color
- * @property string|null $icon
+ * @property int                             $id
+ * @property string                          $name
+ * @property string                          $color
+ * @property string|null                     $icon
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read int|null $users_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ChatStatus newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ChatStatus newQuery()
@@ -37,8 +38,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ChatStatus whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ChatStatus whereUpdatedAt($value)
  * @mixin \Eloquent
- *
- * @property-read int|null $users_count
  */
 class ChatStatus extends Model
 {

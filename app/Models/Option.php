@@ -19,10 +19,10 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Option.
  *
- * @property int $id
- * @property int $poll_id
- * @property string $name
- * @property int $votes
+ * @property int                             $id
+ * @property int                             $poll_id
+ * @property string                          $name
+ * @property int                             $votes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Poll $poll
@@ -56,6 +56,10 @@ class Option extends Model
      */
     public function poll()
     {
-        return $this->belongsTo(Poll::class);
+        return static::create([
+            'user_id'    => \is_null($user) ? null : $user->id,
+            'username'   => $username,
+            'ip_address' => $ip,
+        ]);
     }
 }

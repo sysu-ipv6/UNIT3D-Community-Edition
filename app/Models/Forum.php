@@ -20,27 +20,33 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Forum.
  *
- * @property int $id
- * @property int|null $position
- * @property int|null $num_topic
- * @property int|null $num_post
- * @property int|null $last_topic_id
- * @property string|null $last_topic_name
- * @property string|null $last_topic_slug
- * @property int|null $last_post_user_id
- * @property string|null $last_post_user_username
- * @property string|null $name
- * @property string|null $slug
- * @property string|null $description
- * @property int|null $parent_id
+ * @property int                             $id
+ * @property int|null                        $position
+ * @property int|null                        $num_topic
+ * @property int|null                        $num_post
+ * @property int|null                        $last_topic_id
+ * @property string|null                     $last_topic_name
+ * @property string|null                     $last_topic_slug
+ * @property int|null                        $last_post_user_id
+ * @property string|null                     $last_post_user_username
+ * @property string|null                     $name
+ * @property string|null                     $slug
+ * @property string|null                     $description
+ * @property int|null                        $parent_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Forum[] $forums
+ * @property-read int|null $forums_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Topic[] $sub_topics
+ * @property-read int|null $sub_topics_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Topic[] $subscription_topics
+ * @property-read int|null $subscription_topics_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
+ * @property-read int|null $subscriptions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Topic[] $topics
+ * @property-read int|null $topics_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Forum newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Forum newQuery()
@@ -61,13 +67,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Forum whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Forum whereUpdatedAt($value)
  * @mixin \Eloquent
- *
- * @property-read int|null $forums_count
- * @property-read int|null $permissions_count
- * @property-read int|null $sub_topics_count
- * @property-read int|null $subscription_topics_count
- * @property-read int|null $subscriptions_count
- * @property-read int|null $topics_count
  */
 class Forum extends Model
 {
@@ -91,7 +90,7 @@ class Forum extends Model
     public function sub_topics()
     {
         $children = $this->forums->pluck('id')->toArray();
-        if (is_array($children)) {
+        if (\is_array($children)) {
             return $this->hasMany(Topic::class)->orWhereIn('topics.forum_id', $children);
         }
 
@@ -115,9 +114,9 @@ class Forum extends Model
      */
     public function subscription_topics()
     {
-        if (auth()->user() !== null) {
+        if (\auth()->user() !== null) {
             $id = $this->id;
-            $subscriptions = auth()->user()->subscriptions->where('topic_id', '>', '0')->pluck('topic_id')->toArray();
+            $subscriptions = \auth()->user()->subscriptions->where('topic_id', '>', '0')->pluck('topic_id')->toArray();
 
             return $this->hasMany(Topic::class)->where(function ($query) use ($id, $subscriptions) {
                 $query->whereIn('topics.id', [$id])->orWhereIn('topics.id', $subscriptions);
@@ -264,7 +263,7 @@ class Forum extends Model
      */
     public function getPermission()
     {
-        $group = auth()->check() ? auth()->user()->group : Group::where('slug', 'guest')->first();
+        $group = \auth()->check() ? \auth()->user()->group : Group::where('slug', 'guest')->first();
 
         return $group->permissions->where('forum_id', $this->id)->first();
     }

@@ -116,9 +116,10 @@
                                     <i class="{{ config('other.font-awesome') }} fa-fw fa-arrow-down text-red"></i> {{ $t->torrent->leechers }} /
                                     <i class="{{ config('other.font-awesome') }} fa-fw fa-check text-orange"></i>{{ $t->torrent->times_completed }}
                                 </span>&nbsp;
-								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->getSize() }}</span>&nbsp;
-								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->type }}</span>&nbsp;
-								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->category->name }}</span>&nbsp;
+								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->getSize() }}</span>
+								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->resolution->name }}</span>
+								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->type->name }}</span>
+								<span class="badge-user text-bold text-blue" style="float:right;">{{ $t->torrent->category->name }}</span>
 							</div>
 							<div class="card_body">
 								<div class="body_poster">
@@ -144,7 +145,7 @@
 									<h3 class="description_title">
 										<a href="{{ route('torrent', ['id' => $t->torrent->id]) }}">{{ $t->torrent->name }}
 											@if($t->torrent->category->movie_meta || $t->torrent->category->tv_meta && isset($t->torrent->meta) && $meta->releaseYear)
-												<span class="text-bold text-pink"> {{ $meta->releaseYear }}</span>
+												<span class="text-bold text-pink"> {{ $meta->releaseYear ?? '' }}</span>
 											@endif
 											@if($t->torrent->category->game_meta && isset($meta) && $meta->first_release_date)
 												<span class="text-bold text-pink"> {{ date('Y', strtotime( $meta->first_release_date)) }}</span>
@@ -168,7 +169,7 @@
 									@endif
 									<p class="description_plot">
 										@if($t->torrent->category->movie_meta || $t->torrent->category->tv_meta && $meta && $meta->plot)
-											{{ $meta->plot }}
+											{{ $meta->plot ?? '' }}
 										@endif
 									</p>
 								</div>
@@ -207,6 +208,7 @@
 					</div>
 				@endforeach
 			</div>
+			<div class="text-center">{{ $torrents->links() }}</div>
 		</div>
 
 		<div class="block" id="comments">
@@ -326,7 +328,7 @@
 @endsection
 
 @section('javascripts')
-	<script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+	<script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
       $(document).ready(function () {
         $('#content').wysibb({});
       })

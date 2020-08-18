@@ -74,8 +74,21 @@
                             @foreach ($torrent_repository->types() as $id => $type)
                                 <span class="badge-user">
                                     <label class="inline">
-                                        <input type="checkbox" id="{{ $type }}" name="types[]" value="{{ $type }}" class="type">
+                                        <input type="checkbox" id="{{ $type }}" name="types[]" value="{{ $id }}" class="type">
                                         {{ $type }}
+                                    </label>
+                                </span>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="resolution">@lang('torrent.resolution')</label>
+                        <div>
+                            @foreach ($torrent_repository->resolutions() as $id => $resolution)
+                                <span class="badge-user">
+                                    <label class="inline">
+                                        <input type="checkbox" id="{{ $resolution }}" value="{{ $id }}" class="resolution" name="resolutions[]">
+                                        {{ $resolution }}
                                     </label>
                                 </span>
                             @endforeach

@@ -117,7 +117,7 @@
                                     @foreach ($repository->categories() as $id => $category)
                                         <span class="badge-user">
                                             <label class="inline">
-                                                <input type="checkbox" id="{{ $category }}" value="{{ $id }}"
+                                                <input type="checkbox" value="{{ $id }}"
                                                     class="category facetedSearch" trigger="click"> {{ $category }}
                                             </label>
                                         </span>
@@ -132,8 +132,22 @@
                                     @foreach ($repository->types() as $id => $type)
                                         <span class="badge-user">
                                             <label class="inline">
-                                                <input type="checkbox" id="{{ $type }}" value="{{ $type }}"
+                                                <input type="checkbox" value="{{ $id }}"
                                                     class="type facetedSearch" trigger="click"> {{ $type }}
+                                            </label>
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="mx-0 mt-5 form-group fatten-me">
+                                <label for="resolution_id" class="mt-5 col-sm-1 label label-default fatten-me">@lang('torrent.resolution')</label>
+                                <div class="col-sm-10">
+                                    @foreach ($repository->resolutions() as $id => $resolution)
+                                        <span class="badge-user">
+                                            <label class="inline">
+                                                <input type="checkbox" value="{{ $id }}"
+                                                       class="resolution facetedSearch" trigger="click"> {{ $resolution }}
                                             </label>
                                         </span>
                                     @endforeach
@@ -147,7 +161,7 @@
                                     @foreach ($repository->tags() as $id => $genre)
                                         <span class="badge-user">
                                             <label class="inline">
-                                                <input type="checkbox" id="{{ $genre }}" value="{{ $genre }}"
+                                                <input type="checkbox" value="{{ $genre }}"
                                                     class="genre facetedSearch" trigger="click"> {{ $genre }}
                                             </label>
                                         </span>

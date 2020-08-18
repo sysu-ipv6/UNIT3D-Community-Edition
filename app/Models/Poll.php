@@ -20,16 +20,18 @@ use Illuminate\Support\Str;
 /**
  * App\Models\Poll.
  *
- * @property int $id
- * @property int $user_id
- * @property string $title
- * @property string $slug
- * @property int $multiple_choice
+ * @property int                             $id
+ * @property int                             $user_id
+ * @property string                          $title
+ * @property string                          $slug
+ * @property int                             $multiple_choice
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Option[] $options
+ * @property-read int|null $options_count
  * @property-read \App\Models\User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Voter[] $voters
+ * @property-read int|null $voters_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Poll newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Poll newQuery()
@@ -42,9 +44,6 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Poll whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Poll whereUserId($value)
  * @mixin \Eloquent
- *
- * @property-read int|null $options_count
- * @property-read int|null $voters_count
  */
 class Poll extends Model
 {
@@ -103,7 +102,7 @@ class Poll extends Model
      */
     public function setTitleAttribute($title)
     {
-        if (substr($title, -1) !== '?') {
+        if (\substr($title, -1) !== '?') {
             return $this->attributes['title'] = $title.'?';
         }
 
@@ -119,10 +118,10 @@ class Poll extends Model
      */
     public function makeSlugFromTitle($title)
     {
-        $slug = strlen($title) > 20 ? substr(Str::slug($title), 0, 20) : Str::slug($title);
+        $slug = \strlen($title) > 20 ? \substr(Str::slug($title), 0, 20) : Str::slug($title);
         $count = $this->where('slug', 'LIKE', "%$slug%")->count();
 
-        return $count ? sprintf('%s-%s', $slug, $count) : $slug;
+        return $count ? \sprintf('%s-%s', $slug, $count) : $slug;
     }
 
     /**

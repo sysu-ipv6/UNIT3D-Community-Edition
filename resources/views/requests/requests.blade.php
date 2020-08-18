@@ -69,7 +69,7 @@
                         @foreach ($repository->categories() as $id => $category)
                             <span class="badge-user">
                                 <label class="inline">
-                                    <input type="checkbox" id="{{ $category }}" value="{{ $id }}" class="category"> {{ $category }}
+                                    <input type="checkbox" value="{{ $id }}" class="category"> {{ $category }}
                                 </label>
                             </span>
                         @endforeach
@@ -82,7 +82,20 @@
                         @foreach ($repository->types() as $id => $type)
                             <span class="badge-user">
                                 <label class="inline">
-                                    <input type="checkbox" id="{{ $type }}" value="{{ $type }}" class="type"> {{ $type }}
+                                    <input type="checkbox" value="{{ $id }}" class="type"> {{ $type }}
+                                </label>
+                            </span>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="resolution" class="col-sm-1 label label-default">@lang('torrent.resolution')</label>
+                    <div class="col-sm-10">
+                        @foreach ($repository->resolutions() as $id => $resolution)
+                            <span class="badge-user">
+                                <label class="inline">
+                                    <input type="checkbox" value="{{ $id }}" class="resolution"> {{ $resolution }}
                                 </label>
                             </span>
                         @endforeach
@@ -187,12 +200,12 @@
         <div class="container-fluid">
             <div class="block">
                 <span class="badge-user" style="float: right;">
-                    <strong>@lang('request.requests'):</strong> {{ $num_req }} |
-                    <strong>@lang('request.filled'):</strong> {{ $num_fil }} |
-                    <strong>@lang('request.unfilled'):</strong> {{ $num_unfil }} |
-                    <strong>@lang('request.total-bounty'):</strong> {{ $total_bounty }} @lang('bon.bon') |
-                    <strong>@lang('request.bounty-claimed'):</strong> {{ $claimed_bounty }} @lang('bon.bon') |
-                    <strong>@lang('request.bounty-unclaimed'):</strong> {{ $unclaimed_bounty }} @lang('bon.bon')
+                    <strong>@lang('request.requests'):</strong> {{ $requests->total }} |
+                    <strong>@lang('request.filled'):</strong> {{ $requests->filled }} |
+                    <strong>@lang('request.unfilled'):</strong> {{ $requests->unfilled }} |
+                    <strong>@lang('request.total-bounty'):</strong> {{ $bounties->total }} @lang('bon.bon') |
+                    <strong>@lang('request.bounty-claimed'):</strong> {{ $bounties->claimed }} @lang('bon.bon') |
+                    <strong>@lang('request.bounty-unclaimed'):</strong> {{ $bounties->unclaimed }} @lang('bon.bon')
                 </span>
                 <a href="{{ route('add_request') }}" role="button" data-toggle="tooltip"
                     data-original-title="@lang('request.add-request')!" class="btn btn btn-success">
@@ -214,7 +227,7 @@
 @endsection
 
 @section('javascripts')
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         var xhr = new XMLHttpRequest();
     
         function faceted(page) {
@@ -227,6 +240,7 @@
             var igdb = $("#igdb").val();
             var categories = [];
             var types = [];
+            var resolutions = [];
             var sorting = $("#sorting").val();
             var direction = $("#direction").val();
             var qty = $("#qty").val();
@@ -276,6 +290,9 @@
             $(".type:checked").each(function() {
                 types.push($(this).val());
             });
+            $(".resolution:checked").each(function() {
+                resolutions.push($(this).val());
+            });
     
             if (xhr !== 'undefined') {
                 xhr.abort();
@@ -293,6 +310,7 @@
                     igdb: igdb,
                     categories: categories,
                     types: types,
+                    resolutions: resolutions,
                     myrequests: myrequests,
                     myclaims: myclaims,
                     myvoted: myvoted,
@@ -317,65 +335,65 @@
         }
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $(window).on("load", faceted())
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $("#search").keyup(function() {
             faceted();
         })
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $("#imdb").keyup(function() {
             faceted();
         })
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $("#tvdb").keyup(function() {
             faceted();
         })
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $("#tmdb").keyup(function() {
             faceted();
         })
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $("#mal").keyup(function() {
             faceted();
         })
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $("#igdb").keyup(function() {
             faceted();
         })
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
-        $(".category,.type").on("click", function() {
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
+        $(".category,.type,.resolution").on("click", function() {
             faceted();
         });
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $("#myrequests,#myclaims,#myvoted,#myfiled,#unfilled,#claimed,#pending,#filled").on("click", function() {
             faceted();
         });
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $("#sorting,#direction,#qty").on('change', function() {
             faceted();
         });
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $(document).on('click', '.pagination a', function(e) {
             e.preventDefault();
             var url = $(this).attr('href');
@@ -385,7 +403,7 @@
         })
     
     </script>
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $(document).ajaxComplete(function() {
             $('[data-toggle="tooltip"]').tooltip();
         });

@@ -25,165 +25,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use voku\helper\AntiXSS;
 
-/**
- * @property int $id
- * @property string $username
- * @property string $email
- * @property string $password
- * @property string $passkey
- * @property int $group_id
- * @property int $active
- * @property int $uploaded
- * @property int $downloaded
- * @property string|null $image
- * @property string|null $title
- * @property string|null $about
- * @property string|null $signature
- * @property int $fl_tokens
- * @property float $seedbonus
- * @property int $invites
- * @property int $hitandruns
- * @property string $rsskey
- * @property int $chatroom_id
- * @property int $censor
- * @property int $chat_hidden
- * @property int $hidden
- * @property int $style
- * @property int $nav
- * @property int $torrent_layout
- * @property int $torrent_filters
- * @property string|null $custom_css
- * @property int $ratings
- * @property int $read_rules
- * @property int $can_chat
- * @property int $can_comment
- * @property int $can_download
- * @property int $can_request
- * @property int $can_invite
- * @property int $can_upload
- * @property int $show_poster
- * @property int $peer_hidden
- * @property int $private_profile
- * @property int $block_notifications
- * @property int $stat_hidden
- * @property int $twostep
- * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $last_login
- * @property string|null $disabled_at
- * @property int|null $deleted_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $locale
- * @property int $chat_status_id
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TorrentRequest[] $ApprovedRequests
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TorrentRequest[] $FilledRequests
- * @property-read \Illuminate\Database\Eloquent\Collection|\Gstt\Achievements\Model\AchievementProgress[] $achievements
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Article[] $articles
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserAudible[] $audibles
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BonTransactions[] $bonGiven
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BonTransactions[] $bonReceived
- * @property-read \App\Models\Torrent $bookmarks
- * @property-read \App\Models\ChatStatus $chatStatus
- * @property-read \App\Models\Chatroom $chatroom
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserEcho[] $echoes
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FeaturedTorrent[] $featuredTorrent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Follow[] $follows
- * @property-read string $slug
- * @property-read \App\Models\Group $group
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\History[] $history
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Like[] $likes
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Torrent[] $moderated
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Note[] $notes
- * @property-read \App\Models\UserNotification $notification
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Peer[] $peers
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PrivateMessage[] $pm_receiver
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PrivateMessage[] $pm_sender
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Poll[] $polls
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
- * @property-read \App\Models\UserPrivacy $privacy
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Invite[] $receivedInvite
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TorrentRequestBounty[] $requestBounty
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TorrentRequest[] $requests
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Rss[] $rss
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Invite[] $sentInvite
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $solvedReports
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ban[] $staffban
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Warning[] $staffdeletedwarning
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Warning[] $staffwarning
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thank[] $thanksGiven
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thank[] $thanksReceived
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Topic[] $topics
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Torrent[] $torrents
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ban[] $userban
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Warning[] $userwarning
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Wish[] $wishes
- *
- * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newQuery()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User query()
- * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereAbout($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereBlockNotifications($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCanChat($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCanComment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCanDownload($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCanInvite($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCanRequest($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCanUpload($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCensor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereChatHidden($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereChatStatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereChatroomId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCustomCss($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereDeletedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereDisabledAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereDownloaded($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereFlTokens($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereGroupId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereHidden($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereHitandruns($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereInvites($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereLastLogin($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereLocale($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereNav($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePasskey($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePeerHidden($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePrivateProfile($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRatings($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereReadRules($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRsskey($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereSeedbonus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereShowPoster($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereSignature($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereStatHidden($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereStyle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereTorrentFilters($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereTorrentLayout($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereTwostep($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUploaded($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUsername($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User withoutTrashed()
- * @mixin \Eloquent
- */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -287,21 +128,21 @@ class User extends Authenticatable
     public function group()
     {
         return $this->belongsTo(Group::class)->withDefault([
-            'color'         => config('user.group.defaults.color'),
-            'effect'        => config('user.group.defaults.effect'),
-            'icon'          => config('user.group.defaults.icon'),
-            'name'          => config('user.group.defaults.name'),
-            'slug'          => config('user.group.defaults.slug'),
-            'position'      => config('user.group.defaults.position'),
-            'is_admin'      => config('user.group.defaults.is_admin'),
-            'is_freeleech'  => config('user.group.defaults.is_freeleech'),
-            'is_immune'     => config('user.group.defaults.is_immune'),
-            'is_incognito'  => config('user.group.defaults.is_incognito'),
-            'is_internal'   => config('user.group.defaults.is_internal'),
-            'is_modo'       => config('user.group.defaults.is_modo'),
-            'is_trusted'    => config('user.group.defaults.is_trusted'),
-            'can_upload'    => config('user.group.defaults.can_upload'),
-            'level'         => config('user.group.defaults.level'),
+            'color'         => \config('user.group.defaults.color'),
+            'effect'        => \config('user.group.defaults.effect'),
+            'icon'          => \config('user.group.defaults.icon'),
+            'name'          => \config('user.group.defaults.name'),
+            'slug'          => \config('user.group.defaults.slug'),
+            'position'      => \config('user.group.defaults.position'),
+            'is_admin'      => \config('user.group.defaults.is_admin'),
+            'is_freeleech'  => \config('user.group.defaults.is_freeleech'),
+            'is_immune'     => \config('user.group.defaults.is_immune'),
+            'is_incognito'  => \config('user.group.defaults.is_incognito'),
+            'is_internal'   => \config('user.group.defaults.is_internal'),
+            'is_modo'       => \config('user.group.defaults.is_modo'),
+            'is_trusted'    => \config('user.group.defaults.is_trusted'),
+            'can_upload'    => \config('user.group.defaults.can_upload'),
+            'level'         => \config('user.group.defaults.level'),
         ]);
     }
 
@@ -335,6 +176,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Torrent::class, 'bookmarks', 'user_id', 'torrent_id')->withTimeStamps();
     }
 
+    /**
+     * @param $torrent_id
+     *
+     * @return bool
+     */
     public function isBookmarked($torrent_id)
     {
         return $this->bookmarks()->where('torrent_id', '=', $torrent_id)->first() !== null;
@@ -815,8 +661,8 @@ class User extends Authenticatable
         if ($target->notification && $type && (!$target->notification->$type)) {
             return false;
         }
-        if ($target->notification && $target->notification->$target_group && is_array($target->notification->$target_group['default_groups'])) {
-            if (array_key_exists($sender->group->id, $target->notification->$target_group['default_groups'])) {
+        if ($target->notification && $target->notification->$target_group && \is_array($target->notification->$target_group['default_groups'])) {
+            if (\array_key_exists($sender->group->id, $target->notification->$target_group['default_groups'])) {
                 return $target->notification->$target_group['default_groups'][$sender->group->id] == 1;
             }
 
@@ -838,7 +684,7 @@ class User extends Authenticatable
     public function isVisible(self $target, $group = 'profile', $type = false)
     {
         $target_group = 'json_'.$group.'_groups';
-        $sender = auth()->user();
+        $sender = \auth()->user();
         if ($sender->id == $target->id) {
             return true;
         }
@@ -851,8 +697,8 @@ class User extends Authenticatable
         if ($target->privacy && $type && (!$target->privacy->$type || $target->privacy->$type == 0)) {
             return false;
         }
-        if ($target->privacy && $target->privacy->$target_group && is_array($target->privacy->$target_group['default_groups'])) {
-            if (array_key_exists($sender->group->id, $target->privacy->$target_group['default_groups'])) {
+        if ($target->privacy && $target->privacy->$target_group && \is_array($target->privacy->$target_group['default_groups'])) {
+            if (\array_key_exists($sender->group->id, $target->privacy->$target_group['default_groups'])) {
                 return $target->privacy->$target_group['default_groups'][$sender->group->id] == 1;
             }
 
@@ -874,7 +720,7 @@ class User extends Authenticatable
     public function isAllowed(self $target, $group = 'profile', $type = false)
     {
         $target_group = 'json_'.$group.'_groups';
-        $sender = auth()->user();
+        $sender = \auth()->user();
         if ($sender->id == $target->id) {
             return true;
         }
@@ -887,8 +733,8 @@ class User extends Authenticatable
         if ($target->privacy && $type && (!$target->privacy->$type || $target->privacy->$type == 0)) {
             return false;
         }
-        if ($target->privacy && $target->privacy->$target_group && is_array($target->privacy->$target_group['default_groups'])) {
-            if (array_key_exists($sender->group->id, $target->privacy->$target_group['default_groups'])) {
+        if ($target->privacy && $target->privacy->$target_group && \is_array($target->privacy->$target_group['default_groups'])) {
+            if (\array_key_exists($sender->group->id, $target->privacy->$target_group['default_groups'])) {
                 return $target->privacy->$target_group['default_groups'][$sender->group->id] == 1;
             }
 
@@ -974,14 +820,14 @@ class User extends Authenticatable
             return INF;
         }
 
-        return (float) round($this->uploaded / $this->downloaded, 2);
+        return \round($this->uploaded / $this->downloaded, 2);
     }
 
     // Return the ratio pretty formated as a string.
     public function getRatioString()
     {
         $ratio = $this->getRatio();
-        if (is_infinite($ratio)) {
+        if (\is_infinite($ratio)) {
             return '∞';
         }
 
@@ -995,7 +841,7 @@ class User extends Authenticatable
             return INF;
         }
 
-        return (float) round($this->uploaded / ($this->downloaded + $size), 2);
+        return \round($this->uploaded / ($this->downloaded + $size), 2);
     }
 
     // Return the ratio after $size bytes would be downloaded, pretty formatted
@@ -1003,11 +849,11 @@ class User extends Authenticatable
     public function ratioAfterSizeString($size, $freeleech = false)
     {
         if ($freeleech) {
-            return $this->getRatioString().' ('.trans('torrent.freeleech').')';
+            return $this->getRatioString().' ('.\trans('torrent.freeleech').')';
         }
 
         $ratio = $this->ratioAfterSize($size);
-        if (is_infinite($ratio)) {
+        if (\is_infinite($ratio)) {
             return '∞';
         }
 
@@ -1022,7 +868,7 @@ class User extends Authenticatable
             return '∞';
         }
 
-        $bytes = round(($this->uploaded / $ratio) - $this->downloaded);
+        $bytes = \round(($this->uploaded / $ratio) - $this->downloaded);
 
         return StringHelper::formatBytes($bytes);
     }
@@ -1093,7 +939,7 @@ class User extends Authenticatable
      */
     public function getSeedbonus()
     {
-        return number_format($this->seedbonus, 2, '.', ' ');
+        return \number_format($this->seedbonus, 2, '.', ' ');
     }
 
     /**
