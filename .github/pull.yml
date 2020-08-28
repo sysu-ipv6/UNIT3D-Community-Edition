@@ -2,7 +2,7 @@ version: "1"
 rules:
   - base: dev
     upstream: HDInnovations:master    # change `wei` to the owner of upstream repo
-    mergeMethod: rebase
+    mergeMethod: merge
     conflictReviewers:
       - howardlau1999
       - gyakkun
