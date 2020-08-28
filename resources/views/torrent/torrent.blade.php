@@ -224,7 +224,7 @@
                         </td>
                         <td>
                             @foreach ($torrent->subtitles as $subtitle)
-                                <a href="/subtitles/download/{{ $subtitle->id }}">{{ $subtitle->title }}</a>
+                                <a href="{{ route('subtitles.download', ['id' => $subtitle->id]) }}">{{ $subtitle->title }}</a>
                             @endforeach
                         </td>
                     </tr>

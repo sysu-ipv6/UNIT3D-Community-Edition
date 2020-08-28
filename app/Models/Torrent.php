@@ -133,7 +133,6 @@ use voku\helper\AntiXSS;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Torrent whereTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Torrent whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Torrent whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Torrent whereSubhead($value)
  * @mixin \Eloquent
  */
 class Torrent extends Model
@@ -239,13 +238,13 @@ class Torrent extends Model
     }
 
     /**
-     * Has Many Keywords.
+     * Has Many Subtitles.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function keywords()
+    public function subtitles()
     {
-        return $this->hasMany(Keyword::class);
+        return $this->hasMany(Subtitle::class);
     }
 
     /**
@@ -329,16 +328,6 @@ class Torrent extends Model
     }
 
     /**
-     * Has Many Subtitles.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function subtitles()
-    {
-        return $this->hasMany(Subtitle::class);
-    }
-
-    /**
      * Relationship To A Single Request.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -373,28 +362,6 @@ class Torrent extends Model
         $linkify = new Linkify();
 
         return $bbcode->parse($linkify->linky($this->description), true);
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getSubhead(): ?string
-    {
-        return $this->attributes['subhead'];
-    }
-
-    /**
-     * Set the torrent's subhead after its been purified(?).
-     *
-     * @param string|null $subhead
-     *
-     * @return void
-     */
-    public function setSubheadAttribute(?string $subhead): void
-    {
-        $antiXss = new AntiXSS();
-
-        $this->attributes['subhead'] = $antiXss->xss_clean($subhead);
     }
 
     /**
