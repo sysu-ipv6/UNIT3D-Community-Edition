@@ -35,7 +35,7 @@ class NexusPhpHasher extends AbstractHasher implements HasherContract
 
     public function check($value, $hashedValue, array $options = [])
     {
-        list(, $identifier, $secret) = explode('$', $hashedValue);
+        [, $identifier, $secret] = explode('$', $hashedValue);
         if ($identifier !== 'nexus') {
             throw new RuntimeException('not nexusphp password hash');
         }
