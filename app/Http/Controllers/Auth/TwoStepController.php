@@ -130,12 +130,12 @@ class TwoStepController extends Controller
         $carbon = new Carbon();
         $sentTimestamp = $twoStepAuth->requestDate;
 
-        if (!$twoStepAuth->authCode) {
+        if (! $twoStepAuth->authCode) {
             $twoStepAuth->authCode = $this->generateCode();
             $twoStepAuth->save();
         }
 
-        if (!$sentTimestamp) {
+        if (! $sentTimestamp) {
             $this->sendVerificationCodeNotification($twoStepAuth);
         } else {
             $timeBuffer = \config('laravel2step.laravel2stepTimeResetBufferSeconds');
