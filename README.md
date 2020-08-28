@@ -7,8 +7,7 @@
 <hr>
 
 <p align="center">
-<a href="http://laravel.com"><img src="https://img.shields.io/badge/Laravel-6-f4645f.svg?style=flat-square" /></a> 
-<a href="https://github.com/php-pm/php-pm"><img src="https://raw.githubusercontent.com/php-pm/ppm-badge/master/ppm-badge.png" /></a> 
+<a href="http://laravel.com"><img src="https://img.shields.io/badge/Laravel-7-f4645f.svg?style=flat-square" /></a> 
 <a href="https://github.com/HDInnovations/UNIT3D/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-AGPL%20v3.0-yellow.svg?style=flat-square" /></a>
 <a href="https://github.styleci.io/repos/238207183"><img src="https://github.styleci.io/repos/238207183/shield?branch=master" alt="StyleCI"></a>
 <a href="https://travis-ci.org/sysu-ipv6/UNIT3D-Community-Edition"><img src="https://api.travis-ci.org/sysu-ipv6/UNIT3D-Community-Edition.svg?branch=master" alt="TravisCI"></a>
@@ -100,7 +99,7 @@ Traffic: Unlimited
 ```
 NOTE: If you are running UNIT3D on a non HTTPS instance you MUST change the following configs.
 
-config/session.php  <-- HTTPS Only Cookies must be set to false
+.env  <-- SESSION_SECURE_COOKIE must be set to false
 config/secure-headers.php   <-- HTTP Strict Transport Security must be set to false
 config/secure-headers.php   <-- Content Security Policy must be disabled
 ```
@@ -147,8 +146,12 @@ Here are some packages that are built for UNIT3D.
 ## <a name="versions"></a> 🚨 Version Support Information
  Version     | Status                   | PHP Version Required
 :------------|:-------------------------|:------------
- 2.3.x       |  Active Support :rocket: | >= 7.4
- 2.0.0 to 2.2.7|  Active Support :rocket: | >= 7.3
+ 2.7.x       |  Active Support :rocket: | >= 7.4
+ 2.6.x       |  Active Support :rocket: | >= 7.4
+ 2.5.x       |  End Of Life :skull: | >= 7.4
+ 2.4.x       |  End Of Life :skull: | >= 7.4
+ 2.3.x       |  End Of Life :skull: | >= 7.4
+ 2.0.0 to 2.2.7|  End Of Life :skull: | >= 7.3
  1.0 to 1.9.4|  End Of Life :skull:     | >= 7.1.3
 
 ## <a name="security"></a> 🔐 Security
@@ -198,7 +201,7 @@ Demo is reset every 48 hours!
 
 ## <a name="chat"></a>  💬 Chat With Us
 
-URL: https://discord.gg/ntnPxzG
+URL: https://discord.gg/Bf47vws
 
 ## <a name="sponsor"></a> ✨ Sponsor UNIT3D (HDInnovations / HDVinnie)
 
@@ -298,8 +301,10 @@ Thanks goes to these wonderful people who have contributed alot of code:
 
 ## <a name="thanks"></a> 🎉 Special Thanks
 
-<a href="https://www.jetbrains.com/store/?fromMenu#edition=personal"><img src="https://i.imgur.com/KgDXZV8.png" width="50px;"></a>
-<a href="https://www.themoviedb.org/"><img src="https://www.themoviedb.org/assets/2/v4/logos/208x226-stacked-green-9484383bd9853615c113f020def5cbe27f6d08a84ff834f41371f223ebad4a3c.png" width="50px;"></a>
-<a href="https://github.com"><img src="https://i.imgur.com/NVWhzrU.png" width="50px;"></a>
-<a href="https://laravel.com"><img src="https://i.postimg.cc/cCDBswfK/1200px-Laravel-svg.png" width="50px;"></a>
-
+<a href="https://www.jetbrains.com/store/?fromMenu#edition=personal"><img src="https://i.imgur.com/KgDXZV8.png" height="50px;"></a>
+<a href="https://www.themoviedb.org/"><img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg" height="50px;"></a>
+<a href="https://github.com"><img src="https://i.imgur.com/NVWhzrU.png" height="50px;"></a>
+<a href="https://laravel.com"><img src="https://i.postimg.cc/cCDBswfK/1200px-Laravel-svg.png" height="50px;"></a>
+<a href="https://laravel-livewire.com"><img src="https://i.postimg.cc/jjsNyBbh/Livewire.png" height="50px;"></a>
+<a href="https://styleci.io"><img src="https://i.postimg.cc/0y4XN4yW/og.png" height="50px;"></a>
+<a href="https://travis-ci.org"><img src="https://i.postimg.cc/Wz96HDDW/travis-ci-logo-png-transparent.png" height="50px;"></a>

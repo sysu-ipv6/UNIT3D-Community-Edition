@@ -90,8 +90,7 @@
                                         {{ $p->user->group->name }}</span>
                                 </p>
                                 <p class="pre">{{ $p->user->title }}</p>
-                                <p>@lang('user.member-since')
-                                    : {{ date('M d Y', $p->user->created_at->getTimestamp()) }}</p>
+                                <p>@lang('user.member-since'): {{ date('M d Y', $p->user->created_at->getTimestamp()) }}</p>
 
                                 <p>
                                     @if($p->user->topics && $p->user->topics->count() > 0)
@@ -317,7 +316,7 @@
 @endsection
 
 @section('javascripts')
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
         $(document).ready(function() {
             let wbbOpt = {
                 allButtons: {

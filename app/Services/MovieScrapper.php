@@ -31,19 +31,18 @@ class MovieScrapper
     }
 
     /**
-     * @param $type
+     * @param      $type
      * @param null $imdb
      * @param null $tmdb
      * @param null $tvdb
      *
      * @throws \ErrorException
-     * @throws \HttpInvalidParamException
      *
      * @return Movie|Tv
      */
     public function scrape($type, $imdb = null, $tmdb = null, $tvdb = null)
     {
-        if (!$imdb && !$tmdb && !$tvdb) {
+        if (! $imdb && ! $tmdb && ! $tvdb) {
             throw new \ErrorException('Either $imdb, $tmdb or $tvdb is required');
         }
 

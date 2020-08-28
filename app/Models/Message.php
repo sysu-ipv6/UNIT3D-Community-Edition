@@ -14,19 +14,18 @@
 namespace App\Models;
 
 use App\Helpers\Bbcode;
-use App\Helpers\Linkify;
 use Illuminate\Database\Eloquent\Model;
 use voku\helper\AntiXSS;
 
 /**
  * App\Models\Message.
  *
- * @property int $id
- * @property int $user_id
- * @property int $chatroom_id
- * @property int|null $receiver_id
- * @property int|null $bot_id
- * @property string $message
+ * @property int                             $id
+ * @property int                             $user_id
+ * @property int                             $chatroom_id
+ * @property int|null                        $receiver_id
+ * @property int|null                        $bot_id
+ * @property string                          $message
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Bot|null $bot
@@ -126,8 +125,7 @@ class Message extends Model
     public static function getMessageHtml($message)
     {
         $bbcode = new Bbcode();
-        $linkify = new Linkify();
 
-        return $bbcode->parse($linkify->linky($message), true);
+        return $bbcode->parse($message, true);
     }
 }

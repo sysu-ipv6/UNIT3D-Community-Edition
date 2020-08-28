@@ -27,11 +27,11 @@ class UpdateLastAction
      */
     public function handle($request, Closure $next)
     {
-        if (!$user = $request->user()) {
+        if (! $user = $request->user()) {
             return $next($request);
         }
 
-        $user->last_action = now();
+        $user->last_action = \now();
         $user->save();
 
         return $next($request);

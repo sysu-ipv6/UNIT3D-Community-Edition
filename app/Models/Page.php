@@ -19,10 +19,12 @@ use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int $id
- * @property string|null $name
- * @property string|null $slug
- * @property string|null $content
+ * App\Models\Page.
+ *
+ * @property int                             $id
+ * @property string|null                     $name
+ * @property string|null                     $slug
+ * @property string|null                     $content
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  *
@@ -60,11 +62,11 @@ class Page extends Model
      */
     public function getContentHtml()
     {
-        $converter = new BBCodeConverter($this->content);
-        $content = $converter->toMarkdown();
+        $bbCodeConverter = new BBCodeConverter($this->content);
+        $content = $bbCodeConverter->toMarkdown();
 
-        $parser = new Markdown();
+        $markdown = new Markdown();
 
-        return $parser->text($content);
+        return $markdown->text($content);
     }
 }

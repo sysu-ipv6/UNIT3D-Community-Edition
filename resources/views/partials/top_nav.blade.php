@@ -7,7 +7,7 @@
         </a>
         <span class="hoe-sidebar-toggle"><a href="#"></a></span>
     </div>
-    <div class="hoe-right-header" hoe-position-type="static" hoe-color-type="header-bg5">
+    <div class="hoe-right-header" hoe-position-type="fixed" hoe-color-type="header-bg5">
         <span class="hoe-sidebar-toggle"><a href="#"></a></span>
         <ul class="left-navbar">
             <li class="dropdown hoe-rheader-submenu message-notification left-min-30">
@@ -16,7 +16,7 @@
                 <a href="{{ route('inbox') }}" class="dropdown-toggle icon-circle">
                     <i class="{{ config('other.font-awesome') }} fa-envelope text-blue"></i>
                     @if ($pm > 0)
-                        <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
+                        <div class="notify"><span class="heartbit"></span><span class="point fa-beat"></span></div>
                     @endif
                 </a>
             </li>
@@ -25,7 +25,7 @@
                 <a href="{{ route('notifications.index') }}" class="icon-circle">
                     <i class="{{ config('other.font-awesome') }} fa-bell"></i>
                     @if (auth()->user()->unreadNotifications->count() > 0)
-                        <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
+                        <div class="notify"><span class="heartbit"></span><span class="point fa-beat"></span></div>
                     @endif
                 </a>
             </li>
@@ -42,7 +42,7 @@
                         <i class="{{ config('other.font-awesome') }} fa-tasks text-red"></i>
                     @php $modder = DB::table('torrents')->where('status', '=', '0')->count(); @endphp
                         @if ($modder > 0)
-                            <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
+                            <div class="notify"><span class="heartbit"></span><span class="point fa-beat"></span></div>
                         @endif
                     </a>
                 </li>
@@ -50,29 +50,6 @@
         </ul>
 
         <ul class="right-navbar">
-            <li class="dropdown hoe-rheader-submenu hoe-header-profile">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span>
-                        <img src="{{ url('img/flags/' . auth()->user()->locale) . '.png' }}" alt="flag"
-                            class="img-circle {{ auth()->user()->locale }}" />
-                    </span>
-                    <span><i class=" {{ config('other.font-awesome') }} fa-angle-down"></i></span>
-                </a>
-                <ul class="dropdown-menu">
-                    @foreach (App\Models\Language::allowed() as $code => $name)
-                        <li class="{{ config('language.flags.li_class') }}">
-                            <a href="{{ route('back', [$code]) }}">
-                                <img src="{{ url('img/flags/' . $code . '.png') }}" alt="{{ $name }}"
-                                    class="img-circle {{ $code }}" width="{{ config('language.flags.width') }}" />
-                                {{ $name }}
-                                @if (auth()->user()->locale == $code)
-                                    <span class="text-orange text-bold">(@lang('common.active')!)</span>
-                                @endif
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </li>
             <li class="dropdown hoe-rheader-submenu hoe-header-profile">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span>

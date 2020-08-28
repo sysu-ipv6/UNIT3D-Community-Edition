@@ -12,7 +12,7 @@
  */
 
 return [
-    'audit-log'            => 'Audit Log',
+    'audit-log'               => 'Audit Log',
     'articles'                => 'Articles',
     'application'             => 'Application',
     'applications'            => 'Applications',
@@ -56,6 +56,7 @@ return [
     'torrent-moderation'      => 'Torrent Moderation',
     'torrent-tools'           => 'Torrent Tools',
     'torrent-types'           => 'Torrent Types',
+    'torrent-resolutions'     => 'Torrent Resolutions',
     'torrents'                => 'Torrents',
     'user-gifting'            => 'User Gifting',
     'user-notes'              => 'User Notes Log',

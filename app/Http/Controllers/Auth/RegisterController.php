@@ -33,16 +33,16 @@ class RegisterController extends Controller
     /**
      * @var ChatRepository
      */
-    private $chat;
+    private $chatRepository;
 
     /**
      * RegisterController Constructor.
      *
-     * @param ChatRepository $chat
+     * @param \App\Repositories\ChatRepository $chatRepository
      */
-    public function __construct(ChatRepository $chat)
+    public function __construct(ChatRepository $chatRepository)
     {
-        $this->chat = $chat;
+        $this->chatRepository = $chatRepository;
     }
 
     /**
@@ -55,97 +55,86 @@ class RegisterController extends Controller
     public function registrationForm($code = null)
     {
         // Make sure open reg is off, invite code is not present and application signups enabled
-        if ($code === 'null' && config('other.invite-only') == 1 && config('other.application_signups') == true) {
-            return redirect()->route('application.create')
-                ->withInfo(trans('auth.allow-invite-appl'));
+        if ($code === 'null' && \config('other.invite-only') == 1 && \config('other.application_signups') == true) {
+            return \redirect()->route('application.create')
+                ->withInfo(\trans('auth.allow-invite-appl'));
         }
 
         // Make sure open reg is off and invite code is not present
-        if ($code === 'null' && config('other.invite-only') == 1) {
-            return redirect()->route('login')
-                ->withWarning(trans('auth.allow-invite'));
+        if ($code === 'null' && \config('other.invite-only') == 1) {
+            return \redirect()->route('login')
+                ->withWarning(\trans('auth.allow-invite'));
         }
 
-        return view('auth.register', ['code' => $code]);
+        return \view('auth.register', ['code' => $code]);
     }
 
     public function register(Request $request, $code = null)
     {
         // Make sure open reg is off and invite code exist and has not been used already
         $key = Invite::where('code', '=', $code)->first();
-        if (config('other.invite-only') == 1 && (!$key || $key->accepted_by !== null)) {
-            return redirect()->route('registrationForm', ['code' => $code])
-                ->withErrors(trans('auth.invalid-key'));
+        if (\config('other.invite-only') == 1 && (! $key || $key->accepted_by !== null)) {
+            return \redirect()->route('registrationForm', ['code' => $code])
+                ->withErrors(\trans('auth.invalid-key'));
         }
 
-        $validating_group = cache()->rememberForever('validating_group', fn () => Group::where('slug', '=', 'validating')->pluck('id'));
+        $validating_group = \cache()->rememberForever('validating_group', fn () => Group::where('slug', '=', 'validating')->pluck('id'));
 
         $user = new User();
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
-        $user->passkey = md5(uniqid().time().microtime());
-        $user->rsskey = md5(uniqid().time().microtime().$user->password);
-        $user->uploaded = config('other.default_upload');
-        $user->downloaded = config('other.default_download');
-        $user->style = config('other.default_style', 0);
-        $user->locale = config('app.locale');
+        $user->passkey = \md5(\uniqid().\time().\microtime());
+        $user->rsskey = \md5(\uniqid().\time().\microtime().$user->password);
+        $user->uploaded = \config('other.default_upload');
+        $user->downloaded = \config('other.default_download');
+        $user->style = \config('other.default_style', 0);
+        $user->locale = \config('app.locale');
         $user->group_id = $validating_group[0];
 
-        if (config('email-white-blacklist.enabled') === 'allow' && config('captcha.enabled') == true) {
-            $v = validator($request->all(), [
-                'username'             => 'required|alpha_dash|min:3|max:20|unique:users',
-                'email'                => 'required|email|max:255|unique:users|email_list:allow', // Whitelist
-                'password'             => 'required|min:8',
-                'captcha'              => 'hiddencaptcha',
-            ]);
-        } elseif (config('email-white-blacklist.enabled') === 'allow') {
-            $v = validator($request->all(), [
-                'username' => 'required|alpha_dash|min:3|max:20|unique:users',
-                'email'    => 'required|email|max:255|unique:users|email_list:allow', // Whitelist
-                'password' => 'required|min:8',
-            ]);
-        } elseif (config('email-white-blacklist.enabled') === 'block' && config('captcha.enabled') == true) {
-            $v = validator($request->all(), [
-                'username'             => 'required|alpha_dash|min:3|max:20|unique:users',
-                'email'                => 'required|email|max:255|unique:users|email_list:block', // Blacklist
-                'password'             => 'required|min:8',
-                'captcha'              => 'hiddencaptcha',
-            ]);
-        } elseif (config('email-white-blacklist.enabled') === 'block') {
-            $v = validator($request->all(), [
-                'username' => 'required|alpha_dash|min:3|max:20|unique:users',
-                'email'    => 'required|email|max:255|unique:users|email_list:block', // Blacklist
-                'password' => 'required|min:8',
-            ]);
-        } elseif (config('captcha.enabled') == true) {
-            $v = validator($request->all(), [
-                'username'             => 'required|alpha_dash|min:3|max:20|unique:users',
-                'email'                => 'required|email|max:255|unique:users',
-                'password'             => 'required|min:8',
-                'captcha'              => 'hiddencaptcha',
+        if (\config('email-blacklist.enabled') == true) {
+            if (\config('captcha.enabled') == false) {
+                $v = \validator($request->all(), [
+                    'username' => 'required|alpha_dash|string|between:3,25|unique:users',
+                    'password' => 'required|string|between:8,16',
+                    'email'    => 'required|string|email|max:70|blacklist|unique:users',
+                ]);
+            } else {
+                $v = \validator($request->all(), [
+                    'username' => 'required|alpha_dash|string|between:3,25|unique:users',
+                    'password' => 'required|string|between:8,16',
+                    'email'    => 'required|string|email|max:70|blacklist|unique:users',
+                    'captcha'  => 'hiddencaptcha',
+                ]);
+            }
+        } elseif (\config('captcha.enabled') == false) {
+            $v = \validator($request->all(), [
+                'username' => 'required|alpha_dash|string|between:3,25|unique:users',
+                'password' => 'required|string|between:8,16',
+                'email'    => 'required|string|email|max:70|unique:users',
             ]);
         } else {
-            $v = validator($request->all(), [
-                'username' => 'required|alpha_dash|min:3|max:20|unique:users', //Default
-                'email'    => 'required|email|max:255|unique:users',
-                'password' => 'required|min:8',
+            $v = \validator($request->all(), [
+                'username' => 'required|alpha_dash|string|between:3,25|unique:users',
+                'password' => 'required|string|between:6,16',
+                'email'    => 'required|string|email|max:70|unique:users',
+                'captcha'  => 'hiddencaptcha',
             ]);
         }
 
         if ($v->fails()) {
-            return redirect()->route('registrationForm', ['code' => $code])
+            return \redirect()->route('registrationForm', ['code' => $code])
                 ->withErrors($v->errors());
         }
         $user->save();
-        $privacy = new UserPrivacy();
-        $privacy->setDefaultValues();
-        $privacy->user_id = $user->id;
-        $privacy->save();
-        $notification = new UserNotification();
-        $notification->setDefaultValues();
-        $notification->user_id = $user->id;
-        $notification->save();
+        $userPrivacy = new UserPrivacy();
+        $userPrivacy->setDefaultValues();
+        $userPrivacy->user_id = $user->id;
+        $userPrivacy->save();
+        $userNotification = new UserNotification();
+        $userNotification->setDefaultValues();
+        $userNotification->user_id = $user->id;
+        $userNotification->save();
         if ($key) {
             // Update The Invite Record
             $key->accepted_by = $user->id;
@@ -153,49 +142,36 @@ class RegisterController extends Controller
             $key->save();
         }
         // Handle The Activation System
-        $token = hash_hmac('sha256', $user->username.$user->email.Str::random(16), config('app.key'));
-        $activation = new UserActivation();
-        $activation->user_id = $user->id;
-        $activation->token = $token;
-        $activation->save();
+        $token = \hash_hmac('sha256', $user->username.$user->email.Str::random(16), \config('app.key'));
+        $userActivation = new UserActivation();
+        $userActivation->user_id = $user->id;
+        $userActivation->token = $token;
+        $userActivation->save();
         $this->dispatch(new SendActivationMail($user, $token));
         // Select A Random Welcome Message
-        $profile_url = href_profile($user);
+        $profile_url = \href_profile($user);
         $welcomeArray = [
-            sprintf('[url=%s]%s[/url], Welcome to ', $profile_url, $user->username).config('other.title').'! Hope you enjoy the community :rocket:',
-            sprintf("[url=%s]%s[/url], We've been expecting you :space_invader:", $profile_url, $user->username),
-            sprintf("[url=%s]%s[/url] has arrived. Party's over. :cry:", $profile_url, $user->username),
-            sprintf("It's a bird! It's a plane! Nevermind, it's just [url=%s]%s[/url].", $profile_url, $user->username),
-            sprintf('Ready player [url=%s]%s[/url].', $profile_url, $user->username),
-            sprintf('A wild [url=%s]%s[/url] appeared.', $profile_url, $user->username),
-            'Welcome to '.config('other.title').sprintf(' [url=%s]%s[/url]. We were expecting you ( ͡° ͜ʖ ͡°)', $profile_url, $user->username),
+            \sprintf('[url=%s]%s[/url], Welcome to ', $profile_url, $user->username).\config('other.title').'! Hope you enjoy the community :rocket:',
+            \sprintf("[url=%s]%s[/url], We've been expecting you :space_invader:", $profile_url, $user->username),
+            \sprintf("[url=%s]%s[/url] has arrived. Party's over. :cry:", $profile_url, $user->username),
+            \sprintf("It's a bird! It's a plane! Nevermind, it's just [url=%s]%s[/url].", $profile_url, $user->username),
+            \sprintf('Ready player [url=%s]%s[/url].', $profile_url, $user->username),
+            \sprintf('A wild [url=%s]%s[/url] appeared.', $profile_url, $user->username),
+            'Welcome to '.\config('other.title').\sprintf(' [url=%s]%s[/url]. We were expecting you ( ͡° ͜ʖ ͡°)', $profile_url, $user->username),
         ];
-        $selected = mt_rand(0, count($welcomeArray) - 1);
-        $this->chat->systemMessage(
-            sprintf('%s', $welcomeArray[$selected])
+        $selected = \mt_rand(0, \count($welcomeArray) - 1);
+        $this->chatRepository->systemMessage(
+            $welcomeArray[$selected]
         );
         // Send Welcome PM
-        $pm = new PrivateMessage();
-        $pm->sender_id = 1;
-        $pm->receiver_id = $user->id;
-        $pm->subject = config('welcomepm.subject');
-        $pm->message = config('welcomepm.message');
-        $pm->save();
+        $privateMessage = new PrivateMessage();
+        $privateMessage->sender_id = 1;
+        $privateMessage->receiver_id = $user->id;
+        $privateMessage->subject = \config('welcomepm.subject');
+        $privateMessage->message = \config('welcomepm.message');
+        $privateMessage->save();
 
-        return redirect()->route('login')
-            ->withSuccess(trans('auth.register-thanks'));
-    }
-
-    /**
-     * Show Email Whitelist / Blacklist when not authenticated.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function publicEmailList()
-    {
-        $whitelist = config('email-white-blacklist.allow', []);
-        $blacklist = config('email-white-blacklist.block', []);
-
-        return view('auth.public-emaillist', ['whitelist' => $whitelist, 'blacklist' => $blacklist]);
+        return \redirect()->route('login')
+            ->withSuccess(\trans('auth.register-thanks'));
     }
 }

@@ -6,12 +6,12 @@ use App\Console\Kernel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use JMac\Testing\Traits\HttpTestAssertions;
+use JMac\Testing\Traits\AdditionalAssertions;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-    use HttpTestAssertions;
+    use AdditionalAssertions;
     use RefreshDatabase;
 
     /**
@@ -35,7 +35,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function refreshTestDatabase()
     {
-        if (!RefreshDatabaseState::$migrated) {
+        if (! RefreshDatabaseState::$migrated) {
             if (config('database.pristine-db-file')) {
                 // If a flat file is defined, load it.
 

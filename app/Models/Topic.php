@@ -20,31 +20,33 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Topic.
  *
- * @property int $id
- * @property string $name
- * @property string $slug
- * @property string|null $state
- * @property int $pinned
- * @property int $approved
- * @property int $denied
- * @property int $solved
- * @property int $invalid
- * @property int $bug
- * @property int $suggestion
- * @property int $implemented
- * @property int|null $num_post
- * @property int|null $first_post_user_id
- * @property int|null $last_post_user_id
- * @property string|null $first_post_user_username
- * @property string|null $last_post_user_username
- * @property string|null $last_reply_at
- * @property int|null $views
+ * @property int                             $id
+ * @property string                          $name
+ * @property string                          $slug
+ * @property string|null                     $state
+ * @property int                             $pinned
+ * @property int                             $approved
+ * @property int                             $denied
+ * @property int                             $solved
+ * @property int                             $invalid
+ * @property int                             $bug
+ * @property int                             $suggestion
+ * @property int                             $implemented
+ * @property int|null                        $num_post
+ * @property int|null                        $first_post_user_id
+ * @property int|null                        $last_post_user_id
+ * @property string|null                     $first_post_user_username
+ * @property string|null                     $last_post_user_username
+ * @property \Illuminate\Support\Carbon|null $last_reply_at
+ * @property int|null                        $views
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int $forum_id
+ * @property int                             $forum_id
  * @property-read \App\Models\Forum $forum
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
+ * @property-read int|null $posts_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
+ * @property-read int|null $subscriptions_count
  * @property-read \App\Models\User|null $user
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Topic newModelQuery()
@@ -73,9 +75,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Topic whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Topic whereViews($value)
  * @mixin \Eloquent
- *
- * @property-read int|null $posts_count
- * @property-read int|null $subscriptions_count
  */
 class Topic extends Model
 {
@@ -179,7 +178,7 @@ class Topic extends Model
      */
     public function viewable()
     {
-        if (auth()->user()->group->is_modo) {
+        if (\auth()->user()->group->is_modo) {
             return true;
         }
 
@@ -198,7 +197,7 @@ class Topic extends Model
     public function notifyStarter($poster, $topic, $post)
     {
         $user = User::find($topic->first_post_user_id);
-        if ($user->acceptsNotification(auth()->user(), $user, 'forum', 'show_forum_topic')) {
+        if ($user->acceptsNotification(\auth()->user(), $user, 'forum', 'show_forum_topic')) {
             $user->notify(new NewPost('topic', $poster, $post));
         }
 

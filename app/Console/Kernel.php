@@ -51,11 +51,16 @@ class Kernel extends ConsoleKernel
         $schedule->command('auto:remove_featured_torrent')->hourly();
         $schedule->command('auto:recycle_invites')->daily();
         $schedule->command('auto:recycle_activity_log')->daily();
+        $schedule->command('auto:recycle_failed_logins')->daily();
         $schedule->command('auto:disable_inactive_users')->daily();
         $schedule->command('auto:softdelete_disabled_users')->daily();
         $schedule->command('auto:recycle_claimed_torrent_requests')->daily();
         $schedule->command('auto:correct_history')->daily();
         $schedule->command('auto:sync_peers')->daily();
+        $schedule->command('auto:email-blacklist-update')->weekends();
+        //$schedule->command('auto:ban_disposable_users')->weekends();
+        //$schedule->command('backup:clean')->daily();
+        //$schedule->command('backup:run')->daily();
     }
 
     /**
@@ -67,6 +72,6 @@ class Kernel extends ConsoleKernel
     {
         $this->load(__DIR__.'/Commands');
 
-        require base_path('routes/console.php');
+        require \base_path('routes/console.php');
     }
 }

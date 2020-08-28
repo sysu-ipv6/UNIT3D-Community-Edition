@@ -218,14 +218,6 @@
                             @endif
                         </td>
                     </tr>
-
-                    <tr>
-                        <td class="col-sm-2">
-                            <strong>@lang('torrent.subhead')</strong>
-                        </td>
-                        <td>{{ $torrent->subhead }} </td>
-                    </tr>
-
                     <tr>
                         <td class="col-sm-2">
                             <strong>@lang('torrent.subtitle')</strong>
@@ -407,15 +399,19 @@
                     <tr>
                         <td class="col-sm-2"><strong>@lang('torrent.category')</strong></td>
                         <td><i class="{{ $torrent->category->icon }} torrent-icon torrent-icon-small"
-                               data-toggle="tooltip"
-
-                               data-original-title="{{ $torrent->category->name }} @lang('torrent.torrent')"></i> {{ $torrent->category->name }}
+                               data-toggle="tooltip" data-original-title="{{ $torrent->category->name }} @lang('torrent.torrent')"></i>
+                            {{ $torrent->category->name }}
                         </td>
                     </tr>
 
                     <tr>
                         <td class="col-sm-2"><strong>@lang('torrent.type')</strong></td>
-                        <td>{{ $torrent->type }}</td>
+                        <td>{{ $torrent->type->name }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-sm-2"><strong>@lang('torrent.resolution')</strong></td>
+                        <td>{{ $torrent->resolution->name ?? 'No Res' }}</td>
                     </tr>
 
                     <tr>
@@ -477,7 +473,9 @@
         </div>
 
         {{-- Subtitles Block --}}
-        @include('torrent.partials.subtitles')
+        @if($torrent->category->movie_meta || $torrent->category->tv_meta)
+            @include('torrent.partials.subtitles')
+        @endif
 
         <div class="panel panel-chat shoutbox">
             <div class="panel-heading">
@@ -671,10 +669,6 @@
         
     </div>
 
-    @if ($torrent->category->movie_meta || $torrent->category->tv_meta)
-        @include('torrent.partials.movie_tv_recommendations')
-    @endif
-
     <div class="torrent box container" id="comments">
         <div class="clearfix"></div>
         <div class="row ">
@@ -776,13 +770,13 @@
 @endsection
 
 @section('javascripts')
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
       $(document).ready(function () {
         $('#content').wysibb({});
       })
     </script>
 
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
       $(document).ready(function () {
 
         $('.slidingDiv').hide();
@@ -796,7 +790,7 @@
     </script>
 
     @if (isset($meta) && ($torrent->category->movie_meta || $torrent->category->tv_meta) && $meta->videoTrailer && $meta->title)
-    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+    <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
       $('.show-trailer').each(function () {
         $(this).off('click');
         $(this).on('click', function (e) {
@@ -816,7 +810,7 @@
     @endif
 
     @if (isset($meta) && $torrent->category->game_meta && $meta->videos && $meta->name)
-        <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">
+        <script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce('script') }}">
           $('.show-trailer').each(function () {
             $(this).off('click');
             $(this).on('click', function (e) {

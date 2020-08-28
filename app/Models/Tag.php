@@ -19,10 +19,11 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Tag.
  *
- * @property int $id
+ * @property int         $id
  * @property string|null $name
  * @property string|null $slug
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Torrent[] $torrents
+ * @property-read int|null $torrents_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag newQuery()
@@ -31,8 +32,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereSlug($value)
  * @mixin \Eloquent
- *
- * @property-read int|null $torrents_count
  */
 class Tag extends Model
 {
