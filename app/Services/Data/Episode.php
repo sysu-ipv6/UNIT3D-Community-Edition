@@ -36,7 +36,7 @@ class Episode
                 if (\is_array($value) && ! \count($value)) {
                     $value = null;
                 }
-                $this->$key = !empty($value) ? $value : null;
+                $this->$key = ! empty($value) ? $value : null;
             }
         }
 

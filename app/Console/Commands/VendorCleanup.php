@@ -108,7 +108,7 @@ class VendorCleanup extends Command
 
                 $files = \glob($directory.'/'.$casePattern, GLOB_BRACE);
 
-                if (!$files) {
+                if (! $files) {
                     continue;
                 }
 
@@ -125,7 +125,7 @@ class VendorCleanup extends Command
                 foreach ($files as $file) {
                     if (\is_dir($file)) {
                         $this->out('DELETING DIR: '.$file);
-                        if (!$isDry) {
+                        if (! $isDry) {
                             $this->delTree($file);
                         }
                     } else {

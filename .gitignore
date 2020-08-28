@@ -18,7 +18,6 @@
 /public/fonts/font-awesome
 /public/fonts/wysibb
 /public/fonts/fa-*
-/public/fonts
 /public/img/emojione
 /public/img/joypixels
 /public/images
@@ -31,7 +30,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
-laravel-echo-server.*
+laravel-echo-server.json
 
 # OS X
 .DS_store

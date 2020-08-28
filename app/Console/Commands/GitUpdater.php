@@ -95,7 +95,7 @@ class GitUpdater extends Command
         <fg=red>BY PROCEEDING YOU AGREE TO THE ABOVE DISCLAIMER! USE AT YOUR OWN RISK!</>
         </>');
 
-        if (!$this->io->confirm('Would you like to proceed', false)) {
+        if (! $this->io->confirm('Would you like to proceed', false)) {
             $this->line('<fg=red>Aborted ...</>');
             exit();
         }

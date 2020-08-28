@@ -218,14 +218,6 @@
                             @endif
                         </td>
                     </tr>
-
-                    <tr>
-                        <td class="col-sm-2">
-                            <strong>@lang('torrent.subhead')</strong>
-                        </td>
-                        <td>{{ $torrent->subhead }} </td>
-                    </tr>
-
                     <tr>
                         <td class="col-sm-2">
                             <strong>@lang('torrent.subtitle')</strong>

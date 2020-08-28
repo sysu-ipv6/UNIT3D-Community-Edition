@@ -14,7 +14,7 @@
     <div class="container">
         <div class="header gradient silver">
             <div class="inner_content">
-                <h1>@lang('pm.private-messages') - @lang('pm.inbox')</h1>
+                <h1>@lang('pm.private-messages') - @lang('pm.outbox')</h1>
             </div>
         </div>
         <div class="row">

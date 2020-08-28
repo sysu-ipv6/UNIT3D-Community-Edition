@@ -46,7 +46,7 @@ class ProAjaxMiddleware
         // We do not need to do anything, just skip and continue
         //dd(! $response->isSuccessful());
         //if ($response instanceof JsonResponse || ! $this->isAjaxRequest($request) || $response->isSuccessful()) {
-        if ($response instanceof JsonResponse || !$this->isAjaxRequest($request) || $response->isServerError() || $response->isSuccessful()) {
+        if ($response instanceof JsonResponse || ! $this->isAjaxRequest($request) || $response->isServerError() || $response->isSuccessful()) {
             return $response;
         }
 

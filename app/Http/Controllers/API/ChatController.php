@@ -220,7 +220,7 @@ class ChatController extends Controller
             }
         }
 
-        if ($which != null && $which != 'skip' && !$runbot) {
+        if ($which != null && $which != 'skip' && ! $runbot) {
             if ($bot->is_systembot) {
                 $runbot = new SystemBot($this->chatRepository);
             } elseif ($bot->is_nerdbot) {
@@ -251,7 +251,7 @@ class ChatController extends Controller
                     $sender_listening = true;
                 }
             }
-            if (!$sender_listening) {
+            if (! $sender_listening) {
                 $sender_port = new UserEcho();
                 $sender_port->user_id = $user_id;
                 $sender_port->target_id = $receiver_id;
@@ -265,7 +265,7 @@ class ChatController extends Controller
                     $receiver_listening = true;
                 }
             }
-            if (!$receiver_listening) {
+            if (! $receiver_listening) {
                 $receiver_port = new UserEcho();
                 $receiver_port->user_id = $receiver_id;
                 $receiver_port->target_id = $user_id;
@@ -300,7 +300,7 @@ class ChatController extends Controller
                     $sender_listening = true;
                 }
             }
-            if (!$sender_listening) {
+            if (! $sender_listening) {
                 $sender_port = new UserAudible();
                 $sender_port->user_id = $user_id;
                 $sender_port->target_id = $receiver_id;
@@ -315,7 +315,7 @@ class ChatController extends Controller
                     $receiver_listening = true;
                 }
             }
-            if (!$receiver_listening) {
+            if (! $receiver_listening) {
                 $receiver_port = new UserAudible();
                 $receiver_port->user_id = $receiver_id;
                 $receiver_port->target_id = $user_id;
@@ -346,7 +346,7 @@ class ChatController extends Controller
             $message = $this->chatRepository->message($user_id, $room_id, $message, $receiver_id, $bot_id);
         }
 
-        if (!$save) {
+        if (! $save) {
             $message->delete();
         }
 

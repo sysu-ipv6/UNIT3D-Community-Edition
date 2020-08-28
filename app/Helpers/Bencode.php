@@ -69,7 +69,7 @@ class Bencode
         }
 
         $pos++;
-        if (!safe_int($length_str)) {
+        if (! safe_int($length_str)) {
             return;
         }
 

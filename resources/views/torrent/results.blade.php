@@ -390,11 +390,6 @@ config('api-keys.omdb')) @endphp
                                             data-original-title='@lang('torrent.genre')'></i> {{ $tag->name }}
                                     </span>
                                 @endforeach
-
-
-                            <span>
-                                <a style="color: #777">{{$torrent->subhead}}</a>
-                            </span>
                             @endif
                     </td>
 

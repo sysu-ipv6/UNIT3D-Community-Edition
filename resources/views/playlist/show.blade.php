@@ -48,7 +48,7 @@
 									<a href="{{ route('playlists.edit', ['id' => $playlist->id]) }}" class="btn btn-warning">
 										<i class="{{ config('other.font-awesome') }} fa-edit"></i> @lang('common.edit') @lang('common.playlist')
 									</a>
-									<button type="submit" class="btn btn-danger">
+									<button type="submit" class="btn btn-danger pull-right">
 										<i class="{{ config('other.font-awesome') }} fa-trash"></i> @lang('common.delete') @lang('common.playlist')
 									</button>
 								</form>

@@ -35,7 +35,7 @@ trait TwoStep
                 return false;
             }
 
-            return !$this->checkTimeSinceVerified($twoStepAuthStatus);
+            return ! $this->checkTimeSinceVerified($twoStepAuthStatus);
         }
 
         return true;

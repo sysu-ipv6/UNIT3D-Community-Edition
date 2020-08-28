@@ -247,7 +247,7 @@ class CasinoBot
                     $receiver_listening = true;
                 }
             }
-            if (!$receiver_listening) {
+            if (! $receiver_listening) {
                 $receiver_port = new UserEcho();
                 $receiver_port->user_id = $target->id;
                 $receiver_port->bot_id = $this->bot->id;
@@ -271,7 +271,7 @@ class CasinoBot
                     $receiver_listening = true;
                 }
             }
-            if (!$receiver_listening) {
+            if (! $receiver_listening) {
                 $receiver_port = new UserAudible();
                 $receiver_port->user_id = $target->id;
                 $receiver_port->bot_id = $this->bot->id;

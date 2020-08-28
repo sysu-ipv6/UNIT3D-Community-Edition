@@ -463,7 +463,7 @@ class TorrentController extends Controller
         if ($request->has('direction') && $request->input('direction') != null) {
             $order = $request->input('direction');
         }
-        if (!$sorting || $sorting == null || !$order || $order == null) {
+        if (! $sorting || $sorting == null || ! $order || $order == null) {
             $sorting = 'created_at';
             $order = 'desc';
             // $order = 'asc';
@@ -481,12 +481,12 @@ class TorrentController extends Controller
 
             if ($request->has('search') && $request->input('search') != null) {
                 $torrent->where(function ($query) use ($search) {
-                    $query->where('torrentsl.name', 'like', $search)->orWhere('torrentsl.subhead', 'like', $search);
+                    $query->where('torrentsl.name', 'like', $search);
                 });
             }
             if ($request->has('description') && $request->input('description') != null) {
                 $torrent->where(function ($query) use ($description) {
-                    $query->where('torrentsl.description', 'like', $description)->orWhere('torrentsl.mediainfo', 'like', $description);
+                    $query->where('torrentsl.description', 'like', $description)->orwhere('torrentsl.mediainfo', 'like', $description);
                 });
             }
 
@@ -617,7 +617,7 @@ class TorrentController extends Controller
         if ($collection != 1) {
             if ($request->has('search') && $request->input('search') != null) {
                 $torrent->where(function ($query) use ($search) {
-                    $query->where('torrents.name', 'like', $search)->orWhere('torrents.subhead', 'like', $search);
+                    $query->where('torrents.name', 'like', $search);
                 });
             }
 
@@ -1056,7 +1056,6 @@ class TorrentController extends Controller
 
         \abort_unless($user->group->is_modo || $user->id == $torrent->user_id, 403);
         $torrent->name = $request->input('name');
-        $torrent->subhead = $request->input('subhead');
         $torrent->slug = Str::slug($torrent->name);
         $torrent->description = $request->input('description');
         $torrent->category_id = $request->input('category_id');
@@ -1314,7 +1313,6 @@ class TorrentController extends Controller
         // Create the torrent (DB)
         $torrent = new Torrent();
         $torrent->name = $request->input('name');
-        $torrent->subhead = $request->input('subhead');
         $torrent->slug = Str::slug($torrent->name);
         $torrent->description = $request->input('description');
         $torrent->mediainfo = self::anonymizeMediainfo($request->input('mediainfo'));
@@ -1466,7 +1464,7 @@ class TorrentController extends Controller
     public function download(Request $request, $id, $rsskey = null)
     {
         $user = $request->user();
-        if (!$user && $rsskey) {
+        if (! $user && $rsskey) {
             $user = User::where('rsskey', '=', $rsskey)->firstOrFail();
         }
 

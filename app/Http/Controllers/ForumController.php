@@ -80,7 +80,7 @@ class ForumController extends Controller
             $result = Post::selectRaw('posts.id as id,posts.*')->with(['topic', 'user'])->leftJoin('topics', 'posts.topic_id', '=', 'topics.id')->whereNotIn('topics.forum_id', $pests);
         }
 
-        if (!isset($logger)) {
+        if (! isset($logger)) {
             $logger = 'forum.results_topics';
             $result = Topic::whereNotIn('topics.forum_id', $pests);
         }

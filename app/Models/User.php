@@ -57,70 +57,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * Has Many Authentications.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function authentications()
-    {
-        return $this->hasMany(Authentication::class);
-    }
-
-    public function hasDevices()
-    {
-        return $this->devices()->get()->isNotEmpty();
-    }
-
-    /**
-     * Has Many Devices.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function devices()
-    {
-        return $this->hasMany(Device::class);
-    }
-
-    /**
-     * Has Many Logins.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function logins()
-    {
-        $relation = $this->authentications();
-        $relation->where('type', Authentication::TYPE_LOGIN);
-
-        return $relation;
-    }
-
-    /**
-     * Has Many Failed Logins.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function fails()
-    {
-        $relation = $this->authentications();
-        $relation->where('type', Authentication::TYPE_FAILED);
-
-        return $relation;
-    }
-
-    /**
-     * Has Many Lockouts.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function lockouts()
-    {
-        $relation = $this->authentications();
-        $relation->where('type', Authentication::TYPE_LOCKOUT);
-
-        return $relation;
-    }
-
-    /**
      * Belongs To A Group.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -658,7 +594,7 @@ class User extends Authenticatable
         if ($target->block_notifications && $target->block_notifications == 1) {
             return false;
         }
-        if ($target->notification && $type && (!$target->notification->$type)) {
+        if ($target->notification && $type && (! $target->notification->$type)) {
             return false;
         }
         if ($target->notification && $target->notification->$target_group && \is_array($target->notification->$target_group['default_groups'])) {
@@ -694,7 +630,7 @@ class User extends Authenticatable
         if ($target->hidden && $target->hidden == 1) {
             return false;
         }
-        if ($target->privacy && $type && (!$target->privacy->$type || $target->privacy->$type == 0)) {
+        if ($target->privacy && $type && (! $target->privacy->$type || $target->privacy->$type == 0)) {
             return false;
         }
         if ($target->privacy && $target->privacy->$target_group && \is_array($target->privacy->$target_group['default_groups'])) {
@@ -730,7 +666,7 @@ class User extends Authenticatable
         if ($target->private_profile && $target->private_profile == 1) {
             return false;
         }
-        if ($target->privacy && $type && (!$target->privacy->$type || $target->privacy->$type == 0)) {
+        if ($target->privacy && $type && (! $target->privacy->$type || $target->privacy->$type == 0)) {
             return false;
         }
         if ($target->privacy && $target->privacy->$target_group && \is_array($target->privacy->$target_group['default_groups'])) {

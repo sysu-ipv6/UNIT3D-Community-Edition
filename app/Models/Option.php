@@ -56,10 +56,6 @@ class Option extends Model
      */
     public function poll()
     {
-        return static::create([
-            'user_id'    => \is_null($user) ? null : $user->id,
-            'username'   => $username,
-            'ip_address' => $ip,
-        ]);
+        return $this->belongsTo(Poll::class);
     }
 }

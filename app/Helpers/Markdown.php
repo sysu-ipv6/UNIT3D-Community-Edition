@@ -218,7 +218,7 @@ class Markdown
                 if (isset($Block)) {
                     $Block['type'] = $blockType;
 
-                    if (!isset($Block['identified'])) {
+                    if (! isset($Block['identified'])) {
                         $Blocks[] = $CurrentBlock;
 
                         $Block['identified'] = true;
@@ -236,7 +236,7 @@ class Markdown
 
             // ~
 
-            if (isset($CurrentBlock) && !isset($CurrentBlock['type']) && !isset($CurrentBlock['interrupted'])) {
+            if (isset($CurrentBlock) && ! isset($CurrentBlock['type']) && ! isset($CurrentBlock['interrupted'])) {
                 $CurrentBlock['element']['text'] .= "\n".$text;
             } else {
                 $Blocks[] = $CurrentBlock;
@@ -292,7 +292,7 @@ class Markdown
 
     protected function blockCode($Line, $Block = null)
     {
-        if (isset($Block) && !isset($Block['type']) && !isset($Block['interrupted'])) {
+        if (isset($Block) && ! isset($Block['type']) && ! isset($Block['interrupted'])) {
             return;
         }
 
@@ -604,7 +604,7 @@ class Markdown
             return $Block;
         }
 
-        if (!isset($Block['interrupted'])) {
+        if (! isset($Block['interrupted'])) {
             $Block['element']['text'][] = $Line['text'];
 
             return $Block;
@@ -630,7 +630,7 @@ class Markdown
 
     protected function blockSetextHeader($Line, array $Block = null)
     {
-        if (!isset($Block) || isset($Block['type']) || isset($Block['interrupted'])) {
+        if (! isset($Block) || isset($Block['type']) || isset($Block['interrupted'])) {
             return;
         }
 
@@ -746,7 +746,7 @@ class Markdown
 
     protected function blockTable($Line, array $Block = null)
     {
-        if (!isset($Block) || isset($Block['type']) || isset($Block['interrupted'])) {
+        if (! isset($Block) || isset($Block['type']) || isset($Block['interrupted'])) {
             return;
         }
 
@@ -953,7 +953,7 @@ class Markdown
 
                 $Inline = $this->{'inline'.$inlineType}($Excerpt);
 
-                if (!isset($Inline)) {
+                if (! isset($Inline)) {
                     continue;
                 }
 
@@ -965,7 +965,7 @@ class Markdown
 
                 // sets a default inline position
 
-                if (!isset($Inline['position'])) {
+                if (! isset($Inline['position'])) {
                     $Inline['position'] = $markerPosition;
                 }
 
@@ -1029,7 +1029,7 @@ class Markdown
         if (\strpos($Excerpt['text'], '>') !== false && \preg_match('#^<((mailto:)?\S+?@\S+?)>#i', $Excerpt['text'], $matches)) {
             $url = $matches[1];
 
-            if (!isset($matches[2])) {
+            if (! isset($matches[2])) {
                 $url = 'mailto:'.$url;
             }
 
@@ -1048,7 +1048,7 @@ class Markdown
 
     protected function inlineEmphasis($Excerpt)
     {
-        if (!isset($Excerpt['text'][1])) {
+        if (! isset($Excerpt['text'][1])) {
             return;
         }
 
@@ -1084,7 +1084,7 @@ class Markdown
 
     protected function inlineImage($Excerpt)
     {
-        if (!isset($Excerpt['text'][1]) || $Excerpt['text'][1] !== '[') {
+        if (! isset($Excerpt['text'][1]) || $Excerpt['text'][1] !== '[') {
             return;
         }
 
@@ -1159,7 +1159,7 @@ class Markdown
                 $definition = \strtolower($Element['text']);
             }
 
-            if (!isset($this->DefinitionData['Reference'][$definition])) {
+            if (! isset($this->DefinitionData['Reference'][$definition])) {
                 return;
             }
 
@@ -1222,7 +1222,7 @@ class Markdown
 
     protected function inlineStrikethrough($Excerpt)
     {
-        if (!isset($Excerpt['text'][1])) {
+        if (! isset($Excerpt['text'][1])) {
             return;
         }
 
@@ -1240,7 +1240,7 @@ class Markdown
 
     protected function inlineUrl($Excerpt)
     {
-        if ($this->urlsLinked !== true || !isset($Excerpt['text'][2]) || $Excerpt['text'][2] !== '/') {
+        if ($this->urlsLinked !== true || ! isset($Excerpt['text'][2]) || $Excerpt['text'][2] !== '/') {
             return;
         }
 
@@ -1316,7 +1316,7 @@ class Markdown
         if (isset($Element['text'])) {
             $markup .= '>';
 
-            if (!isset($Element['nonNestables'])) {
+            if (! isset($Element['nonNestables'])) {
                 $Element['nonNestables'] = [];
             }
 

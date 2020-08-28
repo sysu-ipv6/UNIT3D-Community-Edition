@@ -51,7 +51,7 @@ class Http2ServerPush
     {
         $response = $next($request);
 
-        if ($response->isRedirection() || !$response instanceof Response || $request->isJson()) {
+        if ($response->isRedirection() || ! $response instanceof Response || $request->isJson()) {
             return $response;
         }
 
@@ -85,7 +85,7 @@ class Http2ServerPush
             ->map(fn ($url) => $this->buildLinkHeaderString($url))
             ->unique()
             ->filter(function ($value, $key) use ($excludeKeywords) {
-                if (!$value) {
+                if (! $value) {
                     return false;
                 }
                 $exclude_keywords = \collect($excludeKeywords)->map(fn ($keyword) => \preg_quote($keyword));
@@ -104,7 +104,7 @@ class Http2ServerPush
             $headersText = \trim($headers->implode(','));
         }
 
-        if (!empty($headersText)) {
+        if (! empty($headersText)) {
             $this->addLinkHeader($response, $headersText);
         }
 

@@ -52,7 +52,7 @@ class UserController extends Controller
      */
     public function show($username)
     {
-        $user = User::with(['privacy', 'history', 'authentications'])->where('username', '=', $username)->firstOrFail();
+        $user = User::with(['privacy', 'history'])->where('username', '=', $username)->firstOrFail();
 
         $groups = Group::all();
         $followers = Follow::where('target_id', '=', $user->id)->latest()->limit(25)->get();
@@ -541,7 +541,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $privacy = $user->privacy;
-        if (!$privacy) {
+        if (! $privacy) {
             $privacy = new UserPrivacy();
             $privacy->setDefaultValues();
             $privacy->user_id = $user->id;
@@ -575,7 +575,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $privacy = $user->privacy;
-        if (!$privacy) {
+        if (! $privacy) {
             $privacy = new UserPrivacy();
             $privacy->setDefaultValues();
             $privacy->user_id = $user->id;
@@ -609,7 +609,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $privacy = $user->privacy;
-        if (!$privacy) {
+        if (! $privacy) {
             $privacy = new UserPrivacy();
             $privacy->setDefaultValues();
             $privacy->user_id = $user->id;
@@ -643,7 +643,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $privacy = $user->privacy;
-        if (!$privacy) {
+        if (! $privacy) {
             $privacy = new UserPrivacy();
             $privacy->setDefaultValues();
             $privacy->user_id = $user->id;
@@ -678,7 +678,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $privacy = $user->privacy;
-        if (!$privacy) {
+        if (! $privacy) {
             $privacy = new UserPrivacy();
             $privacy->setDefaultValues();
             $privacy->user_id = $user->id;
@@ -712,7 +712,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $privacy = $user->privacy;
-        if (!$privacy) {
+        if (! $privacy) {
             $privacy = new UserPrivacy();
             $privacy->setDefaultValues();
             $privacy->user_id = $user->id;
@@ -751,7 +751,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $notification = $user->notification;
-        if (!$notification) {
+        if (! $notification) {
             $notification = new UserNotification();
             $notification->setDefaultValues();
             $notification->user_id = $user->id;
@@ -787,7 +787,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $notification = $user->notification;
-        if (!$notification) {
+        if (! $notification) {
             $notification = new UserNotification();
             $notification->setDefaultValues();
             $notification->user_id = $user->id;
@@ -822,7 +822,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $notification = $user->notification;
-        if (!$notification) {
+        if (! $notification) {
             $notification = new UserNotification();
             $notification->setDefaultValues();
             $notification->user_id = $user->id;
@@ -857,7 +857,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $notification = $user->notification;
-        if (!$notification) {
+        if (! $notification) {
             $notification = new UserNotification();
             $notification->setDefaultValues();
             $notification->user_id = $user->id;
@@ -893,7 +893,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $notification = $user->notification;
-        if (!$notification) {
+        if (! $notification) {
             $notification = new UserNotification();
             $notification->setDefaultValues();
             $notification->user_id = $user->id;
@@ -934,7 +934,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $notification = $user->notification;
-        if (!$notification) {
+        if (! $notification) {
             $notification = new UserNotification();
             $notification->setDefaultValues();
             $notification->user_id = $user->id;
@@ -971,7 +971,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $notification = $user->notification;
-        if (!$notification) {
+        if (! $notification) {
             $notification = new UserNotification();
             $notification->setDefaultValues();
             $notification->user_id = $user->id;
@@ -1010,7 +1010,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $notification = $user->notification;
-        if (!$notification) {
+        if (! $notification) {
             $notification = new UserNotification();
             $notification->setDefaultValues();
             $notification->user_id = $user->id;
@@ -1045,7 +1045,7 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         $privacy = $user->privacy;
-        if (!$privacy) {
+        if (! $privacy) {
             $privacy = new UserPrivacy();
             $privacy->setDefaultValues();
             $privacy->user_id = $user->id;
@@ -1224,7 +1224,7 @@ class UserController extends Controller
             if ($request->has('direction') && $request->input('direction') != null) {
                 $order = $request->input('direction');
             }
-            if (!$sorting || $sorting == null || !$order || $order == null) {
+            if (! $sorting || $sorting == null || ! $order || $order == null) {
                 $sorting = 'created_at';
                 $order = 'desc';
                 // $order = 'asc';
@@ -1282,7 +1282,7 @@ class UserController extends Controller
             if ($request->has('direction') && $request->input('direction') != null) {
                 $order = $request->input('direction');
             }
-            if (!$sorting || $sorting == null || !$order || $order == null) {
+            if (! $sorting || $sorting == null || ! $order || $order == null) {
                 $sorting = 'created_at';
                 $order = 'desc';
                 // $order = 'asc';
@@ -1319,7 +1319,7 @@ class UserController extends Controller
             if ($request->has('direction') && $request->input('direction') != null) {
                 $order = $request->input('direction');
             }
-            if (!$sorting || $sorting == null || !$order || $order == null) {
+            if (! $sorting || $sorting == null || ! $order || $order == null) {
                 $sorting = 'created_at';
                 $order = 'desc';
                 // $order = 'asc';
@@ -1362,7 +1362,7 @@ class UserController extends Controller
             if ($request->has('direction') && $request->input('direction') != null) {
                 $order = $request->input('direction');
             }
-            if (!$sorting || $sorting == null || !$order || $order == null) {
+            if (! $sorting || $sorting == null || ! $order || $order == null) {
                 $sorting = 'created_at';
                 $order = 'desc';
                 // $order = 'asc';
@@ -1405,7 +1405,7 @@ class UserController extends Controller
             if ($request->has('direction') && $request->input('direction') != null) {
                 $order = $request->input('direction');
             }
-            if (!$sorting || $sorting == null || !$order || $order == null) {
+            if (! $sorting || $sorting == null || ! $order || $order == null) {
                 $sorting = 'created_at';
                 $order = 'desc';
                 // $order = 'asc';
@@ -1462,7 +1462,7 @@ class UserController extends Controller
             if ($request->has('direction') && $request->input('direction') != null) {
                 $order = $request->input('direction');
             }
-            if (!$sorting || $sorting == null || !$order || $order == null) {
+            if (! $sorting || $sorting == null || ! $order || $order == null) {
                 $sorting = 'created_at';
                 $order = 'desc';
                 // $order = 'asc';
@@ -1543,7 +1543,7 @@ class UserController extends Controller
             if ($request->has('direction') && $request->input('direction') != null) {
                 $order = $request->input('direction');
             }
-            if (!$sorting || $sorting == null || !$order || $order == null) {
+            if (! $sorting || $sorting == null || ! $order || $order == null) {
                 $sorting = 'created_at';
                 $order = 'desc';
                 // $order = 'asc';
@@ -1573,7 +1573,7 @@ class UserController extends Controller
             if ($request->has('direction') && $request->input('direction') != null) {
                 $order = $request->input('direction');
             }
-            if (!$sorting || $sorting == null || !$order || $order == null) {
+            if (! $sorting || $sorting == null || ! $order || $order == null) {
                 $sorting = 'created_at';
                 $order = 'desc';
                 // $order = 'asc';
@@ -1976,7 +1976,7 @@ class UserController extends Controller
         $path = \getcwd().'/files/tmp_zip/';
 
         // Check Directory exists
-        if (!File::isDirectory($path)) {
+        if (! File::isDirectory($path)) {
             File::makeDirectory($path, 0755, true, true);
         }
 

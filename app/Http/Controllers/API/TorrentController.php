@@ -78,7 +78,7 @@ class TorrentController extends BaseController
     {
         $user = $request->user();
         $requestFile = $request->file('torrent');
-        if (!$request->hasFile('torrent')) {
+        if (! $request->hasFile('torrent')) {
             return $this->sendError('Validation Error.', 'You Must Provide A Torrent File For Upload!');
         }
 
@@ -107,7 +107,6 @@ class TorrentController extends BaseController
         $torrent = \app()->make(Torrent::class);
         $torrent->name = $request->input('name');
         $torrent->slug = Str::slug($torrent->name);
-        $torrent->subhead = $request->input('subhead');
         $torrent->description = $request->input('description');
         $torrent->mediainfo = self::anonymizeMediainfo($request->input('mediainfo'));
         $torrent->info_hash = $infohash;
@@ -375,7 +374,7 @@ class TorrentController extends BaseController
 
         if ($request->has('name') && $request->input('name') != null) {
             $torrent->where(function ($query) use ($search) {
-                $query->where('torrents.name', 'like', $search)->orWhere('torrents.subhead', 'like', $search);
+                $query->where('torrents.name', 'like', $search);
             });
         }
 
@@ -492,7 +491,7 @@ class TorrentController extends BaseController
             $torrent->where('torrents.seeders', '=', 0)->where('torrents.leechers', '>=', 1);
         }
 
-        if (!empty($torrent)) {
+        if (! empty($torrent)) {
             return new TorrentsResource($torrent->paginate(25));
         }
 
