@@ -125,8 +125,9 @@ class SubtitleController extends Controller
         }
 
         // Save Subtitle
-        Storage::disk('subtitles')->put($filename, \file_get_contents($subtitle_file));
         $subtitle->save();
+        $disk_subtitle_filename = $subtitle->torrent->id.'/'.$subtitle->id.'.'.$subtitle->extension;
+        Storage::disk('subtitles')->put($disk_subtitle_filename, \file_get_contents($subtitle_file));
 
         // Announce To Shoutbox
         $torrent_url = \href_torrent($subtitle->torrent);
@@ -209,8 +210,9 @@ class SubtitleController extends Controller
         $user = $request->user();
         \abort_unless($user->group->is_modo || $user->id == $subtitle->user_id, 403);
 
-        if (Storage::disk('subtitles')->exists($subtitle->file_name)) {
-            Storage::disk('subtitles')->delete($subtitle->file_name);
+        $disk_subtitle_filename = $subtitle->torrent->id.'/'.$subtitle->id.'.'.$subtitle->extension;
+        if (Storage::disk('subtitles')->exists($disk_subtitle_filename)) {
+            Storage::disk('subtitles')->delete($disk_subtitle_filename);
         }
 
         $subtitle->delete();
@@ -240,26 +242,15 @@ class SubtitleController extends Controller
 
         // Define the filename for the download
         $temp_filename = '['.$subtitle->language->name.' Subtitle]'.$subtitle->torrent->name.'.'.$subtitle->extension;
-
-        // Delete the last torrent tmp file
-        if (file_exists(public_path().'/files/tmp/'.$temp_filename)) {
-            unlink(public_path().'/files/tmp/'.$temp_filename);
-        }
-
-        // Grab the subtitle file
-        if (file_exists(public_path().'/files/subtitles/'.$subtitle->file_name)) {
-            copy(public_path().'/files/subtitles/'.$subtitle->file_name, public_path().'/files/tmp/'.$temp_filename);
-        } else {
-            copy(public_path().'/files/subtitles/'.$subtitle->torrent->id.'/'.$subtitle->id.'.'.$subtitle->extension, public_path().'/files/tmp/'.$temp_filename);
-        }
+        $disk_subtitle_filename = $subtitle->torrent->id.'/'.$subtitle->id.'.'.$subtitle->extension;
 
         // Increment downloads count
         $subtitle->downloads = ++$subtitle->downloads;
         $subtitle->save();
 
-        $headers = ['Content-Type: '.Storage::disk('subtitles')->mimeType($subtitle->file_name)];
+        $headers = ['Content-Type: '.Storage::disk('subtitles')->mimeType($disk_subtitle_filename)];
 
-        return Storage::disk('subtitles')->download($subtitle->file_name, $temp_filename, $headers);
+        return Storage::disk('subtitles')->download($disk_subtitle_filename, $temp_filename, $headers);
     }
 
     /**
