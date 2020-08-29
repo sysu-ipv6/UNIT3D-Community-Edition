@@ -18,6 +18,7 @@
 <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"></a>
 </p>
 
+** Note: some code of this repo is modified to be compatible with NexusPHP including password hashing algorithm and subtitle filename.**
 
 ## 📝 Table of Contents
 
