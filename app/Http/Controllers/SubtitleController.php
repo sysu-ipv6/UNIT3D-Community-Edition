@@ -245,8 +245,7 @@ class SubtitleController extends Controller
         $disk_subtitle_filename = $subtitle->torrent->id.'/'.$subtitle->id.'.'.$subtitle->extension;
 
         // Increment downloads count
-        $subtitle->downloads = ++$subtitle->downloads;
-        $subtitle->save();
+        $subtitle->increment('downloads');
 
         $headers = ['Content-Type: '.Storage::disk('subtitles')->mimeType($disk_subtitle_filename)];
 
