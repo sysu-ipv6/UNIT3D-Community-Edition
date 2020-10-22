@@ -23,7 +23,6 @@ use App\Models\User;
 use App\Observers\TorrentObserver;
 use App\Observers\UserObserver;
 use App\Repositories\WishRepository;
-use App\Services\Clients\OmdbClient;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
@@ -41,13 +40,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // OMDB
-        $this->app->bind(OmdbClient::class, function ($app) {
-            $key = \config('api-keys.omdb');
-
-            return new OmdbClient($key);
-        });
-
         // Wish
         $this->app->bind(WishInterface::class, WishRepository::class);
 
@@ -65,10 +57,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // User Observer For Cache
-        User::observe(UserObserver::class);
+        //User::observe(UserObserver::class);
 
         // Torrent Observer For Cache
-        Torrent::observe(TorrentObserver::class);
+        //Torrent::observe(TorrentObserver::class);
 
         // Share $footer_pages across all views
         \view()->composer('*', function (View $view) {
@@ -76,6 +68,9 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with(['footer_pages' => $footer_pages]);
         });
+
+        // Boostrap Pagination
+        \Illuminate\Pagination\Paginator::useBootstrap();
 
         // Hidden Captcha
         Blade::directive('hiddencaptcha', fn ($mustBeEmptyField = '_username') => \sprintf('<?= App\Helpers\HiddenCaptcha::render(%s); ?>', $mustBeEmptyField));
